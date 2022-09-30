@@ -3,10 +3,7 @@ import os
 
 import numpy as np
 import scipy
-from keras.layers import Dense, TimeDistributed, RepeatVector
 from keras.models import load_model
-from sklearn.metrics import accuracy_score
-import pandas as pd
 from sklearn.preprocessing import MinMaxScaler, StandardScaler
 
 from data_type.constants import Constants
@@ -37,18 +34,22 @@ def relu(x_t):
 def initModularLayers(layers, timestep=None):
     myLayers = []
     first = True
+    lastLayerTimestep = None
     for serial, _layer in enumerate(layers):
         l = ModularLayer(_layer, timestep=timestep)
 
         if l.type == LayerType.TimeDistributed:
-            if myLayers[serial - 1].timestep is None:
+            if lastLayerTimestep is None:
                 l.initTimeDistributedWeights(timestep)
             else:
-                l.initTimeDistributedWeights(myLayers[serial - 1].timestep)
+                l.initTimeDistributedWeights(lastLayerTimestep)
             l.setHiddenState()
 
         l.first_layer = first
         l.layer_serial = serial
+
+        if l.timestep is not None:
+            lastLayerTimestep = l.timestep
 
         if not first:
             myLayers[len(myLayers) - 1].next_layer = l
@@ -208,6 +209,7 @@ def remove_outliers(data, m=2.):
     d = data[s < m]
 
     return d
+
 
 def get_mean_minus_outliers(data, m=2.):
     d = np.abs(data - np.median(data))

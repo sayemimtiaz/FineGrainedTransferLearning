@@ -1,6 +1,11 @@
+from keras import activations
+from keras.utils import conv_utils
+from tensorflow.python.framework.ops import EagerTensor
+
 from util.common import softmax, sigmoid
 import numpy as np
 from data_type.enums import LayerType, ActivationType
+import tensorflow as tf
 
 
 class LayerPropagator:
@@ -26,6 +31,14 @@ class LayerPropagator:
 
             layer.hidden_state = self.propagateThroughDense(layer, x_t=x_t,
                                                             apply_activation=apply_activation)
+        elif layer.type == LayerType.Conv2D:
+
+            layer.hidden_state=self.propagateThroughConv2D(layer, x=x_t, apply_activation=apply_activation)
+
+        elif layer.type == LayerType.MaxPooling2D:
+
+            layer.hidden_state=self.propagateThroughMaxPooling2D(layer, x=x_t)
+
         elif layer.type == LayerType.Embedding:
 
             return self.embeddingLookup(layer, x_t=x_t)
@@ -44,9 +57,12 @@ class LayerPropagator:
         elif layer.type == LayerType.Flatten:
             layer.hidden_state = self._flatten(x_t)
 
+        elif layer.type == LayerType.Dropout:
+            return x_t
+
         if layer.type == LayerType.RNN and not layer.return_sequence:
-            return layer.getHiddenState(layer.timestep-1)
-        
+            return layer.getHiddenState(layer.timestep - 1)
+
         return layer.hidden_state
 
     def propagateThroughTimeDistributed(self, layer, x_t=None, apply_activation=True):
@@ -65,6 +81,8 @@ class LayerPropagator:
         return self.propagateThroughActivation(layer, x_t, apply_activation)
 
     def _flatten(self, x):
+        if type(x)==EagerTensor:
+            x=x.numpy()
         return x.flatten()
 
     def repeatVector(self, layer, a):
@@ -74,24 +92,44 @@ class LayerPropagator:
         c = np.asarray(c)
         return c
 
-    # def propagateThroughLSTM(self, weight, x_t, h_t_previous, c_t_previous):
-    #
-    #     warr, uarr, barr = self.WRecurrnentForX, self.WReccurentForHiddenState, self.BRecurrent
-    #     s_t = (x_t.dot(warr) + h_t_previous.dot(uarr) + barr)
-    #     hunit = uarr.shape[0]
-    #     i = sigmoid(s_t[:, :hunit])
-    #     f = sigmoid(s_t[:, 1 * hunit:2 * hunit])
-    #     _c = np.tanh(s_t[:, 2 * hunit:3 * hunit])
-    #     o = sigmoid(s_t[:, 3 * hunit:])
-    #     c_t = i * _c + f * c_t_previous
-    #     h_t = o * np.tanh(c_t)
-    #     return h_t, c_t
-
     def propagateThroughDense(self, layer, x_t=None, apply_activation=True):
 
         x_t = (x_t.dot(layer.W) + layer.B)
 
         return self.propagateThroughActivation(layer, x_t, apply_activation)
+
+    def propagateThroughConv2D(self, layer, x=None, apply_activation=True):
+        # x = tf.reshape(x, [-1, x.shape[0], x.shape[1], x.shape[2]])
+
+        outputs = tf.nn.convolution(
+            x,
+            layer.W,
+            strides=list(layer.stride),
+            padding=layer.padding,
+            dilations=list(layer.dilation_rate),
+            data_format=layer.tf_data_format,
+            name=layer.name,
+        )
+        outputs = tf.nn.bias_add(outputs, layer.B, data_format=layer.tf_data_format)
+        outputs = activations.get(layer.activation.name.lower())(outputs)
+        # outputs=tf.squeeze(outputs)
+        # return outputs.numpy()
+        return outputs
+
+    def propagateThroughMaxPooling2D(self, layer, x=None):
+        # x = tf.reshape(x, [-1, x.shape[0], x.shape[1], x.shape[2]])
+
+        outputs = tf.compat.v1.nn.max_pool(
+            x,
+            ksize=layer.pool_size,
+            strides=list(layer.stride),
+            padding=layer.padding,
+            data_format=layer.tf_data_format
+        )
+        # outputs = tf.squeeze(outputs)
+        # return outputs.numpy()
+        return outputs
+
 
     def embeddingLookup(self, layer, x_t=None):
         embed = []

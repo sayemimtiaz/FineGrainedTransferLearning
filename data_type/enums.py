@@ -12,6 +12,8 @@ class LayerType(enum.Enum):
     Flatten = 8,
     Input = 9,
     Dropout = 10,
+    Conv2D = 100,
+    MaxPooling2D = 101,
     NotRecognized = 0
 
 
@@ -45,7 +47,21 @@ def getLayerType(layer):
         return LayerType.Input
     if type(layer).__name__.lower() == 'dropout':
         return LayerType.Dropout
+    if type(layer).__name__.lower() == 'conv2d':
+        return LayerType.Conv2D
+    if type(layer).__name__.lower() == 'maxpooling2d':
+        return LayerType.MaxPooling2D
     return LayerType.NotRecognized
+
+
+def isConvolutionalLayer(layerType):
+    if layerType == LayerType.Conv2D:
+        return True
+
+
+def isPoolingLayer(layerType):
+    if layerType == LayerType.MaxPooling2D:
+        return True
 
 
 def getActivationType(layer):
@@ -69,6 +85,5 @@ def getActivationType(layer):
         return ActivationType.Linear
 
     return ActivationType.NotRecognized
-
 
 # print(str(ActivationType.Tanh.name.lower()))

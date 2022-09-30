@@ -1,5 +1,9 @@
+import re
+
+from keras.utils import conv_utils
+
 from data_type.constants import Constants
-from data_type.enums import LayerType, getLayerType, getActivationType
+from data_type.enums import LayerType, getLayerType, getActivationType, isConvolutionalLayer, isPoolingLayer
 import numpy as np
 
 
@@ -17,7 +21,7 @@ class ModularLayer:
     number_features = None
     timestep = None
     hidden_state = None
-    full_hidden_state=None
+    full_hidden_state = None
     cell_state = None
     x_t = None
     return_sequence = True
@@ -35,9 +39,24 @@ class ModularLayer:
     name = None
     mask_zero = False
 
-    next_layer=None
-    most_active_neuron_mask=None
-    weight_importance_count=None
+    next_layer = None
+    most_active_neuron_mask = None
+    weight_importance_count = None
+
+    # convolutional parameters
+    kernel_size = None
+    stride = (1, 1)
+    padding = None
+    dilation_rate = (1, 1)  # not supported at this moment
+    groups = 1  # not supported at this moment
+    pool_size = None
+    data_format = 'channels_last'
+    num_channel = 1
+    height = None
+    width = None
+    filters = None
+    rank = 2
+    tf_data_format = None
 
     def __init__(self, layer, timestep=None):
         self.type = getLayerType(layer)
@@ -57,7 +76,7 @@ class ModularLayer:
                 if not Constants.UNROLL_RNN:
                     self.median_node_val = np.array([0.0] * self.num_node).reshape(1, self.num_node)
                 else:
-                    self.median_node_val=[]
+                    self.median_node_val = []
                     for ts in range(self.timestep):
                         self.median_node_val.append(np.array([0.0] * self.num_node).reshape(1, self.num_node))
 
@@ -77,28 +96,43 @@ class ModularLayer:
             if self.type == LayerType.RepeatVector:
                 self.timestep = layer.n
 
+            if isConvolutionalLayer(self.type) or isPoolingLayer(self.type):
+                self.populateConvParameters(layer)
+
     def setInputShape(self, layer, timestep=None):
 
-        if self.type == LayerType.RNN or self.type == LayerType.LSTM:
-            lis = layer.input_shape
-            if type(layer.input_shape) == list:
-                lis = layer.input_shape[0]
-
-            self.number_samples = lis[0]
-            if len(lis) > 1:
-                self.timestep = lis[1]
-            if self.timestep is None:
-                self.timestep = timestep
-
-            if len(lis) > 2:
-                self.number_features = lis[2]
-        else:
-            if type(layer.input_shape) == list:
-                self.number_samples = layer.input_shape[0][0]
-                self.number_features = layer.input_shape[0][1]
+        if isConvolutionalLayer(self.type) or isPoolingLayer(self.type):
+            self.data_format = layer.data_format
+            self.number_samples = layer.input_shape[0]
+            if self.data_format == 'channels_last':
+                self.height = layer.input_shape[1]
+                self.width = layer.input_shape[2]
+                self.num_channel = layer.input_shape[3]
             else:
-                self.number_samples = layer.input_shape[0]
-                self.number_features = layer.input_shape[1]
+                self.num_channel = layer.input_shape[1]
+                self.height = layer.input_shape[2]
+                self.width = layer.input_shape[3]
+        else:
+            if self.type == LayerType.RNN or self.type == LayerType.LSTM:
+                lis = layer.input_shape
+                if type(layer.input_shape) == list:
+                    lis = layer.input_shape[0]
+
+                self.number_samples = lis[0]
+                if len(lis) > 1:
+                    self.timestep = lis[1]
+                if self.timestep is None:
+                    self.timestep = timestep
+
+                if len(lis) > 2:
+                    self.number_features = lis[2]
+            else:
+                if type(layer.input_shape) == list:
+                    self.number_samples = layer.input_shape[0][0]
+                    self.number_features = layer.input_shape[0][1]
+                else:
+                    self.number_samples = layer.input_shape[0]
+                    self.number_features = layer.input_shape[1]
 
     def initHiddenState(self):
 
@@ -193,3 +227,36 @@ class ModularLayer:
 
     def initOpLayerModularWeights(self):
         self.DW = np.zeros_like(self.W)
+
+    def copyHiddenState(self):
+        if type(self.hidden_state) is not list:
+            return self.hidden_state
+        hs = []
+        for i in range(len(self.hidden_state)):
+            tmp = np.array([])
+            for j in range(self.num_node):
+                tmp = np.append(tmp, self.hidden_state[i][:, j])
+            tmp = tmp.reshape(1, self.num_node)
+            hs.append(tmp)
+        return hs
+
+    def populateConvParameters(self, layer):
+        self.stride = layer.strides
+        self.padding = layer.padding.upper()
+        self.rank = int(re.sub(r"[a-zA-Z ]", "", self.type.name))
+        self.tf_data_format = conv_utils.convert_data_format(
+            layer.data_format, self.rank + 2)
+
+        if isConvolutionalLayer(self.type):
+            self.filters = layer.filters
+            self.kernel_size = layer.kernel_size
+            self.W, self.B = layer.get_weights()  # w=filter size * num_channel * filter, b=filter
+        elif isPoolingLayer(self.type):
+            self.pool_size = layer.pool_size
+
+            if self.data_format == "channels_last":
+                self.pool_size = (1,) + self.pool_size + (1,)
+                self.stride = (1,) + self.stride + (1,)
+            else:
+                self.pool_size = (1, 1) + self.pool_size
+                self.stride = (1, 1) + self.stride

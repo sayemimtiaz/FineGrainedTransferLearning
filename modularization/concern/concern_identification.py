@@ -1,5 +1,7 @@
-from util.common import *
 from data_type.enums import LayerType, ActivationType
+import numpy as np
+
+from util.common import softmax, tanh, sigmoid
 
 
 class ConcernIdentification:
