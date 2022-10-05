@@ -5,6 +5,7 @@ from keras.utils import conv_utils
 from data_type.constants import Constants
 from data_type.enums import LayerType, getLayerType, getActivationType, isConvolutionalLayer, isPoolingLayer
 import numpy as np
+import tensorflow as tf
 
 
 class ModularLayer:
@@ -25,6 +26,9 @@ class ModularLayer:
     cell_state = None
     x_t = None
     return_sequence = True
+
+    kernel_initializer = None
+    bias_initializer = None
 
     active_count = None
     inactive_count = None
@@ -57,6 +61,8 @@ class ModularLayer:
     filters = None
     rank = 2
     tf_data_format = None
+    original_input_shape = None
+    active_count_for_filter = None
 
     def __init__(self, layer, timestep=None):
         self.type = getLayerType(layer)
@@ -64,6 +70,7 @@ class ModularLayer:
         self.activation = getActivationType(layer)
         self.setInputShape(layer, timestep=timestep)
         self.name = layer.name
+
 
         if self.type != LayerType.Activation:
 
@@ -104,6 +111,7 @@ class ModularLayer:
         if isConvolutionalLayer(self.type) or isPoolingLayer(self.type):
             self.data_format = layer.data_format
             self.number_samples = layer.input_shape[0]
+            self.original_input_shape = layer.input_shape[1:]
             if self.data_format == 'channels_last':
                 self.height = layer.input_shape[1]
                 self.width = layer.input_shape[2]
@@ -248,9 +256,13 @@ class ModularLayer:
             layer.data_format, self.rank + 2)
 
         if isConvolutionalLayer(self.type):
+            self.kernel_initializer = layer.kernel_initializer
+            self.bias_initializer = layer.bias_initializer
             self.filters = layer.filters
             self.kernel_size = layer.kernel_size
             self.W, self.B = layer.get_weights()  # w=filter size * num_channel * filter, b=filter
+            self.active_count_for_filter = np.array([0.0] * self.filters)
+
         elif isPoolingLayer(self.type):
             self.pool_size = layer.pool_size
 

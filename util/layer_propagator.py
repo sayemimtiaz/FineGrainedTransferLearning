@@ -33,11 +33,11 @@ class LayerPropagator:
                                                             apply_activation=apply_activation)
         elif layer.type == LayerType.Conv2D:
 
-            layer.hidden_state=self.propagateThroughConv2D(layer, x=x_t, apply_activation=apply_activation)
+            layer.hidden_state = self.propagateThroughConv2D(layer, x=x_t, apply_activation=apply_activation)
 
         elif layer.type == LayerType.MaxPooling2D:
 
-            layer.hidden_state=self.propagateThroughMaxPooling2D(layer, x=x_t)
+            layer.hidden_state = self.propagateThroughMaxPooling2D(layer, x=x_t)
 
         elif layer.type == LayerType.Embedding:
 
@@ -81,8 +81,8 @@ class LayerPropagator:
         return self.propagateThroughActivation(layer, x_t, apply_activation)
 
     def _flatten(self, x):
-        if type(x)==EagerTensor:
-            x=x.numpy()
+        if type(x) == EagerTensor:
+            x = x.numpy()
         return x.flatten()
 
     def repeatVector(self, layer, a):
@@ -129,7 +129,6 @@ class LayerPropagator:
         # outputs = tf.squeeze(outputs)
         # return outputs.numpy()
         return outputs
-
 
     def embeddingLookup(self, layer, x_t=None):
         embed = []

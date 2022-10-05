@@ -2,6 +2,10 @@ from data_type.enums import LayerType, ActivationType
 import numpy as np
 
 from util.common import softmax, tanh, sigmoid
+import tensorflow as tf
+from keras import activations
+from keras.utils import conv_utils
+from tensorflow.python.framework.ops import EagerTensor
 
 
 class ConcernIdentification:
@@ -27,10 +31,16 @@ class ConcernIdentification:
 
 
         elif layer.type == LayerType.Dense:
-
             layer.hidden_state = self.propagateThroughDense(layer, x_t=x_t,
                                                             apply_activation=apply_activation)
 
+        elif layer.type == LayerType.Conv2D:
+
+            layer.hidden_state = self.propagateThroughConv2D(layer, x=x_t, apply_activation=apply_activation)
+
+        elif layer.type == LayerType.MaxPooling2D:
+
+            layer.hidden_state = self.propagateThroughMaxPooling2D(layer, x=x_t)
 
         elif layer.type == LayerType.Embedding:
 
@@ -55,6 +65,8 @@ class ConcernIdentification:
         return layer.hidden_state
 
     def _flatten(self, x):
+        if type(x) == EagerTensor:
+            x = x.numpy()
         return x.flatten()
 
     def repeatVector(self, layer, a):
@@ -91,6 +103,38 @@ class ConcernIdentification:
         x_t = (x_t.dot(layer.W) + layer.B)
 
         return self.propagateThroughActivation(layer, x_t, apply_activation)
+
+    def propagateThroughConv2D(self, layer, x=None, apply_activation=True):
+        # x = tf.reshape(x, [-1, x.shape[0], x.shape[1], x.shape[2]])
+
+        outputs = tf.nn.convolution(
+            x,
+            layer.W,
+            strides=list(layer.stride),
+            padding=layer.padding,
+            dilations=list(layer.dilation_rate),
+            data_format=layer.tf_data_format,
+            name=layer.name,
+        )
+        outputs = tf.nn.bias_add(outputs, layer.B, data_format=layer.tf_data_format)
+        outputs = activations.get(layer.activation.name.lower())(outputs)
+        # outputs=tf.squeeze(outputs)
+        # return outputs.numpy()
+        return outputs
+
+    def propagateThroughMaxPooling2D(self, layer, x=None):
+        # x = tf.reshape(x, [-1, x.shape[0], x.shape[1], x.shape[2]])
+
+        outputs = tf.compat.v1.nn.max_pool(
+            x,
+            ksize=layer.pool_size,
+            strides=list(layer.stride),
+            padding=layer.padding,
+            data_format=layer.tf_data_format
+        )
+        # outputs = tf.squeeze(outputs)
+        # return outputs.numpy()
+        return outputs
 
     def propagateThroughActivation(self, layer, x_t, apply_activation=True, ):
         if not apply_activation or layer.activation == ActivationType.Linear:
