@@ -9,7 +9,7 @@ from util.layer_propagator import LayerPropagator
 
 x_train, y_train, x_test, y_test, num_classes = getSuperClassData()
 
-model_name = 'h5/original.h5'
+model_name = 'h5/source_model.h5'
 
 model = load_model(model_name)
 concernIdentifier = LayerPropagator()

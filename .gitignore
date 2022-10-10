@@ -135,4 +135,4 @@ dmypy.json
 .idea/
 */.idea/
 models/.DS_Store
-
+*.h5

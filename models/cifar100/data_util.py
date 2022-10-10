@@ -1,5 +1,5 @@
 from keras.datasets import fashion_mnist, cifar10, cifar100
-from keras.preprocessing import utils
+from keras.utils.np_utils import to_categorical
 import numpy as np
 
 cifar100classes = ['aquatic mammals', 'fish', 'flowers', 'food containers', 'fruit and vegetables',
@@ -33,8 +33,8 @@ def getSuperClassData(one_hot=True, insert_noise=False, dataset='cifar100'):
         y_train = y_train[train_index]
 
     if one_hot:
-        y_train = utils.to_categorical(y_train)
-        y_test = utils.to_categorical(y_test)
+        y_train = to_categorical(y_train)
+        y_test = to_categorical(y_test)
     return x_train, y_train, x_test, y_test, y_train.shape[1]
 
 
@@ -75,8 +75,8 @@ def getFineGrainedClass(superclass='trees'):
     n_x_test = n_x_test.astype('float32')
     n_x_train /= 255
     n_x_test /= 255
-    n_y_train = utils.to_categorical(n_y_train)
-    n_y_test = utils.to_categorical(n_y_test)
+    n_y_train = to_categorical(n_y_train)
+    n_y_test = to_categorical(n_y_test)
     return n_x_train, n_y_train, n_x_test, n_y_test, n_y_test.shape[1]
 
 
@@ -105,46 +105,46 @@ def sampleForDecomposition(sample=-1, positive_classes=None, dataset='cifar100')
     return pos_x, neg_x
 
 
-def getCifar10FineGrainedClass(superclass='trees'):
-    superclass = superclasses.index(superclass)
-
-    (_, y_train_coarse), (_, y_test_coarse) = cifar100.load_data(label_mode='coarse')
-    (x_train, y_train), (x_test, y_test) = cifar100.load_data(label_mode='fine')
-
-    n_x_train = []
-    n_y_train = []
-    new_y_label = []
-    cnt = 0
-    for i in range(len(y_train_coarse)):
-        if y_train_coarse[i][0] == superclass:
-            # if cnt>200:
-            #     break
-            n_x_train.append(x_train[i])
-            if y_train[i][0] not in new_y_label:
-                new_y_label.append(y_train[i][0])
-            n_y_train.append(new_y_label.index(y_train[i][0]))
-            cnt += 1
-
-    n_x_train = np.asarray(n_x_train)
-    n_y_train = np.asarray(n_y_train)
-
-    n_x_test = []
-    n_y_test = []
-    for i in range(len(y_test_coarse)):
-        if y_test_coarse[i][0] == superclass:
-            n_x_test.append(x_test[i])
-            n_y_test.append(new_y_label.index(y_test[i][0]))
-
-    n_x_test = np.asarray(n_x_test)
-    n_y_test = np.asarray(n_y_test)
-
-    n_x_train = n_x_train.astype('float32')
-    n_x_test = n_x_test.astype('float32')
-    n_x_train /= 255
-    n_x_test /= 255
-    n_y_train = utils.to_categorical(n_y_train)
-    n_y_test = utils.to_categorical(n_y_test)
-    return n_x_train, n_y_train, n_x_test, n_y_test, n_y_test.shape[1]
+# def getCifar10FineGrainedClass(superclass='trees'):
+#     superclass = superclasses.index(superclass)
+#
+#     (_, y_train_coarse), (_, y_test_coarse) = cifar100.load_data(label_mode='coarse')
+#     (x_train, y_train), (x_test, y_test) = cifar100.load_data(label_mode='fine')
+#
+#     n_x_train = []
+#     n_y_train = []
+#     new_y_label = []
+#     cnt = 0
+#     for i in range(len(y_train_coarse)):
+#         if y_train_coarse[i][0] == superclass:
+#             # if cnt>200:
+#             #     break
+#             n_x_train.append(x_train[i])
+#             if y_train[i][0] not in new_y_label:
+#                 new_y_label.append(y_train[i][0])
+#             n_y_train.append(new_y_label.index(y_train[i][0]))
+#             cnt += 1
+#
+#     n_x_train = np.asarray(n_x_train)
+#     n_y_train = np.asarray(n_y_train)
+#
+#     n_x_test = []
+#     n_y_test = []
+#     for i in range(len(y_test_coarse)):
+#         if y_test_coarse[i][0] == superclass:
+#             n_x_test.append(x_test[i])
+#             n_y_test.append(new_y_label.index(y_test[i][0]))
+#
+#     n_x_test = np.asarray(n_x_test)
+#     n_y_test = np.asarray(n_y_test)
+#
+#     n_x_train = n_x_train.astype('float32')
+#     n_x_test = n_x_test.astype('float32')
+#     n_x_train /= 255
+#     n_x_test /= 255
+#     n_y_train = to_categorical(n_y_train)
+#     n_y_test = to_categorical(n_y_test)
+#     return n_x_train, n_y_train, n_x_test, n_y_test, n_y_test.shape[1]
 
 # getFineGrainedClass()
 # sampleForDecomposition(10)
