@@ -5,9 +5,9 @@ from keras.models import load_model
 from util.common import initModularLayers
 from util.transfer_util import construct_target_model, get_transfer_model_name
 
-freezeUntil =3
+freezeUntil = 3
 
-model_name = 'h5/source_model.h5'
+model_name = 'h5/source_model_binary.h5'
 
 model = load_model(model_name)
 

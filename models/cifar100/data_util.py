@@ -1,12 +1,14 @@
+import random
+
 from keras.datasets import fashion_mnist, cifar10, cifar100
 from keras.utils.np_utils import to_categorical
 import numpy as np
 
 cifar100classes = ['aquatic mammals', 'fish', 'flowers', 'food containers', 'fruit and vegetables',
-                'household electrical devices', 'household furniture', 'insects', 'large carnivores',
-                'large man-made outdoor things', 'large natural outdoor scenes', 'large omnivores and herbivores'
+                   'household electrical devices', 'household furniture', 'insects', 'large carnivores',
+                   'large man-made outdoor things', 'large natural outdoor scenes', 'large omnivores and herbivores'
     , 'medium-sized mammals', 'non-insect invertebrates', 'people', 'reptiles',
-                'small mammals', 'trees', 'vehicles 1', 'vehicles 2']
+                   'small mammals', 'trees', 'vehicles 1', 'vehicles 2']
 cifar10classes = ['airplane', 'automobile', 'bird', 'cat', 'deer', 'dog', 'frog', 'horse', 'ship', 'truck']
 
 
@@ -37,8 +39,33 @@ def getSuperClassData(one_hot=True, insert_noise=False, dataset='cifar100'):
         y_test = to_categorical(y_test)
     return x_train, y_train, x_test, y_test, y_train.shape[1]
 
+def getCifar10BinaryData(one_hot=True):
+    (x_train, y_train), (x_test, y_test) = cifar10.load_data()
 
-def getFineGrainedClass(superclass='trees'):
+    man_made=[0, 1, 8, 9]
+    x_train = x_train.astype('float32')
+    x_test = x_test.astype('float32')
+    x_train /= 255
+    x_test /= 255
+
+    for i in range(len(y_train)):
+        if y_train[i][0] in man_made:
+            y_train[i]=0
+        else:
+            y_train[i]=1
+
+    for i in range(len(y_test)):
+        if y_test[i][0] in man_made:
+            y_test[i]=0
+        else:
+            y_test[i]=1
+
+    if one_hot:
+        y_train = to_categorical(y_train)
+        y_test = to_categorical(y_test)
+    return x_train, y_train, x_test, y_test, y_train.shape[1]
+
+def getFineGrainedClass(superclass='trees', num_sample=100, seed=None):
     superclass = cifar100classes.index(superclass)
 
     (_, y_train_coarse), (_, y_test_coarse) = cifar100.load_data(label_mode='coarse')
@@ -47,16 +74,24 @@ def getFineGrainedClass(superclass='trees'):
     n_x_train = []
     n_y_train = []
     new_y_label = []
-    cnt = 0
+
+    eligible_i = {}
     for i in range(len(y_train_coarse)):
         if y_train_coarse[i][0] == superclass:
-            # if cnt>200:
-            #     break
+            if y_train[i][0] not in eligible_i:
+                eligible_i[y_train[i][0]] = []
+            eligible_i[y_train[i][0]].append(i)
+
+    random.seed(seed)
+    for k in eligible_i.keys():
+        random_i = random.sample(range(0, len(eligible_i[k])), num_sample)
+
+        for ni in random_i:
+            i = eligible_i[k][ni]
             n_x_train.append(x_train[i])
             if y_train[i][0] not in new_y_label:
                 new_y_label.append(y_train[i][0])
             n_y_train.append(new_y_label.index(y_train[i][0]))
-            cnt += 1
 
     n_x_train = np.asarray(n_x_train)
     n_y_train = np.asarray(n_y_train)
@@ -83,8 +118,8 @@ def getFineGrainedClass(superclass='trees'):
 def sampleForDecomposition(sample=-1, positive_classes=None, dataset='cifar100'):
     positive_class_indexes = []
     superclasses = cifar10classes
-    if dataset=='cifar100':
-        superclasses=cifar100classes
+    if dataset == 'cifar100':
+        superclasses = cifar100classes
     for pc in positive_classes:
         positive_class_indexes.append(superclasses.index(pc))
 
@@ -103,7 +138,6 @@ def sampleForDecomposition(sample=-1, positive_classes=None, dataset='cifar100')
     pos_x, neg_x = x_train[pos_index], x_train[neg_index]
 
     return pos_x, neg_x
-
 
 # def getCifar10FineGrainedClass(superclass='trees'):
 #     superclass = superclasses.index(superclass)

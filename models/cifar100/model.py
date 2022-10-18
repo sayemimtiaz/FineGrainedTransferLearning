@@ -2,15 +2,17 @@ from keras import Sequential
 from keras.layers import Flatten, Dense, Activation, Dropout, Conv2D, MaxPooling2D
 from tensorflow import keras
 
-from models.cifar100.data_util import getSuperClassData
+from models.cifar100.data_util import getSuperClassData, getCifar10BinaryData
 
 
 class CustomSaver(keras.callbacks.Callback):
     def on_epoch_end(self, epoch, logs={}):
-        self.model.save('h5/source_model.h5')
+        self.model.save('h5/source_model_binary.h5')
 
 
-x_train, y_train, x_test, y_test, num_classes = getSuperClassData(insert_noise=False, dataset='cifar10')
+# x_train, y_train, x_test, y_test, num_classes = getSuperClassData(insert_noise=False, dataset='cifar10')
+x_train, y_train, x_test, y_test, num_classes = getCifar10BinaryData()
+
 
 model = Sequential()
 model.add(Conv2D(64, kernel_size=(3, 3), padding='same', activation='relu', input_shape=x_train.shape[1:]))
@@ -52,4 +54,4 @@ history = model.fit(x_train,
 scores = model.evaluate(x_test, y_test, verbose=2)
 print("%s: %.2f%%" % (model.metrics_names[1], scores[1] * 100))
 
-model.save('h5/source_model.h5')
+model.save('h5/source_model_binary.h5')

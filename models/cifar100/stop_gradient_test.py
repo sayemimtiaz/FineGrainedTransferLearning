@@ -1,24 +1,11 @@
-from tensorflow.keras import Sequential
-from tensorflow.keras.layers import Flatten, Dense, Activation, Dropout, Conv2D, MaxPooling2D, Lambda
-import numpy as np
-from tensorflow.keras import backend as K
-import tensorflow as tf
+from keras import Sequential
+from keras.layers import Flatten, Dense, Activation, Dropout, Conv2D, MaxPooling2D, Lambda
 from models.cifar100.data_util import getSuperClassData
+from util.transfer_util import stopBackprop
+import numpy as np
 
 x_train, y_train, x_test, y_test, num_classes = getSuperClassData(insert_noise=False, dataset='cifar10')
-
-mask = np.zeros((32, 32, 8))  # 0 means all shouldn't learn by default
-mask[:, :, 0] = 1  # only first filter learns
-
-
-def stopBackprop(x):
-    # stopped = K.stop_gradient(x)
-    mask_l = tf.cast(mask, dtype=x.dtype)
-    mask_h = K.abs(mask_l - 1)
-    mask_h = tf.cast(mask_h, dtype=x.dtype)
-
-    return tf.stop_gradient(mask_h * x) + mask_l * x
-    # return x * (1 - mask) + stopped * mask
+filters=[1, 3]
 
 
 model = Sequential()
@@ -27,7 +14,7 @@ model.add(Conv2D(8, kernel_size=(3, 3), padding='same', activation='relu', input
 # model.add(Dropout(0.2))
 
 model.add(Conv2D(8, kernel_size=(3, 3), padding='same', activation='relu'))
-model.add(Lambda(stopBackprop))
+model.add(Lambda(stopBackprop, arguments={'filters': filters}))
 
 # model.add(MaxPooling2D(pool_size=(2, 2)))
 # model.add(Dropout(0.2))
