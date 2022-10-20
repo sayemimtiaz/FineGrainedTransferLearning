@@ -107,16 +107,21 @@ class ConcernIdentification:
     def propagateThroughConv2D(self, layer, x=None, apply_activation=True):
         # x = tf.reshape(x, [-1, x.shape[0], x.shape[1], x.shape[2]])
 
-        outputs = tf.nn.convolution(
-            x,
-            layer.W,
-            strides=list(layer.stride),
-            padding=layer.padding,
-            dilations=list(layer.dilation_rate),
-            data_format=layer.tf_data_format,
-            name=layer.name,
-        )
+        try:
+
+            outputs = tf.nn.convolution(
+                x,
+                layer.W,
+                strides=list(layer.stride),
+                padding=layer.padding,
+                dilations=list(layer.dilation_rate),
+                data_format=layer.tf_data_format,
+                name=layer.name,
+            )
+        except:
+            print(1)
         outputs = tf.nn.bias_add(outputs, layer.B, data_format=layer.tf_data_format)
+        layer.raw_hidden_state = outputs
         outputs = activations.get(layer.activation.name.lower())(outputs)
         # outputs=tf.squeeze(outputs)
         # return outputs.numpy()

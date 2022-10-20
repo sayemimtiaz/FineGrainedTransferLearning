@@ -52,3 +52,64 @@ def activeRateFilterAllObs(hidden_val, layer):
             data.append(obs[fn])
         data = np.asarray(data)
         layer.active_count_for_filter[fn] = np.mean(data)
+
+
+def activeRateNodeEachObs(hidden_val, layer):
+    hidden_val = tf.squeeze(hidden_val)  # remove first dimension
+    hidden_val = hidden_val.numpy()
+    active_count_for_filter = np.zeros(hidden_val.shape)
+    for fn in range(layer.filters):
+        for ri in range(hidden_val.shape[0]):
+            for ci in range(hidden_val.shape[1]):
+                if hidden_val[ri][ci][fn] > 0:  # active node
+                    active_count_for_filter[ri][ci][fn] += 1
+
+    return active_count_for_filter
+
+
+def activeRateNodeAllObs(hidden_val, layer):
+    for fn in range(layer.filters):
+        ac = np.zeros((hidden_val[0].shape[0], hidden_val[0].shape[1]))
+        for obs in hidden_val:
+            for ri in range(obs.shape[0]):
+                for ci in range(obs.shape[1]):
+                    ac[ri][ci] += obs[ri][ci][fn]
+
+        for ri in range(ac.shape[0]):
+            for ci in range(ac.shape[1]):
+                ac[ri][ci] /= len(hidden_val)
+
+        layer.active_count_for_filter[fn] = ac
+
+
+def activeValNodeEachObs(hidden_val, layer):
+    hidden_val = tf.squeeze(hidden_val)  # remove first dimension
+    hidden_val = hidden_val.numpy()
+    return hidden_val
+
+
+def activeRawValNodeEachObs(hidden_val, layer):
+    hidden_val = layer.raw_hidden_state
+    hidden_val = tf.squeeze(hidden_val)  # remove first dimension
+    hidden_val = hidden_val.numpy()
+    return hidden_val
+
+
+def activeValNodeAllObs(hidden_val, layer):
+    for fn in range(layer.filters):
+        ac = []
+        for obs in hidden_val:
+            # for ri in range(obs.shape[0]):
+            #     for ci in range(obs.shape[1]):
+            #         ac.append(obs[ri][ci][fn])
+            ac.append(obs[:, :, fn].mean())
+
+        layer.active_count_for_filter[fn] = ac
+
+
+def extractActiveCountFromObj(con):
+    data = {}
+    for layerNo, _layer in enumerate(con):
+        if _layer.type == LayerType.Conv2D:
+            data[layerNo] = _layer.active_count_for_filter
+    return data

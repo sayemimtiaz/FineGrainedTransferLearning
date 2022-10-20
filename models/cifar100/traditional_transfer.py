@@ -7,7 +7,7 @@ from util.transfer_util import construct_target_model, get_transfer_model_name
 
 freezeUntil = 3
 
-model_name = 'h5/source_model_binary.h5'
+model_name = 'h5/source_model_mixed.h5'
 
 model = load_model(model_name)
 
@@ -19,7 +19,7 @@ negativeConcern = initModularLayers(model.layers)
 target_model = construct_target_model(positiveConcern, negativeConcern, model, freezeUntil=freezeUntil,
                                       traditional_transfer=True)
 
-target_name = 'transfer_model/traditional_transfer.h5'
+target_name = 'transfer_model/traditional_transfer_'+str(freezeUntil)+'.h5'
 target_model.save(target_name)
 
 model = load_model(model_name)

@@ -22,6 +22,8 @@ class ModularLayer:
     number_features = None
     timestep = None
     hidden_state = None
+    raw_hidden_state = None
+
     full_hidden_state = None
     cell_state = None
     x_t = None
@@ -70,7 +72,6 @@ class ModularLayer:
         self.activation = getActivationType(layer)
         self.setInputShape(layer, timestep=timestep)
         self.name = layer.name
-
 
         if self.type != LayerType.Activation:
 
@@ -261,7 +262,8 @@ class ModularLayer:
             self.filters = layer.filters
             self.kernel_size = layer.kernel_size
             self.W, self.B = layer.get_weights()  # w=filter size * num_channel * filter, b=filter
-            self.active_count_for_filter = np.array([0.0] * self.filters)
+            # self.active_count_for_filter = np.array([0.0] * self.filters)
+            self.active_count_for_filter = {}
 
         elif isPoolingLayer(self.type):
             self.pool_size = layer.pool_size

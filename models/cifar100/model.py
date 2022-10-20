@@ -2,16 +2,17 @@ from keras import Sequential
 from keras.layers import Flatten, Dense, Activation, Dropout, Conv2D, MaxPooling2D
 from tensorflow import keras
 
-from models.cifar100.data_util import getSuperClassData, getCifar10BinaryData
+from models.cifar100.data_util import getSuperClassData, getCifar10BinaryData, getCifar10MnistMixed
 
 
 class CustomSaver(keras.callbacks.Callback):
     def on_epoch_end(self, epoch, logs={}):
-        self.model.save('h5/source_model_binary.h5')
+        self.model.save('h5/source_model_mixed.h5')
 
 
 # x_train, y_train, x_test, y_test, num_classes = getSuperClassData(insert_noise=False, dataset='cifar10')
-x_train, y_train, x_test, y_test, num_classes = getCifar10BinaryData()
+# x_train, y_train, x_test, y_test, num_classes = getCifar10BinaryData()
+x_train, y_train, x_test, y_test, num_classes=getCifar10MnistMixed()
 
 
 model = Sequential()
@@ -27,12 +28,12 @@ model.add(Dropout(0.2))
 model.add(Conv2D(64, kernel_size=(3, 3), padding='same', activation='relu'))
 model.add(MaxPooling2D(pool_size=(2, 2)))
 model.add(Dropout(0.2))
-model.add(Conv2D(64, kernel_size=(3, 3), padding='same', activation='relu'))
-model.add(MaxPooling2D(pool_size=(2, 2)))
-model.add(Dropout(0.2))
+# model.add(Conv2D(64, kernel_size=(3, 3), padding='same', activation='relu'))
+# model.add(MaxPooling2D(pool_size=(2, 2)))
+# model.add(Dropout(0.2))
 model.add(Flatten())
-model.add(Dense(256, activation='relu'))
-model.add(Dropout(0.2))
+# model.add(Dense(256, activation='relu'))
+# model.add(Dropout(0.2))
 # model.add(Dense(256, activation='relu'))
 # model.add(Dropout(0.2))
 model.add(Dense(num_classes, activation='softmax'))
@@ -54,4 +55,4 @@ history = model.fit(x_train,
 scores = model.evaluate(x_test, y_test, verbose=2)
 print("%s: %.2f%%" % (model.metrics_names[1], scores[1] * 100))
 
-model.save('h5/source_model_binary.h5')
+model.save('h5/source_model_mixed.h5')
