@@ -28,19 +28,28 @@ def get_transfer_filters(layerPos, layerNeg, threshold=0.7,
     return eligible_filters
 
 
-def get_modified_weights(layerPos, eligible_filters):
+def get_modified_weights(layerPos, eligible_filters, zero_initialize=False):
     nb_filter = len(eligible_filters)
+    nb_filter=layerPos.filters
     kernel_shape = (layerPos.W.shape[0], layerPos.W.shape[1], layerPos.W.shape[2], nb_filter)
 
-    kernelInit = layerPos.kernel_initializer
-    biasInit = layerPos.bias_initializer
-    n_kernel = kernelInit(shape=kernel_shape).numpy()
-    n_bias = biasInit(shape=nb_filter).numpy()
-    tid = 0
-    for fn in eligible_filters:
-        n_kernel[:, :, :, tid] = layerPos.W[:, :, :, fn]
-        n_bias[tid] = layerPos.B[fn]
-        tid += 1
+    if not zero_initialize:
+        kernelInit = layerPos.kernel_initializer
+        biasInit = layerPos.bias_initializer
+        n_kernel = kernelInit(shape=kernel_shape).numpy()
+        n_bias = biasInit(shape=nb_filter).numpy()
+        tid = 0
+        for fn in eligible_filters:
+            n_kernel[:, :, :, tid] = layerPos.W[:, :, :, fn]
+            n_bias[tid] = layerPos.B[fn]
+            tid += 1
+    else:
+        zeroInit = initializers.get('zeros')
+        n_kernel = zeroInit(shape=kernel_shape).numpy()
+        n_bias = zeroInit(shape=nb_filter).numpy()
+        for fn in eligible_filters:
+            n_kernel[:, :, :, fn] = layerPos.W[:, :, :, fn]
+            n_bias[fn] = layerPos.B[fn]
 
     return nb_filter, n_kernel, n_bias, len(eligible_filters)
 
@@ -86,10 +95,9 @@ def construct_target_model(concernPos, concernNeg, originalModel, freezeUntil=-1
 
         if transfer and layer.type == LayerType.Conv2D:
 
-            trainable = True
+            trainable = False
             if conv_id <= freezeUntil:
                 conv_id += 1
-                trainable = False
             else:
                 conv_id += 1
                 continue
@@ -151,7 +159,8 @@ def construct_target_model(concernPos, concernNeg, originalModel, freezeUntil=-1
 
         elif layer.type == LayerType.Dropout and \
                 (getLayerType(target_model.layers[-1]) == LayerType.MaxPooling2D or \
-                 getLayerType(target_model.layers[-1]) == LayerType.Dense):
+                 getLayerType(target_model.layers[-1]) == LayerType.Dense or \
+                 getLayerType(target_model.layers[-1]) == LayerType.Conv2D):
             n_layer = Dropout(orLayer.rate)
             target_model.add(n_layer)
 
@@ -341,7 +350,7 @@ def construct_target_model_as_feature_extractor(concernPos, concernNeg, original
     return target_model_a, target_model_b
 
 
-def construct_target_model_approach_2(concernPos, originalModel, chosen_filters, n_classes=5, target_layer=0):
+def construct_target_model_approach_2(concernPos, originalModel, chosen_filters, n_classes=5, target_layer=0, zero_initialize=False):
     target_model_a = Sequential()
     conv_id = 0
     for layerNo, layer in enumerate(concernPos):
@@ -351,7 +360,7 @@ def construct_target_model_approach_2(concernPos, originalModel, chosen_filters,
             if conv_id <= target_layer:
                 if conv_id == target_layer:
                     n_filter, n_kernel, n_bias, actual_transferred = get_modified_weights(
-                        concernPos[layerNo], chosen_filters)
+                        concernPos[layerNo], chosen_filters, zero_initialize=zero_initialize)
                     print(str(n_filter) + ' transferred out of ' + str(layer.filters) + ' in ' + str(
                         conv_id) + '\'th conv2d layer')
                 else:
@@ -382,7 +391,8 @@ def construct_target_model_approach_2(concernPos, originalModel, chosen_filters,
 
         elif layer.type == LayerType.Dropout and \
                 (getLayerType(target_model_a.layers[-1]) == LayerType.MaxPooling2D or \
-                 getLayerType(target_model_a.layers[-1]) == LayerType.Dense):
+                 getLayerType(target_model_a.layers[-1]) == LayerType.Dense or \
+                 getLayerType(target_model_a.layers[-1]) == LayerType.Conv2D):
             n_layer = Dropout(orLayer.rate)
             target_model_a.add(n_layer)
 
@@ -405,24 +415,6 @@ def construct_target_model_approach_2(concernPos, originalModel, chosen_filters,
                            metrics=['accuracy'])
 
     return target_model_a
-
-
-def get_transfer_model_name(freezeUntil, relax_relevance, threshold):
-    name = 'transfer_model/target_'
-    name += str(freezeUntil) + '_'
-    name += str(int(relax_relevance)) + '_'
-    name += str(threshold)
-    # name += '.h5'
-    return name
-
-
-def get_transfer_filter_name(freezeUntil, relax_relevance, threshold):
-    name = 'transfer_model/target_'
-    name += str(freezeUntil) + '_'
-    name += str(int(relax_relevance)) + '_'
-    name += str(threshold)
-    name += '.pickle'
-    return name
 
 
 def train(model, x_train, y_train, x_test, y_test, epochs=50):

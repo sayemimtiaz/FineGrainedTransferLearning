@@ -10,24 +10,24 @@ class CustomSaver(keras.callbacks.Callback):
         self.model.save('h5/source_model_mixed.h5')
 
 
-takeFromCifar = [1, 3, 9]
-takeFromMnist = [0, 2, 4, 5, 6, 7, 8]
+takeFromCifar = [1, 9]
+takeFromMnist = [0, 2, 3, 4, 5, 6, 7, 8]
 x_train, y_train, x_test, y_test, num_classes = getCifar10MnistMixed(takeFromMnist=takeFromMnist,
                                                                      takeFromCifar=takeFromCifar)
 
 model = Sequential()
-model.add(Conv2D(64, kernel_size=(3, 3), padding='same', activation='relu', input_shape=x_train.shape[1:]))
-model.add(MaxPooling2D(pool_size=(2, 2)))
-model.add(Dropout(0.2))
-model.add(Conv2D(64, kernel_size=(3, 3), padding='same', activation='relu'))
-model.add(MaxPooling2D(pool_size=(2, 2)))
-model.add(Dropout(0.2))
-model.add(Conv2D(64, kernel_size=(3, 3), padding='same', activation='relu'))
-model.add(MaxPooling2D(pool_size=(2, 2)))
-model.add(Dropout(0.2))
-model.add(Conv2D(64, kernel_size=(3, 3), padding='same', activation='relu'))
-model.add(MaxPooling2D(pool_size=(2, 2)))
-model.add(Dropout(0.2))
+model.add(Conv2D(16, kernel_size=(3, 3), padding='valid', activation='relu', input_shape=x_train.shape[1:]))
+# model.add(MaxPooling2D(pool_size=(2, 2)))
+# model.add(Dropout(0.2))
+model.add(Conv2D(32, kernel_size=(3, 3), padding='valid', activation='relu'))
+# model.add(MaxPooling2D(pool_size=(2, 2)))
+# model.add(Dropout(0.2))
+model.add(Conv2D(64, kernel_size=(3, 3), padding='valid', activation='relu'))
+# model.add(MaxPooling2D(pool_size=(2, 2)))
+# model.add(Dropout(0.2))
+model.add(Conv2D(128, kernel_size=(3, 3), padding='valid', activation='relu'))
+# model.add(MaxPooling2D(pool_size=(2, 2)))
+model.add(Dropout(0.3))
 # model.add(Conv2D(64, kernel_size=(3, 3), padding='same', activation='relu'))
 # model.add(MaxPooling2D(pool_size=(2, 2)))
 # model.add(Dropout(0.2))

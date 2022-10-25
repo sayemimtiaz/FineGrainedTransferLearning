@@ -1,12 +1,13 @@
 from typing import Optional, Any
 import numpy as np
 from util.hypothesis_testing import isSameDistribution
-from util.ordinary import dump_as_pickle, load_pickle_file
+from util.ordinary import dump_as_pickle, load_pickle_file, get_transfer_filter_name
 
 MODE = 'val'
 alpha = 0.01
-sourceRate = load_pickle_file('transfer_model/source_filter_active_' + MODE + '.pickle')
-targetRate = load_pickle_file('transfer_model/target_filter_active_' + MODE + '.pickle')
+model_name = 'h5/source_model_mixed.h5'
+sourceRate = load_pickle_file(get_transfer_filter_name(model_name, MODE, end='source'))
+targetRate = load_pickle_file(get_transfer_filter_name(model_name, MODE, end='target'))
 
 
 def compute_filter_active_rate_by_pool_val(data):

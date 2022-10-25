@@ -9,47 +9,19 @@ def get_model_name(model_name):
     return model_name.replace('h5', '').replace('/', '').replace('.', '')
 
 
-def get_feature_module_name(model_name, datasetName):
-    nm = datasetName + '/modules/feature_neurons_' + get_model_name(model_name)
-    nm += '_' + str(Constants.MODE) + '.pickle'
-    return nm
+def get_transfer_model_name(freezeUntil, model_name, prefix):
+    name = 'transfer_model/'+prefix
+    name += '_' + get_model_name(model_name)
+    if freezeUntil is not None:
+        name+= '_' + str(freezeUntil)
+    name += '.h5'
+    return name
 
 
-def get_global_feature_name(model_name, datasetName, activeFeatureOnly=True):
-    save_file = datasetName + '/result/global/'
-    if activeFeatureOnly:
-        save_file += 'active_'
-    else:
-        save_file += 'inactive_'
-
-    save_file += get_model_name(model_name)
-    save_file += '_' + str(Constants.MODE) + '.pickle'
-
-    return save_file
-
-
-def get_local_feature_name(model_name, cls, datasetName, activeFeatureOnly=True):
-    save_file = datasetName + '/result/local/'
-    if activeFeatureOnly:
-        save_file += 'active_'
-    else:
-        save_file += 'inactive_'
-
-    save_file += get_model_name(model_name) + '_' + str(cls)
-    save_file += '_' + str(Constants.MODE) + '.pickle'
-
-    return save_file
-
-
-def get_semi_feature_name(model_name, cls, datasetName, activeFeatureOnly=True):
-    save_file = datasetName + '/result/semi/'
-    if activeFeatureOnly:
-        save_file += 'active_'
-    else:
-        save_file += 'inactive_'
-
-    save_file += get_model_name(model_name) + '_' + str(cls)
-    save_file += '_' + str(Constants.MODE) + '.pickle'
+def get_transfer_filter_name(model_name, mode, end):
+    save_file = 'transfer_model/' + end
+    save_file += '_' + get_model_name(model_name) + '_' + str(mode)
+    save_file += '.pickle'
 
     return save_file
 

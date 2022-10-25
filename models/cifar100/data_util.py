@@ -138,8 +138,10 @@ def getCifar10MnistMixed(one_hot=True, takeFromCifar=None,takeFromMnist=None):
     return x_train, y_train, x_test, y_test, len(takeFromMnist) + len(takeFromCifar)
 
 
-def getFineGrainedClass(superclass='trees', num_sample=100, seed=None, one_hot=True, gray=False):
-    superclass = cifar100classes.index(superclass)
+def getFineGrainedClass(superclasses=None, num_sample=100, seed=None, one_hot=True, gray=False):
+    superclass = []
+    for pc in superclasses:
+        superclass.append(cifar100classes.index(pc))
 
     (_, y_train_coarse), (_, y_test_coarse) = cifar100.load_data(label_mode='coarse')
     (x_train, y_train), (x_test, y_test) = cifar100.load_data(label_mode='fine')
@@ -149,11 +151,16 @@ def getFineGrainedClass(superclass='trees', num_sample=100, seed=None, one_hot=T
     new_y_label = []
 
     eligible_i = {}
+    fine_classes=[]
     for i in range(len(y_train_coarse)):
-        if y_train_coarse[i][0] == superclass:
+        if y_train_coarse[i][0] in superclass:
+            # if y_train[i][0] not in eligible_i and len(eligible_i.keys())>=6:
+            #     continue
+
             if y_train[i][0] not in eligible_i:
                 eligible_i[y_train[i][0]] = []
             eligible_i[y_train[i][0]].append(i)
+            fine_classes.append(y_train[i][0])
 
     random.seed(seed)
     for k in eligible_i.keys():
@@ -175,7 +182,9 @@ def getFineGrainedClass(superclass='trees', num_sample=100, seed=None, one_hot=T
     n_x_test = []
     n_y_test = []
     for i in range(len(y_test_coarse)):
-        if y_test_coarse[i][0] == superclass:
+        if y_test_coarse[i][0] in superclass:
+            # if y_test[i][0] not in fine_classes:
+            #     continue
             n_x_test.append(x_test[i])
             n_y_test.append(new_y_label.index(y_test[i][0]))
 
@@ -255,51 +264,6 @@ def sample(sample=-1, data_x=None, data_y=None, num_classes=None):
     data_x, data_y = data_x[all_chosen_index], data_y[all_chosen_index]
 
     return data_x, data_y
-
-
-# def getCifar10FineGrainedClass(superclass='trees'):
-#     superclass = superclasses.index(superclass)
-#
-#     (_, y_train_coarse), (_, y_test_coarse) = cifar100.load_data(label_mode='coarse')
-#     (x_train, y_train), (x_test, y_test) = cifar100.load_data(label_mode='fine')
-#
-#     n_x_train = []
-#     n_y_train = []
-#     new_y_label = []
-#     cnt = 0
-#     for i in range(len(y_train_coarse)):
-#         if y_train_coarse[i][0] == superclass:
-#             # if cnt>200:
-#             #     break
-#             n_x_train.append(x_train[i])
-#             if y_train[i][0] not in new_y_label:
-#                 new_y_label.append(y_train[i][0])
-#             n_y_train.append(new_y_label.index(y_train[i][0]))
-#             cnt += 1
-#
-#     n_x_train = np.asarray(n_x_train)
-#     n_y_train = np.asarray(n_y_train)
-#
-#     n_x_test = []
-#     n_y_test = []
-#     for i in range(len(y_test_coarse)):
-#         if y_test_coarse[i][0] == superclass:
-#             n_x_test.append(x_test[i])
-#             n_y_test.append(new_y_label.index(y_test[i][0]))
-#
-#     n_x_test = np.asarray(n_x_test)
-#     n_y_test = np.asarray(n_y_test)
-#
-#     n_x_train = n_x_train.astype('float32')
-#     n_x_test = n_x_test.astype('float32')
-#     n_x_train /= 255
-#     n_x_test /= 255
-#     n_y_train = to_categorical(n_y_train)
-#     n_y_test = to_categorical(n_y_test)
-#     return n_x_train, n_y_train, n_x_test, n_y_test, n_y_test.shape[1]
-
-# getFineGrainedClass()
-# sampleForDecomposition(10)
 
 
 def getMnistData(one_hot=True):

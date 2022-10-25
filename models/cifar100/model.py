@@ -2,17 +2,18 @@ from keras import Sequential
 from keras.layers import Flatten, Dense, Activation, Dropout, Conv2D, MaxPooling2D
 from tensorflow import keras
 
-from models.cifar100.data_util import getSuperClassData, getCifar10BinaryData, getCifar10MnistMixed
+from models.cifar100.data_util import getSuperClassData, getCifar10BinaryData, getCifar10MnistMixed, getMnistData
 
 
 class CustomSaver(keras.callbacks.Callback):
     def on_epoch_end(self, epoch, logs={}):
-        self.model.save('h5/source_model_mixed.h5')
+        self.model.save('h5/cifar10_gray.h5')
 
 
-# x_train, y_train, x_test, y_test, num_classes = getSuperClassData(insert_noise=False, dataset='cifar10')
+x_train, y_train, x_test, y_test, num_classes = getSuperClassData(insert_noise=False, dataset='cifar10', gray=True)
 # x_train, y_train, x_test, y_test, num_classes = getCifar10BinaryData()
-x_train, y_train, x_test, y_test, num_classes=getCifar10MnistMixed()
+# x_train, y_train, x_test, y_test, num_classes=getCifar10MnistMixed()
+# x_train, y_train, x_test, y_test, num_classes=getMnistData()
 
 
 model = Sequential()
@@ -54,5 +55,3 @@ history = model.fit(x_train,
                     )
 scores = model.evaluate(x_test, y_test, verbose=2)
 print("%s: %.2f%%" % (model.metrics_names[1], scores[1] * 100))
-
-model.save('h5/source_model_mixed.h5')
