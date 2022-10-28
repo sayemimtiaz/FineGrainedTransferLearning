@@ -1,6 +1,6 @@
 from keras import Sequential
 from keras.layers import Flatten, Dense, Activation, Dropout, Conv2D, MaxPooling2D, Lambda
-from models.cifar100.data_util import getSuperClassData
+from models.cifar100.data_util_ import getSuperClassData
 from util.transfer_util import stopBackprop
 import numpy as np
 

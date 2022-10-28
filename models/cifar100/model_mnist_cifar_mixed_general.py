@@ -2,7 +2,7 @@ from keras import Sequential
 from keras.layers import Flatten, Dense, Activation, Dropout, Conv2D, MaxPooling2D
 from tensorflow import keras
 
-from models.cifar100.data_util import getSuperClassData, getCifar10BinaryData, getCifar10MnistMixed
+from data_util.data_mixer import mixMnistCifar10
 
 
 class CustomSaver(keras.callbacks.Callback):
@@ -12,8 +12,11 @@ class CustomSaver(keras.callbacks.Callback):
 
 takeFromCifar = [1, 9]
 takeFromMnist = [0, 2, 3, 4, 5, 6, 7, 8]
-x_train, y_train, x_test, y_test, num_classes = getCifar10MnistMixed(takeFromMnist=takeFromMnist,
-                                                                     takeFromCifar=takeFromCifar)
+# x_train, y_train, x_test, y_test, num_classes = getCifar10MnistMixed(takeFromMnist=takeFromMnist,
+#                                                                      takeFromCifar=takeFromCifar)
+
+x_train, y_train, x_test, y_test, num_classes, _ = mixMnistCifar10(takeFromMnist=takeFromMnist,
+                                                                   takeFromCifar=takeFromCifar)
 
 model = Sequential()
 model.add(Conv2D(16, kernel_size=(3, 3), padding='valid', activation='relu', input_shape=x_train.shape[1:]))
@@ -54,5 +57,3 @@ history = model.fit(x_train,
                     )
 scores = model.evaluate(x_test, y_test, verbose=2)
 print("%s: %.2f%%" % (model.metrics_names[1], scores[1] * 100))
-
-model.save('h5/source_model_mixed.h5')

@@ -1,6 +1,6 @@
 import pickle
 from datetime import datetime
-from models.cifar100.data_util import getSuperClassData, sampleForDecomposition, getCifar10BinaryData, sample, \
+from models.cifar100.data_util_ import getSuperClassData, sampleForDecomposition, getCifar10BinaryData, sample, \
     getFineGrainedClass, getMnistData, getCifar10MnistMixed
 from modularization.concern.cnn_util import activeRateFilterEachObs, observe_cnn, activeRateFilterAllObs, \
     activeRateNodeEachObs, activeRateNodeAllObs, extractActiveCountFromObj, activeValNodeEachObs, activeValNodeAllObs, \
@@ -10,7 +10,7 @@ from util.common import initModularLayers
 from util.ordinary import dump_as_pickle, load_pickle_file, get_transfer_filter_name
 
 MODE = 'val'  # rate or val
-numSample = 3000
+numSample = 500
 model_name = 'h5/source_model_mixed.h5'
 
 eachFun = activeRateNodeEachObs

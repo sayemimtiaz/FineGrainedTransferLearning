@@ -2,7 +2,7 @@ from datetime import datetime
 from keras.models import load_model
 import tensorflow as tf
 
-from models.cifar100.data_util import getSuperClassData
+from models.cifar100.data_util_ import getSuperClassData
 from modularization.concern.concern_identification import ConcernIdentification
 from util.common import initModularLayers
 from util.layer_propagator import LayerPropagator

@@ -136,3 +136,4 @@ dmypy.json
 */.idea/
 models/.DS_Store
 *.h5
+data/

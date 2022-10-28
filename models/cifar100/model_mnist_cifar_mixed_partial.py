@@ -2,7 +2,7 @@ from keras import Sequential
 from keras.layers import Flatten, Dense, Activation, Dropout, Conv2D, MaxPooling2D
 from tensorflow import keras
 
-from models.cifar100.data_util import getSuperClassData, getCifar10BinaryData, getCifar10MnistMixed
+from models.cifar100.data_util_ import getSuperClassData, getCifar10BinaryData, getCifar10MnistMixed
 
 
 class CustomSaver(keras.callbacks.Callback):

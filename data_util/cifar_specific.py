@@ -17,18 +17,30 @@ def getCifar10Classes():
     return cifar10classes
 
 
+def getCifar10(gray=True, shape=(28, 28), one_hot=True):
+    return getKerasDataset(one_hot=one_hot, dataset='cifar10', gray=gray, shape=shape)
+
+
+def getCifar100Fine(gray=True, shape=(28, 28), one_hot=True):
+    additional_param = {'label_mode': 'fine'}
+    return getKerasDataset(dataset='cifar100', one_hot=one_hot, gray=gray,
+                           additional_param=additional_param, shape=shape)
+
+
+def getCifar100Coarse(gray=True, shape=(28, 28), one_hot=True):
+    additional_param = {'label_mode': 'coarse'}
+    return getKerasDataset(dataset='cifar100', one_hot=one_hot, gray=gray,
+                           additional_param=additional_param, shape=shape)
+
+
 def cifar100FineClassIndexes(superclasses=None):
     superclass = []
     cifar100classes = getCifar100CoarseClasses()
     for pc in superclasses:
         superclass.append(cifar100classes.index(pc))
 
-    additional_param = {'label_mode': 'coarse'}
-    (_, y_train_coarse), (_, _) = getKerasDataset(dataset='cifar100', one_hot=False, gray=False,
-                                                  additional_param=additional_param)
-    additional_param['label_mode'] = 'fine'
-    (_, y_train_fine), (_, _) = getKerasDataset(dataset='cifar100', one_hot=False, gray=False,
-                                                additional_param=additional_param)
+    (_, y_train_coarse), (_, _) = getCifar100Coarse(one_hot=False, gray=False)
+    (_, y_train_fine), (_, _) = getCifar100Fine(one_hot=False, gray=False)
 
     y_train_coarse = makeScalar(y_train_coarse)
     y_train_fine = makeScalar(y_train_fine)

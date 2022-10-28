@@ -2,7 +2,7 @@ import keras
 from keras import Sequential, Input, Model
 from keras.layers import Flatten, Dense, Activation, Dropout, Conv2D, MaxPooling2D, concatenate
 
-from models.cifar100.data_util import getSuperClassData
+from models.cifar100.data_util_ import getSuperClassData
 
 
 def compose_conv_layers(num_layer, in_layer):

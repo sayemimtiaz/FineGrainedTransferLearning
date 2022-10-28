@@ -5,7 +5,7 @@ from keras.layers import Conv2D, MaxPooling2D, Dropout, concatenate, Flatten, De
 from keras.saving.save import load_model
 
 from data_type.enums import getLayerType, LayerType
-from models.cifar100.data_util import getCifar10MnistMixed
+from models.cifar100.data_util_ import getCifar10MnistMixed
 from util.common import initModularLayers
 from util.hypothesis_testing import isSameDistribution
 from util.ordinary import dump_as_pickle, load_pickle_file, get_transfer_model_name

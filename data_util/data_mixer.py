@@ -1,4 +1,6 @@
-from data_util.util import makeScalar, getIndexesMatchingSubset, shuffle, oneEncode, concatenateTwoY
+from data_util.cifar_specific import getCifar10
+from data_util.mnist_specific import getMnist
+from data_util.util import makeScalar, getIndexesMatchingSubset, shuffle, oneEncodeBoth, concatenateTwoY
 import numpy as np
 
 
@@ -31,6 +33,13 @@ def mixTwoDataSet(dataA, dataB, one_hot=True, takeFromA=None, takeFromB=None):
     x_train, y_train = shuffle(x_train, y_train)
 
     if one_hot:
-        y_train, y_test = oneEncode(y_train, y_test)
+        y_train, y_test = oneEncodeBoth(y_train, y_test)
 
     return x_train, y_train, x_test, y_test, len(takeFromB) + len(takeFromA), class_mapper
+
+
+def mixMnistCifar10(takeFromCifar=None, takeFromMnist=None, gray=True, one_hot=True):
+    dataMnist = getMnist(one_hot=False, gray=gray)
+    dataCifar = getCifar10(one_hot=False, gray=gray)
+    return mixTwoDataSet(dataMnist, dataCifar,
+                         takeFromA=takeFromMnist, takeFromB=takeFromCifar, one_hot=one_hot)

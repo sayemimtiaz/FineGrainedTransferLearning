@@ -6,13 +6,14 @@ from keras.utils import to_categorical
 def transformToGrayAndReshape(data, shape=None):
     if shape is None:
         shape = [28, 28]
-    data = tf.image.rgb_to_grayscale(data)
-    data = tf.image.resize(data, shape)
+    if len(data.shape) == 4 and data.shape[3] > 1:
+        data = tf.image.rgb_to_grayscale(data)
+    data = tf.image.resize(data, list(shape))
     data = data.numpy()
     return data
 
 
-def transformToGrayAndReshape(x_train, x_test, shape=None):
+def transformToGrayAndReshapeBoth(x_train, x_test, shape=None):
     return transformToGrayAndReshape(x_train, shape=shape), \
            transformToGrayAndReshape(x_test, shape=shape)
 
@@ -23,7 +24,7 @@ def normalize(data, by=255):
     return data
 
 
-def normalize(x_train, x_test, by=255):
+def normalizeBoth(x_train, x_test, by=255):
     return normalize(x_train, by), normalize(x_test, by)
 
 
@@ -32,7 +33,7 @@ def oneEncode(data):
     return data
 
 
-def oneEncode(y_train, y_test):
+def oneEncodeBoth(y_train, y_test):
     return oneEncode(y_train), oneEncode(y_test)
 
 
@@ -41,8 +42,8 @@ def asType(data, as_type='float32'):
     return data
 
 
-def asType(x_train, x_test, as_type='float32'):
-    return asType(x_train, as_type), asType(x_test, as_type)
+def asTypeBoth(x_train, x_test, as_type='float32'):
+    return asType(x_train, as_type=as_type), asType(x_test, as_type=as_type)
 
 
 def makeScalar(data):

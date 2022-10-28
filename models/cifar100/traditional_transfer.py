@@ -1,5 +1,5 @@
 from datetime import datetime
-from models.cifar100.data_util import getSuperClassData, sampleForDecomposition
+from models.cifar100.data_util_ import getSuperClassData, sampleForDecomposition
 from modularization.concern.cnn_util import activeRateFilterEachObs, observe_cnn, activeRateFilterAllObs
 from keras.models import load_model
 from util.common import initModularLayers

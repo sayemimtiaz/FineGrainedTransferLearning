@@ -1,6 +1,6 @@
 import random
 from datetime import datetime
-from models.cifar100.data_util import getFineGrainedClass
+from models.cifar100.data_util_ import getFineGrainedClass
 from keras.models import load_model
 
 from util.ordinary import get_transfer_model_name
