@@ -9,7 +9,7 @@ import tensorflow as tf
 from data_util.util import transformToGrayAndReshapeBoth, asTypeBoth, normalizeBoth, oneEncodeBoth
 
 
-def getKerasDataset(one_hot=True, dataset='cifar100', gray=False, additional_param=None, shape=(28,28)):
+def getKerasDataset(one_hot=True, dataset='cifar100', gray=False, additional_param=None, shape=(28, 28)):
     if dataset == 'cifar100':
         if additional_param is None:
             raise Exception('What is the label_mode for cifar100')
@@ -23,7 +23,7 @@ def getKerasDataset(one_hot=True, dataset='cifar100', gray=False, additional_par
 
     x_train, x_test = asTypeBoth(x_train, x_test)
 
-    if len(x_train.shape)<4:
+    if len(x_train.shape) < 4:
         x_train = tf.expand_dims(x_train, -1)
         x_test = tf.expand_dims(x_test, -1)
 
@@ -40,7 +40,7 @@ def getKerasDataset(one_hot=True, dataset='cifar100', gray=False, additional_par
 
 
 def loadFromDir(dir, labels=None, label_index=1, shape=(28, 28),
-                mode='grayscale', label_mode='int', batch_size=32):
+                mode='grayscale', label_mode='int', batch_size=32, shuffle=True):
     root = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
     dataPath = os.path.join(root, 'data', dir)
     if labels.endswith('.txt'):
@@ -54,16 +54,24 @@ def loadFromDir(dir, labels=None, label_index=1, shape=(28, 28),
                 else:
                     newLabels.append(l[label_index])
         labels = newLabels
-        batch_size=len(labels)
+        batch_size = len(labels)
 
     ds = keras.utils.image_dataset_from_directory(
         dataPath, labels=labels, label_mode=label_mode,
-        color_mode=mode, image_size=shape, batch_size=batch_size)
+        color_mode=mode, image_size=shape, batch_size=batch_size, shuffle=shuffle)
 
     for x, y in ds.take(1):
-        print(x.shape, y)
+        # print(x.shape, y)
 
-        return x.numpy(),y.numpy()
+        cns=ds.class_names
+
+        # from PIL import Image
+        # img = Image.fromarray(x.numpy()[0].astype(np.uint8), 'RGB')
+        # img.show()
+
+        return x.numpy(), y.numpy(), cns
 
 
 # loadFromDir('mnist_m/mnist_m_train/', 'mnist_m/mnist_m_train_labels.txt')
+# loadFromDir('tiny-imagenet/train/', labels="inferred", mode='rgb', label_mode='int'
+#             , shape=(64, 64), batch_size=100000)

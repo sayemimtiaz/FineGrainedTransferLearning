@@ -4,6 +4,7 @@ import tensorflow as tf
 from data_type.enums import LayerType
 import numpy as np
 
+from data_util.util import makeScalar
 from modularization.concern.concern_identification import ConcernIdentification
 
 
@@ -45,6 +46,28 @@ def observe_cnn(concern, data, individualStatCb, allStatCb):
             allStatCb(all_stats[layerNo], _layer)
 
 
+def observe_resnet(model, data):
+    all_stats = []
+    active_count_for_filter={}
+    numFilter = None
+    for x in data:
+        x_t = tf.reshape(x, [-1, x.shape[0], x.shape[1], x.shape[2]])
+
+        x_t = model.predict(x_t, verbose=0)
+        tmp = makeScalar(activeValNodeEachObs(x_t))
+        all_stats.append(tmp)
+        numFilter = len(tmp)
+
+    for fn in range(numFilter):
+        ac = []
+        for obs in all_stats:
+            ac.append(obs[fn])
+
+        active_count_for_filter[fn] = ac
+
+    return active_count_for_filter, numFilter
+
+
 def activeRateFilterAllObs(hidden_val, layer):
     for fn in range(layer.filters):
         data = []
@@ -82,7 +105,7 @@ def activeRateNodeAllObs(hidden_val, layer):
         layer.active_count_for_filter[fn] = ac
 
 
-def activeValNodeEachObs(hidden_val, layer):
+def activeValNodeEachObs(hidden_val, layer=None):
     hidden_val = tf.squeeze(hidden_val)  # remove first dimension
     hidden_val = hidden_val.numpy()
     return hidden_val
@@ -95,7 +118,7 @@ def activeRawValNodeEachObs(hidden_val, layer):
     return hidden_val
 
 
-def activeValNodeAllObs(hidden_val, layer):
+def activeValNodeAllObs(hidden_val, layer=None):
     for fn in range(layer.filters):
         ac = []
         for obs in hidden_val:

@@ -77,6 +77,32 @@ def shuffle(x, y):
     return x, y
 
 
+def relabel(yA, yB):
+    mp = {}
+    c = 0
+    nYa = []
+    nYb = []
+    for i in range(len(yA)):
+        if yA[i] in mp:
+            nYa.append(mp[yA[i]])
+        else:
+            mp[yA[i]] = c
+            nYa.append(c)
+            c += 1
+
+    for i in range(len(yB)):
+        if yB[i] in mp:
+            nYb.append(mp[yB[i]])
+        else:
+            mp[yB[i]] = c
+            nYb.append(c)
+            c += 1
+    nYa = np.asarray(nYa)
+    nYb = np.asarray(nYb)
+
+    return nYa, nYb, mp
+
+
 def concatenateTwoY(yA, yB):
     mp = {'A': {}, 'B': {}}
     c = 0

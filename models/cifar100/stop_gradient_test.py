@@ -1,11 +1,13 @@
 from keras import Sequential
 from keras.layers import Flatten, Dense, Activation, Dropout, Conv2D, MaxPooling2D, Lambda
 from models.cifar100.data_util_ import getSuperClassData
-from util.transfer_util import stopBackprop
+from util.transfer_util import stopBackprop, reweight
 import numpy as np
 
 x_train, y_train, x_test, y_test, num_classes = getSuperClassData(insert_noise=False, dataset='cifar10')
 filters=[1, 3]
+
+weight_map={0: 0, 1: 0, 2: 0.5}
 
 
 model = Sequential()
@@ -14,7 +16,8 @@ model.add(Conv2D(8, kernel_size=(3, 3), padding='same', activation='relu', input
 # model.add(Dropout(0.2))
 
 model.add(Conv2D(8, kernel_size=(3, 3), padding='same', activation='relu'))
-model.add(Lambda(stopBackprop, arguments={'filters': filters}))
+# model.add(Lambda(stopBackprop, arguments={'filters': filters}))
+model.add(Lambda(reweight, arguments={'weights': weight_map}))
 
 # model.add(MaxPooling2D(pool_size=(2, 2)))
 # model.add(Dropout(0.2))

@@ -2,35 +2,42 @@ from keras import Sequential
 from keras.layers import Flatten, Dense, Activation, Dropout, Conv2D, MaxPooling2D
 from tensorflow import keras
 
+from data_util.cifar_specific import sampleCifar100Fine
 from data_util.data_mixer import mixMnistCifar10
+from data_util.mnist_specific import getMnist
 
 
 class CustomSaver(keras.callbacks.Callback):
     def on_epoch_end(self, epoch, logs={}):
-        self.model.save('h5/source_model_mixed.h5')
+        self.model.save('h5/source_model_mixed_cat.h5')
 
 
-takeFromCifar = [1, 9]
-takeFromMnist = [0, 2, 3, 4, 5, 6, 7, 8]
+# takeFromCifar = [1, 9]
+# takeFromMnist = [0, 2, 3, 4, 5, 6, 7, 8]
+takeFromCifar = [4]
+takeFromMnist = [0, 1, 2, 3, 5, 6, 7, 8, 9]
+# takeFromCifar = list(range(10))
+# takeFromMnist = []
 # x_train, y_train, x_test, y_test, num_classes = getCifar10MnistMixed(takeFromMnist=takeFromMnist,
 #                                                                      takeFromCifar=takeFromCifar)
 
 x_train, y_train, x_test, y_test, num_classes, _ = mixMnistCifar10(takeFromMnist=takeFromMnist,
                                                                    takeFromCifar=takeFromCifar)
+# x_train, y_train, x_test, y_test, num_classes = getMnist(one_hot=True)
 
 model = Sequential()
-model.add(Conv2D(16, kernel_size=(3, 3), padding='valid', activation='relu', input_shape=x_train.shape[1:]))
-# model.add(MaxPooling2D(pool_size=(2, 2)))
+model.add(Conv2D(32, kernel_size=(3, 3), padding='same', activation='relu'))
+model.add(MaxPooling2D(pool_size=(2, 2)))
 # model.add(Dropout(0.2))
-model.add(Conv2D(32, kernel_size=(3, 3), padding='valid', activation='relu'))
-# model.add(MaxPooling2D(pool_size=(2, 2)))
+model.add(Conv2D(64, kernel_size=(3, 3), padding='same', activation='relu'))
+model.add(MaxPooling2D(pool_size=(2, 2)))
 # model.add(Dropout(0.2))
-model.add(Conv2D(64, kernel_size=(3, 3), padding='valid', activation='relu'))
-# model.add(MaxPooling2D(pool_size=(2, 2)))
+model.add(Conv2D(128, kernel_size=(3, 3), padding='same', activation='relu'))
+model.add(MaxPooling2D(pool_size=(2, 2)))
 # model.add(Dropout(0.2))
-model.add(Conv2D(128, kernel_size=(3, 3), padding='valid', activation='relu'))
+model.add(Conv2D(256, kernel_size=(3, 3), padding='same', activation='relu'))
 # model.add(MaxPooling2D(pool_size=(2, 2)))
-model.add(Dropout(0.3))
+model.add(Dropout(0.4))
 # model.add(Conv2D(64, kernel_size=(3, 3), padding='same', activation='relu'))
 # model.add(MaxPooling2D(pool_size=(2, 2)))
 # model.add(Dropout(0.2))

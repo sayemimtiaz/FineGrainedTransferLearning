@@ -26,9 +26,12 @@ def mixTwoDataSet(dataA, dataB, one_hot=True, takeFromA=None, takeFromB=None):
     x_test_b, y_test_b = x_test[x_test_indexes], y_test[x_test_indexes]
 
     x_train = np.concatenate((x_train_a, x_train_b))
-    y_train, class_mapper = concatenateTwoY(y_train_a, y_train_b)
+    class_mapper={}
+    # y_train, class_mapper = concatenateTwoY(y_train_a, y_train_b) # need to retrieve this mapper when evaluating
+    y_train = np.concatenate((y_train_a, y_train_b)) # temporary measure
     x_test = np.concatenate((x_test_a, x_test_b))
-    y_test, _ = concatenateTwoY(y_test_a, y_test_b)
+    # y_test, _ = concatenateTwoY(y_test_a, y_test_b)
+    y_test = np.concatenate((y_test_a, y_test_b))  # temporary measure
 
     x_train, y_train = shuffle(x_train, y_train)
 

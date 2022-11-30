@@ -4,7 +4,7 @@ import time
 from keras.layers import Conv2D, MaxPooling2D, Dropout, Dense, Flatten, Lambda
 
 from data_type.enums import LayerType, getLayerType
-from keras import initializers, Sequential
+from keras import initializers, Sequential, Model
 import numpy as np
 from keras import backend as K
 
@@ -29,8 +29,10 @@ def get_transfer_filters(layerPos, layerNeg, threshold=0.7,
 
 
 def get_modified_weights(layerPos, eligible_filters, zero_initialize=False):
-    nb_filter = len(eligible_filters)
-    nb_filter=layerPos.filters
+    if not zero_initialize:
+        nb_filter = len(eligible_filters)
+    else:
+        nb_filter = layerPos.filters
     kernel_shape = (layerPos.W.shape[0], layerPos.W.shape[1], layerPos.W.shape[2], nb_filter)
 
     if not zero_initialize:
@@ -84,9 +86,9 @@ def get_worked_out_transfer_filters(layerPos, layerNeg, trainable=False, thresho
     # return nb_filter, n_kernel, n_bias, len(eligible_filters)
 
 
-def construct_target_model(concernPos, concernNeg, originalModel, freezeUntil=-1, thresholds=None,
-                           relax_relevance=True,
-                           transfer=True, traditional_transfer=False, n_classes=5):
+def traditional_transfer_model(concernPos, originalModel, freezeUntil=-1,
+                               transfer=True,
+                               n_classes=5, transfer_after_target=False):
     target_model = Sequential()
 
     conv_id = 0
@@ -99,47 +101,28 @@ def construct_target_model(concernPos, concernNeg, originalModel, freezeUntil=-1
             if conv_id <= freezeUntil:
                 conv_id += 1
             else:
+                trainable = True
                 conv_id += 1
-                continue
+                if not transfer_after_target:
+                    continue
 
-            if not traditional_transfer:
-                n_filter, n_kernel, n_bias, actual_transferred = get_worked_out_transfer_filters(concernPos[layerNo],
-                                                                                                 concernNeg[layerNo],
-                                                                                                 trainable=trainable,
-                                                                                                 threshold=thresholds[
-                                                                                                     conv_id],
-                                                                                                 relax_relevance=relax_relevance)
-                print(str(actual_transferred) + ' transferred out of ' + str(layer.filters) + ' in ' + str(
-                    conv_id) + '\'th conv2d layer')
-            else:
-                n_filter, n_kernel, n_bias = layer.filters, layer.W, layer.B
+            n_filter, n_kernel, n_bias = layer.filters, layer.W, layer.B
 
             if layer.first_layer:
-                if not trainable:
-                    n_layer = Conv2D(n_filter, orLayer.kernel_size,
-                                     padding=orLayer.padding,
-                                     input_shape=layer.original_input_shape,
-                                     activation=orLayer.activation,
-                                     weights=[n_kernel, n_bias],
-                                     trainable=trainable)
-                else:
-                    n_layer = Conv2D(n_filter, orLayer.kernel_size,
-                                     padding=orLayer.padding,
-                                     input_shape=layer.original_input_shape,
-                                     activation=orLayer.activation,
-                                     trainable=trainable)
+                n_layer = Conv2D(n_filter, orLayer.kernel_size,
+                                 padding=orLayer.padding,
+                                 input_shape=layer.original_input_shape,
+                                 activation=orLayer.activation,
+                                 weights=[n_kernel, n_bias],
+                                 trainable=trainable)
+
             else:
-                if not trainable:
-                    n_layer = Conv2D(n_filter, orLayer.kernel_size,
-                                     padding=orLayer.padding,
-                                     activation=orLayer.activation,
-                                     weights=[n_kernel, n_bias],
-                                     trainable=trainable)
-                else:
-                    n_layer = Conv2D(n_filter, orLayer.kernel_size,
-                                     padding=orLayer.padding,
-                                     activation=orLayer.activation,
-                                     trainable=trainable)
+                n_layer = Conv2D(n_filter, orLayer.kernel_size,
+                                 padding=orLayer.padding,
+                                 activation=orLayer.activation,
+                                 weights=[n_kernel, n_bias],
+                                 trainable=trainable)
+
             target_model.add(n_layer)
         elif not transfer and layer.type == LayerType.Conv2D:
             trainable = True
@@ -350,21 +333,29 @@ def construct_target_model_as_feature_extractor(concernPos, concernNeg, original
     return target_model_a, target_model_b
 
 
-def construct_target_model_approach_2(concernPos, originalModel, chosen_filters, n_classes=5, target_layer=0, zero_initialize=False):
+def construct_target_model_approach_2(concernPos, originalModel, chosen_filters, n_classes=5,
+                                      target_layer=0, zero_initialize=False,
+                                      partial_freeze=False, p_values=None):
     target_model_a = Sequential()
     conv_id = 0
     for layerNo, layer in enumerate(concernPos):
         orLayer = originalModel.layers[layerNo]
 
         if layer.type == LayerType.Conv2D:
+            trainable = False
+            if partial_freeze and conv_id == target_layer:
+                trainable = True
             if conv_id <= target_layer:
-                if conv_id == target_layer:
+                if conv_id == target_layer and not partial_freeze:
                     n_filter, n_kernel, n_bias, actual_transferred = get_modified_weights(
-                        concernPos[layerNo], chosen_filters, zero_initialize=zero_initialize)
+                        concernPos[layerNo], chosen_filters,
+                        zero_initialize=zero_initialize)
                     print(str(n_filter) + ' transferred out of ' + str(layer.filters) + ' in ' + str(
                         conv_id) + '\'th conv2d layer')
                 else:
                     n_filter, n_kernel, n_bias = layer.filters, layer.W, layer.B
+
+                n_filter, n_kernel, n_bias = layer.filters, layer.W, layer.B
 
                 if layer.first_layer:
                     n_layer = Conv2D(n_filter, orLayer.kernel_size,
@@ -372,15 +363,22 @@ def construct_target_model_approach_2(concernPos, originalModel, chosen_filters,
                                      input_shape=layer.original_input_shape,
                                      activation=orLayer.activation,
                                      weights=[n_kernel, n_bias],
-                                     trainable=False)
+                                     trainable=trainable)
                 else:
                     n_layer = Conv2D(n_filter, orLayer.kernel_size,
                                      padding=orLayer.padding,
                                      activation=orLayer.activation,
                                      weights=[n_kernel, n_bias],
-                                     trainable=False)
+                                     trainable=trainable)
 
                 target_model_a.add(n_layer)
+
+                if len(chosen_filters) > 0 and conv_id == target_layer and partial_freeze:
+                    target_model_a.add(Lambda(stopBackprop, arguments={'filters': chosen_filters}))
+                    target_model_a.add(Lambda(reweight, arguments={'weights': p_values}))
+
+                if conv_id == target_layer and p_values is not None:
+                    target_model_a.add(Lambda(reweight, arguments={'weights': p_values}))
 
             conv_id += 1
 
@@ -394,7 +392,7 @@ def construct_target_model_approach_2(concernPos, originalModel, chosen_filters,
                  getLayerType(target_model_a.layers[-1]) == LayerType.Dense or \
                  getLayerType(target_model_a.layers[-1]) == LayerType.Conv2D):
             n_layer = Dropout(orLayer.rate)
-            target_model_a.add(n_layer)
+            # target_model_a.add(n_layer)
 
         elif layer.type == LayerType.Flatten:
             n_layer = Flatten()
@@ -415,6 +413,17 @@ def construct_target_model_approach_2(concernPos, originalModel, chosen_filters,
                            metrics=['accuracy'])
 
     return target_model_a
+
+
+def construct_target_imagenet(base_model, n_classes=5, p_values=None):
+    x = base_model.output
+    x = Lambda(reweight, arguments={'weights': p_values})(x)
+    predictions = Dense(n_classes, activation='softmax')(x)
+    model = Model(inputs=base_model.input, outputs=predictions)
+
+    model.compile(optimizer='rmsprop', loss='categorical_crossentropy',
+                  metrics=['accuracy'])
+    return model
 
 
 def train(model, x_train, y_train, x_test, y_test, epochs=50):
@@ -454,3 +463,10 @@ def stopBackpropRandom(x, num_filters):
     mask_h = K.cast(mask_h, dtype=x.dtype)
 
     return K.stop_gradient(mask_h * x) + mask_l * x
+
+
+def reweight(x, weights):
+    mask = np.ones(x.shape[1:])
+    for f in weights:
+        mask[:, :, int(f)] = weights[f]
+    return mask * x

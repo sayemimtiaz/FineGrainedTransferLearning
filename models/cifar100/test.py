@@ -2,16 +2,17 @@ from datetime import datetime
 from keras.models import load_model
 import tensorflow as tf
 
-from models.cifar100.data_util_ import getSuperClassData
-from modularization.concern.concern_identification import ConcernIdentification
+from data_util.cifar_specific import sampleCifar10
+
 from util.common import initModularLayers
 from util.layer_propagator import LayerPropagator
 
-x_train, y_train, x_test, y_test, num_classes = getSuperClassData()
+x_train, y_train, x_test, y_test, num_classes = sampleCifar10(superclasses=[], num_sample=10)
 
-model_name = 'h5/source_model.h5'
-
+model_name = 'h5/source_model_cifar10.h5'
 model = load_model(model_name)
+# model.pop()
+# model.pop()
 concernIdentifier = LayerPropagator()
 
 print("Start Time:" + datetime.now().strftime("%H:%M:%S"))

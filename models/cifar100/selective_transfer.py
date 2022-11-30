@@ -4,7 +4,7 @@ from models.cifar100.data_util_ import getSuperClassData, sampleForDecomposition
 from modularization.concern.cnn_util import activeRateFilterEachObs, observe_cnn, activeRateFilterAllObs
 from keras.models import load_model
 from util.common import initModularLayers
-from util.transfer_util import construct_target_model, get_transfer_model_name, construct_target_model_partial_freeze, \
+from util.transfer_util import traditional_transfer_model, get_transfer_model_name, construct_target_model_partial_freeze, \
     get_transfer_filter_name, construct_target_model_as_feature_extractor
 
 numSample = 200
