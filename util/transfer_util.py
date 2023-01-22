@@ -152,7 +152,8 @@ def trainDog(model, train_ds, val_ds, nb_train_samples, nb_valid_samples, epoch=
         validation_data=val_ds,
         validation_steps=nb_valid_samples // batch_size,
         callbacks=callbacks,
-        shuffle=True
+        shuffle=True,
+        verbose=verbose
     )
     end = time.time()
 

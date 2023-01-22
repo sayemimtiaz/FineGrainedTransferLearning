@@ -65,29 +65,16 @@ def getTargetSampleSize(rate):
         return int(500 * getTargetNumClass() * rate)
 
 
-def getTargetDataForTraining(sample_rate=1.0, seed=None, one_hot=True, gray=False, task=None):
+def getTargetDataForTraining():
     if target_dataset == 'dog':
         return Dog(train_data=True).data
 
     if target_dataset == 'bird':
-        if sample_rate < 1.0:
-            bird = Bird(one_hot=False, gray=gray, interpolation=True)
-            bird_classes = bird.getClasses()
-
-            numSample = getTargetSampleSize(sample_rate)
-            x_train, y_train, x_test, y_test, num_classes = bird.sample(num_sample=numSample, train=True,
-                                                                        one_hot=one_hot,
-                                                                        seed=seed,
-                                                                        sample_only_classes=bird_classes)
-        else:
-            # x_train, y_train, x_test, y_test, num_classes = Bird(one_hot=False, gray=gray, interpolation=True).data
             return getBirdTrainingData()
 
-        return x_train, y_train, x_test, y_test, num_classes
-
-    if target_dataset == 'cifar100':
-        numSample = getTargetSampleSize(sample_rate)
-        return sampleCifar100Fine(superclasses=[task], num_sample=numSample,
-                                  seed=seed, gray=gray,
-                                  one_hot=one_hot, train=True, shape=(64, 64)
-                                  )
+    # if target_dataset == 'cifar100':
+    #     numSample = getTargetSampleSize(sample_rate)
+    #     return sampleCifar100Fine(superclasses=[task], num_sample=numSample,
+    #                               seed=seed, gray=gray,
+    #                               one_hot=one_hot, train=True, shape=(64, 64)
+    #                               )

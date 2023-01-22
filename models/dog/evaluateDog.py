@@ -12,25 +12,25 @@ from util.transfer_util import binaryWeight, trainDog
 
 epoch = 10
 REPEAT = 3
-sample_rates = [1.0]
+alpha_values = [0.0, 0.01, 0.05]
 
 weighting_schemes = [binaryWeight]
 targetIndex = None
 
 for scheme in weighting_schemes:
     print('> Evaluating scheme: ', str(scheme))
-    for sr in sample_rates:
+    for alpha in alpha_values:
 
-        print('>> Evaluating sampling rate: ', sr)
+        print('>> Evaluating alpha rate: ', alpha)
 
-        train_generator, valid_generator, nb_train_samples, nb_valid_samples, num_classes, batch_size = getTargetDataForTraining(
-            sample_rate=sr, one_hot=False, gray=False)
+        train_generator, valid_generator, nb_train_samples, nb_valid_samples, num_classes, batch_size = \
+            getTargetDataForTraining()
 
         dog = Dog(shape=SHAPE, train_data=False)
-        target_sample = dog.sampleFromDir(sample_size_per_class=1, ext='jpg')
+        target_sample = dog.sampleFromDir(sample_size_per_class=20, ext='jpg')
         calculateTargetDistributionAlreadySampled(target_sample)
 
-        getWeigtedTransferModel(weighting_scheme=scheme, targetIndex=targetIndex)
+        getWeigtedTransferModel(weighting_scheme=scheme, targetIndex=targetIndex, alpha=alpha)
 
         target_names = [get_transfer_model_name(prefix='weighted', model_name=target_dataset),
                         get_transfer_model_name(prefix='traditional', model_name=target_dataset)]

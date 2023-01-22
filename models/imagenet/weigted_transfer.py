@@ -9,7 +9,7 @@ from util.transfer_util import construct_reweighted_target, regularWeight, plain
     construct_target_without_inactive_feature
 
 
-def getWeigtedTransferModel(weighting_scheme=regularWeight, targetIndex=None):
+def getWeigtedTransferModel(weighting_scheme=regularWeight, targetIndex=None, alpha=0.00):
     sourceRate = load_pickle_file(get_transfer_filter_name(mode=MODE, end=source_model_name))
     targetRate = load_pickle_file(get_transfer_filter_name(mode=MODE, end=target_dataset))
     model = getSourceModel(shape=SHAPE)
@@ -45,8 +45,9 @@ def getWeigtedTransferModel(weighting_scheme=regularWeight, targetIndex=None):
                 pv = getPValue(sourceActiveFilter, targetActiveFilter)
                 # pv = getPValue(sourceFilter, targetFilter)
 
-                pv = weighting_scheme(
-                    pv)  # in partial compat, 1+p working better, in usual case, just pv is working best
+                if weighting_scheme != binaryWeight:
+                    pv = weighting_scheme(
+                        pv)  # in partial compat, 1+p working better, in usual case, just pv is working best
 
                 p_values[filterNo] = max(pv, p_values[filterNo])
             except:
@@ -54,17 +55,19 @@ def getWeigtedTransferModel(weighting_scheme=regularWeight, targetIndex=None):
 
     # print(len(p_values.keys()))
     if weighting_scheme == binaryWeight:
+        for k in p_values:
+            if p_values[k] <= alpha:
+                p_values[k] = 0.0
         z = 0
         for k in p_values:
             if p_values[k] == 0:
                 z += 1
-        print('Zeroed: ', ((z / len(p_values)) * 100.0))
+        print('Deleted: '+ str(round(((z / len(p_values)) * 100.0), 2))+'%')
 
     target_model = construct_reweighted_target(freezeModel(model), n_classes=target_num_class,
                                                p_values=p_values)
     # target_model = construct_target_without_inactive_feature(freezeModel(model),
     #                                            p_values=p_values)
     target_model.save(get_transfer_model_name(prefix='weighted', model_name=target_dataset))
-
 
 # getWeigtedTransferModel(weighting_scheme=regularWeight)
