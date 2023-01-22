@@ -1,31 +1,19 @@
+import math
 import random
 import time
 
-from keras.layers import Conv2D, MaxPooling2D, Dropout, Dense, Flatten, Lambda
+from keras.callbacks import EarlyStopping, ReduceLROnPlateau
 
-from data_type.enums import LayerType, getLayerType
-from keras import initializers, Sequential, Model
+from models.imagenet import target_dataset
+
+from keras.layers import Conv2D, MaxPooling2D, Dropout, Dense, Flatten, Lambda, GlobalAveragePooling2D
+
+from keras import initializers, Sequential, Model, optimizers
 import numpy as np
 from keras import backend as K
-
-
-def get_transfer_filters(layerPos, layerNeg, threshold=0.7,
-                         relax_relevance=True):
-    if layerPos.type != LayerType.Conv2D or layerNeg.type != LayerType.Conv2D:
-        raise Exception('Only Conv2D supported')
-    if layerPos.filters != layerNeg.filters:
-        raise Exception('Filters must be same')
-
-    eligible_filters = []
-    for fn in range(layerPos.filters):
-        pac = layerPos.active_count_for_filter[fn]
-        nac = layerNeg.active_count_for_filter[fn]
-
-        if (relax_relevance and pac >= threshold) or \
-                (not relax_relevance and (pac >= threshold or pac > nac)):
-            eligible_filters.append(fn)
-
-    return eligible_filters
+import tensorflow as tf
+from util.common import freezeModel
+from util.ordinary import dump_as_pickle
 
 
 def get_modified_weights(layerPos, eligible_filters, zero_initialize=False):
@@ -56,379 +44,73 @@ def get_modified_weights(layerPos, eligible_filters, zero_initialize=False):
     return nb_filter, n_kernel, n_bias, len(eligible_filters)
 
 
-def get_worked_out_transfer_filters(layerPos, layerNeg, trainable=False, threshold=0.7,
-                                    relax_relevance=True):
-    eligible_filters = get_transfer_filters(layerPos, layerNeg,
-                                            threshold=threshold, relax_relevance=relax_relevance)
-    nb_filter = len(eligible_filters)
-
-    if nb_filter <= 0:
-        raise Exception('No eligible filter')
-
-    return get_modified_weights(layerPos, eligible_filters)
-
-    # if trainable:
-    #     kernelInit = layerPos.kernel_initializer
-    #     biasInit = layerPos.bias_initializer
-    #     n_kernel = kernelInit(shape=kernel_shape).numpy()
-    #     n_bias = biasInit(shape=nb_filter).numpy()
-    #     for fn in eligible_filters:
-    #         n_kernel[:, :, :, fn] = layerPos.W[:, :, :, fn]
-    #         n_bias[fn] = layerPos.B[fn]
-    # else:
-    #     zeroInit = initializers.get('zeros')
-    #     n_kernel = zeroInit(shape=kernel_shape).numpy()
-    #     n_bias = zeroInit(shape=nb_filter).numpy()
-    #     for fn in eligible_filters:
-    #         n_kernel[:, :, :, fn] = layerPos.W[:, :, :, fn]
-    #         n_bias[fn] = layerPos.B[fn]
-
-    # return nb_filter, n_kernel, n_bias, len(eligible_filters)
-
-
-def traditional_transfer_model(concernPos, originalModel, freezeUntil=-1,
-                               transfer=True,
-                               n_classes=5, transfer_after_target=False):
+def get_svm(n_classes=5, shape=None):
     target_model = Sequential()
-
-    conv_id = 0
-    for layerNo, layer in enumerate(concernPos):
-        orLayer = originalModel.layers[layerNo]
-
-        if transfer and layer.type == LayerType.Conv2D:
-
-            trainable = False
-            if conv_id <= freezeUntil:
-                conv_id += 1
-            else:
-                trainable = True
-                conv_id += 1
-                if not transfer_after_target:
-                    continue
-
-            n_filter, n_kernel, n_bias = layer.filters, layer.W, layer.B
-
-            if layer.first_layer:
-                n_layer = Conv2D(n_filter, orLayer.kernel_size,
-                                 padding=orLayer.padding,
-                                 input_shape=layer.original_input_shape,
-                                 activation=orLayer.activation,
-                                 weights=[n_kernel, n_bias],
-                                 trainable=trainable)
-
-            else:
-                n_layer = Conv2D(n_filter, orLayer.kernel_size,
-                                 padding=orLayer.padding,
-                                 activation=orLayer.activation,
-                                 weights=[n_kernel, n_bias],
-                                 trainable=trainable)
-
-            target_model.add(n_layer)
-        elif not transfer and layer.type == LayerType.Conv2D:
-            trainable = True
-
-            n_layer = Conv2D(layer.filters, orLayer.kernel_size,
-                             padding=orLayer.padding,
-                             input_shape=layer.original_input_shape,
-                             activation=orLayer.activation,
-                             trainable=trainable)
-            target_model.add(n_layer)
-
-        elif layer.type == LayerType.MaxPooling2D and \
-                (getLayerType(target_model.layers[-1]) == LayerType.Conv2D):
-            n_layer = MaxPooling2D(pool_size=orLayer.pool_size,
-                                   padding=orLayer.padding)
-            target_model.add(n_layer)
-
-        elif layer.type == LayerType.Dropout and \
-                (getLayerType(target_model.layers[-1]) == LayerType.MaxPooling2D or \
-                 getLayerType(target_model.layers[-1]) == LayerType.Dense or \
-                 getLayerType(target_model.layers[-1]) == LayerType.Conv2D):
-            n_layer = Dropout(orLayer.rate)
-            target_model.add(n_layer)
-
-        elif layer.type == LayerType.Flatten:
-            n_layer = Flatten()
-            target_model.add(n_layer)
-
-        elif layer.type == LayerType.Dense and layer.last_layer:
-            n_layer = Dense(n_classes,
-                            activation=orLayer.activation)
-            target_model.add(n_layer)
-
-        elif layer.type == LayerType.Dense:
-            n_layer = Dense(layer.num_node,
-                            activation=orLayer.activation)
-            target_model.add(n_layer)
-
-    target_model.compile(loss='categorical_crossentropy',
-                         optimizer='adam',
-                         metrics=['accuracy'])
-
+    target_model.add(Flatten())
+    target_model.add(Dense(n_classes, activation='softmax'))
+    target_model.compile(optimizer='rmsprop', loss='categorical_crossentropy', metrics=['accuracy'])
     return target_model
 
 
-def construct_target_model_partial_freeze(concernPos, concernNeg, originalModel, thresholds=None,
-                                          relax_relevance=True, n_classes=5):
-    target_model_a = Sequential()
-    target_model_b = Sequential()
+def construct_target_without_inactive_feature(base_model, p_values=None):
+    dump_as_pickle(p_values, 'p_values.pickle')
 
-    conv_id = 0
-    transfer_filters = {}
-    for layerNo, layer in enumerate(concernPos):
-        orLayer = originalModel.layers[layerNo]
-
-        if layer.type == LayerType.Conv2D:
-
-            eligible_transfer = get_transfer_filters(concernPos[layerNo], concernNeg[layerNo],
-                                                     threshold=thresholds[conv_id],
-                                                     relax_relevance=relax_relevance)
-            print(str(len(eligible_transfer)) + ' transferred out of ' + str(layer.filters) + ' in ' + str(
-                conv_id) + '\'th conv2d layer')
-
-            n_filter, n_kernel, n_bias = layer.filters, layer.W, layer.B
-
-            if layer.first_layer:
-                n_layer = Conv2D(n_filter, orLayer.kernel_size,
-                                 padding=orLayer.padding,
-                                 input_shape=layer.original_input_shape,
-                                 activation=orLayer.activation,
-                                 weights=[n_kernel, n_bias])
-            else:
-                n_layer = Conv2D(n_filter, orLayer.kernel_size,
-                                 padding=orLayer.padding,
-                                 activation=orLayer.activation,
-                                 weights=[n_kernel, n_bias])
-
-            target_model_a.add(n_layer)
-            target_model_b.add(n_layer)
-
-            if len(eligible_transfer) > 0:
-                target_model_a.add(Lambda(stopBackprop, arguments={'filters': eligible_transfer}))
-                target_model_b.add(Lambda(stopBackpropRandom, arguments={'num_filters':
-                                                                             len(eligible_transfer)}))
-
-            conv_id += 1
-            transfer_filters[layerNo] = eligible_transfer
-
-        elif layer.type == LayerType.MaxPooling2D:
-            n_layer = MaxPooling2D(pool_size=orLayer.pool_size,
-                                   padding=orLayer.padding)
-            target_model_a.add(n_layer)
-            target_model_b.add(n_layer)
-
-        elif layer.type == LayerType.Dropout:
-            n_layer = Dropout(orLayer.rate)
-            target_model_a.add(n_layer)
-            target_model_b.add(n_layer)
-
-        elif layer.type == LayerType.Flatten:
-            n_layer = Flatten()
-            target_model_a.add(n_layer)
-            target_model_b.add(n_layer)
-
-        elif layer.type == LayerType.Dense and layer.last_layer:
-            n_layer = Dense(n_classes,
-                            activation=orLayer.activation)
-            target_model_a.add(n_layer)
-            target_model_b.add(n_layer)
-
-        elif layer.type == LayerType.Dense:
-            n_layer = Dense(layer.num_node,
-                            activation=orLayer.activation)
-            target_model_a.add(n_layer)
-            target_model_b.add(n_layer)
-
-    target_model_a.compile(loss='categorical_crossentropy',
-                           optimizer='adam',
-                           metrics=['accuracy'])
-    target_model_b.compile(loss='categorical_crossentropy',
-                           optimizer='adam',
-                           metrics=['accuracy'])
-
-    return target_model_a, target_model_b, transfer_filters
+    return freezeModel(base_model)
 
 
-def construct_target_model_as_feature_extractor(concernPos, concernNeg, originalModel, thresholds=None,
-                                                relax_relevance=True, n_classes=5, target_layer=0):
-    target_model_a = Sequential()
-    target_model_b = Sequential()
-
-    conv_id = 0
-    for layerNo, layer in enumerate(concernPos):
-        orLayer = originalModel.layers[layerNo]
-
-        if layer.type == LayerType.Conv2D:
-            if conv_id <= target_layer:
-                if conv_id == target_layer:
-                    n_filter, n_kernel, n_bias, actual_transferred = get_worked_out_transfer_filters(
-                        concernPos[layerNo],
-                        concernNeg[layerNo],
-                        threshold=thresholds[conv_id],
-                        relax_relevance=relax_relevance)
-                    print(str(n_filter) + ' transferred out of ' + str(layer.filters) + ' in ' + str(
-                        conv_id) + '\'th conv2d layer')
-                else:
-                    n_filter, n_kernel, n_bias = layer.filters, layer.W, layer.B
-
-                if layer.first_layer:
-                    n_layer = Conv2D(n_filter, orLayer.kernel_size,
-                                     padding=orLayer.padding,
-                                     input_shape=layer.original_input_shape,
-                                     activation=orLayer.activation,
-                                     weights=[n_kernel, n_bias],
-                                     trainable=False)
-                else:
-                    n_layer = Conv2D(n_filter, orLayer.kernel_size,
-                                     padding=orLayer.padding,
-                                     activation=orLayer.activation,
-                                     weights=[n_kernel, n_bias],
-                                     trainable=False)
-
-                target_model_a.add(n_layer)
-                target_model_b.add(n_layer)
-            # else:
-            # n_layer = Conv2D(layer.filters, orLayer.kernel_size,
-            #                  padding=orLayer.padding,
-            #                  activation=orLayer.activation,
-            #                  trainable=True)
-
-            conv_id += 1
-
-        elif layer.type == LayerType.MaxPooling2D:
-            n_layer = MaxPooling2D(pool_size=orLayer.pool_size,
-                                   padding=orLayer.padding)
-            target_model_a.add(n_layer)
-            target_model_b.add(n_layer)
-
-        elif layer.type == LayerType.Dropout:
-            n_layer = Dropout(orLayer.rate)
-            target_model_a.add(n_layer)
-            target_model_b.add(n_layer)
-
-        elif layer.type == LayerType.Flatten:
-            n_layer = Flatten()
-            target_model_a.add(n_layer)
-            target_model_b.add(n_layer)
-
-        elif layer.type == LayerType.Dense and layer.last_layer:
-            n_layer = Dense(n_classes,
-                            activation=orLayer.activation)
-            target_model_a.add(n_layer)
-            target_model_b.add(n_layer)
-
-        elif layer.type == LayerType.Dense:
-            n_layer = Dense(layer.num_node,
-                            activation=orLayer.activation)
-            target_model_a.add(n_layer)
-            target_model_b.add(n_layer)
-
-    target_model_a.compile(loss='categorical_crossentropy',
-                           optimizer='adam',
-                           metrics=['accuracy'])
-    target_model_b.compile(loss='categorical_crossentropy',
-                           optimizer='adam',
-                           metrics=['accuracy'])
-
-    return target_model_a, target_model_b
-
-
-def construct_target_model_approach_2(concernPos, originalModel, chosen_filters, n_classes=5,
-                                      target_layer=0, zero_initialize=False,
-                                      partial_freeze=False, p_values=None):
-    target_model_a = Sequential()
-    conv_id = 0
-    for layerNo, layer in enumerate(concernPos):
-        orLayer = originalModel.layers[layerNo]
-
-        if layer.type == LayerType.Conv2D:
-            trainable = False
-            if partial_freeze and conv_id == target_layer:
-                trainable = True
-            if conv_id <= target_layer:
-                if conv_id == target_layer and not partial_freeze:
-                    n_filter, n_kernel, n_bias, actual_transferred = get_modified_weights(
-                        concernPos[layerNo], chosen_filters,
-                        zero_initialize=zero_initialize)
-                    print(str(n_filter) + ' transferred out of ' + str(layer.filters) + ' in ' + str(
-                        conv_id) + '\'th conv2d layer')
-                else:
-                    n_filter, n_kernel, n_bias = layer.filters, layer.W, layer.B
-
-                n_filter, n_kernel, n_bias = layer.filters, layer.W, layer.B
-
-                if layer.first_layer:
-                    n_layer = Conv2D(n_filter, orLayer.kernel_size,
-                                     padding=orLayer.padding,
-                                     input_shape=layer.original_input_shape,
-                                     activation=orLayer.activation,
-                                     weights=[n_kernel, n_bias],
-                                     trainable=trainable)
-                else:
-                    n_layer = Conv2D(n_filter, orLayer.kernel_size,
-                                     padding=orLayer.padding,
-                                     activation=orLayer.activation,
-                                     weights=[n_kernel, n_bias],
-                                     trainable=trainable)
-
-                target_model_a.add(n_layer)
-
-                if len(chosen_filters) > 0 and conv_id == target_layer and partial_freeze:
-                    target_model_a.add(Lambda(stopBackprop, arguments={'filters': chosen_filters}))
-                    target_model_a.add(Lambda(reweight, arguments={'weights': p_values}))
-
-                if conv_id == target_layer and p_values is not None:
-                    target_model_a.add(Lambda(reweight, arguments={'weights': p_values}))
-
-            conv_id += 1
-
-        elif layer.type == LayerType.MaxPooling2D and getLayerType(target_model_a.layers[-1]) == LayerType.Conv2D:
-            n_layer = MaxPooling2D(pool_size=orLayer.pool_size,
-                                   padding=orLayer.padding)
-            target_model_a.add(n_layer)
-
-        elif layer.type == LayerType.Dropout and \
-                (getLayerType(target_model_a.layers[-1]) == LayerType.MaxPooling2D or \
-                 getLayerType(target_model_a.layers[-1]) == LayerType.Dense or \
-                 getLayerType(target_model_a.layers[-1]) == LayerType.Conv2D):
-            n_layer = Dropout(orLayer.rate)
-            # target_model_a.add(n_layer)
-
-        elif layer.type == LayerType.Flatten:
-            n_layer = Flatten()
-            target_model_a.add(n_layer)
-
-        elif layer.type == LayerType.Dense and layer.last_layer:
-            n_layer = Dense(n_classes,
-                            activation=orLayer.activation)
-            target_model_a.add(n_layer)
-
-        elif layer.type == LayerType.Dense:
-            n_layer = Dense(layer.num_node,
-                            activation=orLayer.activation)
-            target_model_a.add(n_layer)
-
-    target_model_a.compile(loss='categorical_crossentropy',
-                           optimizer='adam',
-                           metrics=['accuracy'])
-
-    return target_model_a
-
-
-def construct_target_imagenet(base_model, n_classes=5, p_values=None):
+def construct_reweighted_target(base_model, n_classes=5, p_values=None):
+    freezeModel(base_model)
     x = base_model.output
-    x = Lambda(reweight, arguments={'weights': p_values})(x)
+    if p_values is not None:
+        # x = Lambda(reweight, arguments={'weights': p_values})(x)
+        x = Lambda(discardZeros, arguments={'weights': p_values})(x)
+
+    if target_dataset == 'dog':
+        model = Sequential()
+        model.add(base_model)
+        model.add(GlobalAveragePooling2D())
+        model.add(Dropout(0.2))
+        model.add(Dense(n_classes, activation='softmax'))
+    elif target_dataset == 'bird':
+        x = tf.keras.layers.Flatten()(base_model.output)
+        x = tf.keras.layers.Dense(256, activation='tanh')(x)
+        x = tf.keras.layers.Dropout(0.1)(x)
+        x = tf.keras.layers.Dense(200, activation='softmax')(x)
+
+        optimizer = tf.keras.optimizers.Adam()
+
+        model = tf.keras.Model(base_model.input, x)
+        model.compile(
+            loss='sparse_categorical_crossentropy',
+            optimizer=optimizer,
+            metrics=['accuracy']
+        )
+    else:
+
+        x = Flatten()(x)
+        # x = Dense(256, activation='relu')(x)
+        # x = Dropout(0.2)(x)
+        predictions = Dense(n_classes, activation='softmax')(x)
+        model = Model(inputs=base_model.input, outputs=predictions)
+        model.compile(optimizer='rmsprop', loss='categorical_crossentropy', metrics=['accuracy'])
+    return model
+
+
+def construct_target_partial_update(base_model, n_classes=5, filters=None):
+    x = base_model.output
+    x = Lambda(stopBackprop, arguments={'filters': filters})(x)
+    x = Flatten()(x)
+    # x = Dense(256, activation='relu')(x)
+    # x = Dropout(0.2)(x)
     predictions = Dense(n_classes, activation='softmax')(x)
     model = Model(inputs=base_model.input, outputs=predictions)
-
-    model.compile(optimizer='rmsprop', loss='categorical_crossentropy',
-                  metrics=['accuracy'])
+    model.compile(optimizer='rmsprop', loss='categorical_crossentropy', metrics=['accuracy'])
     return model
 
 
 def train(model, x_train, y_train, x_test, y_test, epochs=50):
     start = time.time()
-
+    model.compile(optimizer='rmsprop', loss='categorical_crossentropy', metrics=['accuracy'])
     history = model.fit(x_train,
                         y_train,
                         epochs=epochs,
@@ -439,7 +121,66 @@ def train(model, x_train, y_train, x_test, y_test, epochs=50):
     scores = model.evaluate(x_test, y_test, verbose=0)
     # print("%s: %.2f%%" % (model.metrics_names[1], scores[1] * 100))
 
-    return scores[1] * 100, end - start
+    return scores[1], end - start
+
+
+def trainDog(model, train_ds, val_ds, nb_train_samples, nb_valid_samples, epoch=30, batch_size=128, verbose=0):
+    start = time.time()
+    earlystop = EarlyStopping(
+        monitor='val_loss',
+        min_delta=0.001,
+        patience=3,
+        verbose=1,
+        mode='auto'
+    )
+    reduceLR = ReduceLROnPlateau(
+        monitor='val_loss',
+        factor=0.1,
+        patience=3,
+        verbose=1,
+        mode='auto'
+    )
+    callbacks = [earlystop, reduceLR]
+
+    model.compile(optimizer=optimizers.Adam(learning_rate=0.0001), loss='categorical_crossentropy',
+                  metrics=['accuracy'])
+
+    history = model.fit(
+        train_ds,
+        epochs=epoch,
+        steps_per_epoch=nb_train_samples // batch_size,
+        validation_data=val_ds,
+        validation_steps=nb_valid_samples // batch_size,
+        callbacks=callbacks,
+        shuffle=True
+    )
+    end = time.time()
+
+    return history.history['val_accuracy'][-1], end - start
+
+
+def trainBird(model, train_ds, val_ds, epoch=100, batch_size=128):
+    start = time.time()
+    optimizer = tf.keras.optimizers.Adam()
+    model.compile(
+        loss='sparse_categorical_crossentropy',
+        optimizer=optimizer,
+        metrics=['accuracy']
+    )
+    # Adjust learning rate while training with LearningRateScheduler
+    lr_scheduler = tf.keras.callbacks.LearningRateScheduler(lambda epoch: 1e-8 * 10 ** ((100 - epoch) / 20))
+
+    history = model.fit(
+        train_ds,
+        epochs=epoch,
+        shuffle=False,
+        batch_size=batch_size,
+        validation_data=val_ds,
+        callbacks=[lr_scheduler]
+    )
+    end = time.time()
+
+    return history.history['val_accuracy'][0], end - start
 
 
 def stopBackprop(x, filters):
@@ -465,8 +206,62 @@ def stopBackpropRandom(x, num_filters):
     return K.stop_gradient(mask_h * x) + mask_l * x
 
 
+def removeInactives(model, x, weights):
+    x = tf.reshape(x, [-1, x.shape[0], x.shape[1], x.shape[2]])
+
+    x = model.predict(x, verbose=0)
+    x = x.reshape([x.shape[1], x.shape[2], x.shape[3]])
+    nz = 0
+    for f in weights:
+        if weights[f] > 0.0:
+            nz += 1
+
+    nx = np.zeros([x.shape[0], x.shape[1], nz])
+
+    nf = 0
+    for f in weights:
+        if weights[f] > 0.0:
+            nx[:, :, nf] = x[:, :, f]
+            nf += 1
+
+    return nx
+
+
+def discardZeros(x, weights):
+    includeIndices = []
+    for f in weights:
+        if weights[f] > 0.0:
+            includeIndices.append(f)
+
+    x = tf.gather(params=x, indices=includeIndices, axis=3)
+    return x
+
+
 def reweight(x, weights):
     mask = np.ones(x.shape[1:])
     for f in weights:
         mask[:, :, int(f)] = weights[f]
+        # mask[int(f)] = weights[f]
     return mask * x
+
+
+def plainWeight(pv):
+    return pv
+
+
+def regularWeight(pv):
+    return math.exp(pv)
+
+
+def randomWeight():
+    return random.random() + 1.0
+
+
+def accentedWeight(pv):
+    return math.exp(1 + pv)
+
+
+def binaryWeight(pv):
+    if pv > 0.0:
+        return 1.0
+    return 0.0

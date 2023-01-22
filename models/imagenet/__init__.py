@@ -1,12 +1,38 @@
 from keras import Model
+from keras.applications import ResNet50, InceptionV3, InceptionResNetV2
 from keras.saving.save import load_model
 
-source_model_name = 'h5/resnet50.h5'
+from data_util.bird_util import Bird, getBirdTrainingData
+from data_util.cifar_specific import Cifar10, sampleCifar100Fine
+from data_util.dog_util import Dog
+from data_util.imagenet_util import TinyImageNet
+
+SHAPE=(224,224)
+# target_dataset = 'bird'
+target_dataset = 'dog'
+# target_dataset = 'cifar100'
+# source_model_name = 'resnet50'
+# source_model_name = 'inceptionv3'
+source_model_name = 'inceptionresnetv2'
+
+MODE = 'val'
 
 
-# conv5_block3_out layer before avg_pool
-def getSourceModel(out_layer_name='avg_pool'):
+# conv5_block3_out layer before avg_pool for resnet50
+def getSourceModel(out_layer_name='avg_pool', shape=(224, 224), channel=3):
     global source_model_name
+
+    if source_model_name == 'resnet50':
+        return ResNet50(weights='imagenet', input_shape=(shape[0], shape[1], channel), include_top=False)
+    elif source_model_name == 'inceptionv3':
+        return InceptionV3(input_shape=(shape[0], shape[1], 3),
+                           include_top=False,
+                           weights='imagenet')
+    elif source_model_name == 'inceptionresnetv2':
+        return InceptionResNetV2(input_shape=(shape[0], shape[1], 3),
+                                 include_top=False,
+                                 weights='imagenet')
+
     base_model = load_model(source_model_name)
 
     model = Model(inputs=base_model.input, outputs=base_model.get_layer(out_layer_name).output)
@@ -14,7 +40,54 @@ def getSourceModel(out_layer_name='avg_pool'):
     return model
 
 
-def freezeSource(model):
-    for layer in model.layers:
-        layer.trainable = False
-    return model
+def getSourceData(shape=(224, 224), gray=False, num_sample_per_class=20):
+    if source_model_name in ['resnet50', 'inceptionv3', 'inceptionresnetv2']:
+        return TinyImageNet(shape=shape).sampleFromDir(sample_size_per_class=num_sample_per_class)
+    if 'cifar10' in source_model_name:
+        return Cifar10(shape=shape, gray=gray)
+
+
+def getTargetNumClass():
+    global target_dataset
+
+    if target_dataset == 'bird':
+        return 200
+    if target_dataset == 'dog':
+        return 120
+    if 'cifar100' in target_dataset:
+        return 5
+
+
+def getTargetSampleSize(rate):
+    if target_dataset == 'bird':
+        return int(6000 * rate)
+    if target_dataset == 'cifar100':
+        return int(500 * getTargetNumClass() * rate)
+
+
+def getTargetDataForTraining(sample_rate=1.0, seed=None, one_hot=True, gray=False, task=None):
+    if target_dataset == 'dog':
+        return Dog(train_data=True).data
+
+    if target_dataset == 'bird':
+        if sample_rate < 1.0:
+            bird = Bird(one_hot=False, gray=gray, interpolation=True)
+            bird_classes = bird.getClasses()
+
+            numSample = getTargetSampleSize(sample_rate)
+            x_train, y_train, x_test, y_test, num_classes = bird.sample(num_sample=numSample, train=True,
+                                                                        one_hot=one_hot,
+                                                                        seed=seed,
+                                                                        sample_only_classes=bird_classes)
+        else:
+            # x_train, y_train, x_test, y_test, num_classes = Bird(one_hot=False, gray=gray, interpolation=True).data
+            return getBirdTrainingData()
+
+        return x_train, y_train, x_test, y_test, num_classes
+
+    if target_dataset == 'cifar100':
+        numSample = getTargetSampleSize(sample_rate)
+        return sampleCifar100Fine(superclasses=[task], num_sample=numSample,
+                                  seed=seed, gray=gray,
+                                  one_hot=one_hot, train=True, shape=(64, 64)
+                                  )

@@ -1,6 +1,5 @@
+import os
 import pickle
-
-from data_type.constants import Constants
 
 
 def get_model_name(model_name):
@@ -9,18 +8,26 @@ def get_model_name(model_name):
     return model_name.replace('h5', '').replace('/', '').replace('.', '')
 
 
-def get_transfer_model_name(freezeUntil, model_name, prefix):
-    name = 'transfer_model/'+prefix
-    name += '_' + get_model_name(model_name)
+def get_transfer_model_name(freezeUntil=None, model_name=None, prefix=None):
+    root = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
+
+    name = root+'/transfer_model/'+prefix
+
+    if model_name is not None:
+        name += '_' + get_model_name(model_name)
     if freezeUntil is not None:
         name+= '_' + str(freezeUntil)
     name += '.h5'
     return name
 
 
-def get_transfer_filter_name(model_name, mode, end):
-    save_file = 'transfer_model/' + end
-    save_file += '_' + get_model_name(model_name) + '_' + str(mode)
+def get_transfer_filter_name(model_name=None, mode='val', end=''):
+    root = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
+
+    save_file = root+'/transfer_model/' + end
+    if model_name is not None:
+        save_file += '_' + get_model_name(model_name)
+    save_file += '_' + str(mode)
     save_file += '.pickle'
 
     return save_file

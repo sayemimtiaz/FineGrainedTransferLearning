@@ -3,6 +3,13 @@ import numpy as np
 from keras.utils import to_categorical
 
 
+def reshape(data, shape=None):
+    if shape is None:
+        shape = [28, 28]
+    data = tf.image.resize(data, list(shape))
+    data = data.numpy()
+    return data
+
 def transformToGrayAndReshape(data, shape=None):
     if shape is None:
         shape = [28, 28]

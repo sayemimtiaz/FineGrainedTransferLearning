@@ -1,3 +1,5 @@
+import math
+
 from data_util.util import makeScalar, getIndexesMatchingSubset, shuffle, oneEncodeBoth, relabel
 import numpy as np
 
@@ -30,7 +32,7 @@ def sample(data, num_sample=-1, num_classes=None, balance=True, sample_only_clas
     if sample_only_classes is not None:
         num_classes = len(sample_only_classes)
     if balance and num_sample > 0:
-        num_sample = int(num_sample / num_classes)
+        num_sample = int(math.ceil(num_sample / num_classes))
     for y in data_y:
         if y in flag:
             continue

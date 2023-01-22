@@ -137,3 +137,4 @@ dmypy.json
 models/.DS_Store
 *.h5
 data/
+transfer_model/

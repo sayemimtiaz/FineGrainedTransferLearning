@@ -6,9 +6,6 @@ import numpy as np
 from sklearn.decomposition import PCA
 from sklearn.cluster import MeanShift, estimate_bandwidth
 
-from data_type.enums import LayerType
-from util.common import get_mean_minus_outliers, remove_outliers
-
 
 # non-parameteric  2-sided Kolmogorov-Smirnov test
 def isSameDistributionZero(a, b):

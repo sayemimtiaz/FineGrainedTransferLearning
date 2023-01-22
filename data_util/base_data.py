@@ -5,8 +5,10 @@ from keras.datasets import mnist, cifar10, cifar100
 from keras.utils.np_utils import to_categorical
 import numpy as np
 import tensorflow as tf
+import tensorflow_datasets as tfds
+from glob import glob
 
-from data_util.util import transformToGrayAndReshapeBoth, asTypeBoth, normalizeBoth, oneEncodeBoth
+from data_util.util import transformToGrayAndReshapeBoth, asTypeBoth, normalizeBoth, oneEncodeBoth, reshape
 
 
 def getKerasDataset(one_hot=True, dataset='cifar100', gray=False, additional_param=None, shape=(28, 28)):
@@ -29,8 +31,36 @@ def getKerasDataset(one_hot=True, dataset='cifar100', gray=False, additional_par
 
     if gray:
         x_train, x_test = transformToGrayAndReshapeBoth(x_train, x_test, shape=shape)
+    else:
+        x_train = reshape(x_train, shape=shape)
+        x_test = reshape(x_test, shape=shape)
 
     x_train, x_test = normalizeBoth(x_train, x_test)
+
+    num_classes = max(y_train.max() + 1, y_test.max() + 1)
+    if one_hot:
+        y_train, y_test = oneEncodeBoth(y_train, y_test)
+
+    return x_train, y_train, x_test, y_test, num_classes
+
+
+def loadTensorFlowDataset(datasetName, one_hot=True, shape=(28, 28), gray=False):
+    (x_train, y_train), \
+    (x_test, y_test) = \
+        tfds.as_numpy(tfds.load(datasetName, split=['train', 'test'], batch_size=-1, as_supervised=True))
+
+    # img = Image.fromarray(x_train[5].astype(np.uint8), 'RGB')
+    # img.show()
+
+    if gray:
+        x_train, x_test = transformToGrayAndReshapeBoth(x_train, x_test, shape=shape)
+        x_train, x_test = normalizeBoth(x_train, x_test)
+    else:
+        x_train = reshape(x_train, shape=shape)
+        x_test = reshape(x_test, shape=shape)
+
+    # img = Image.fromarray(x_train[5].astype(np.uint8), 'RGB')
+    # img.show()
 
     num_classes = max(y_train.max() + 1, y_test.max() + 1)
     if one_hot:
@@ -63,15 +93,61 @@ def loadFromDir(dir, labels=None, label_index=1, shape=(28, 28),
     for x, y in ds.take(1):
         # print(x.shape, y)
 
-        cns=ds.class_names
-
-        # from PIL import Image
-        # img = Image.fromarray(x.numpy()[0].astype(np.uint8), 'RGB')
-        # img.show()
+        cns = ds.class_names
 
         return x.numpy(), y.numpy(), cns
 
 
+def sampleFromDir(dir, shape=(224, 224),
+                  mode='rgb', sample_size=32, ext='JPEG', seed=None):
+    root = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
+    dataPath = os.path.join(root, 'data', dir)
+
+    if seed is not None:
+        np.random.seed(seed)
+
+    imageFiles = [y for x in os.walk(dataPath) for y in glob(os.path.join(x[0], '*.'+ext))]
+    chosen_index = np.random.choice(len(imageFiles), sample_size, replace=False)
+
+    chosenImages = []
+    for idx, iF in enumerate(imageFiles):
+        if idx not in chosen_index:
+            continue
+        image = tf.keras.utils.load_img(
+            iF,
+            color_mode=mode,
+            target_size=shape,
+            interpolation="nearest",
+            keep_aspect_ratio=False,
+        )
+        input_arr = tf.keras.utils.img_to_array(image)
+        chosenImages.append(input_arr)
+    chosenImages = np.asarray(chosenImages)
+
+    return chosenImages
+
+def sampleFromClassesInDir(dir, shape=(224, 224),
+                  mode='rgb', sample_size_per_class=32, ext='JPEG', shuffle=True, seed=None):
+    root = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
+    dataPath = os.path.join(root, 'data', dir)
+
+    images=[]
+    for dn in os.listdir(dataPath):
+        fdn=os.path.join(dataPath, dn)
+        if os.path.isdir(fdn):
+            img=sampleFromDir(fdn, shape=shape, mode=mode, sample_size=sample_size_per_class, ext=ext, seed=seed)
+            images.extend(img)
+    images=np.asarray(images)
+    if shuffle:
+        np.random.shuffle(images)
+
+    return images
+
 # loadFromDir('mnist_m/mnist_m_train/', 'mnist_m/mnist_m_train_labels.txt')
 # loadFromDir('tiny-imagenet/train/', labels="inferred", mode='rgb', label_mode='int'
 #             , shape=(64, 64), batch_size=100000)
+
+# loadTensorFlowDataset('caltech_birds2011')
+
+# sampleFromDir('tiny-imagenet/train/n01443537', sample_size=5)
+# sampleFromClassesInDir('tiny-imagenet/train/', sample_size_per_class=1)
