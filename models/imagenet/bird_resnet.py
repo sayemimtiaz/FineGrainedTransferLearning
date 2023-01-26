@@ -4,7 +4,7 @@ from keras.layers import Flatten, Dense, Activation, Dropout, Conv2D, MaxPooling
     BatchNormalization, MaxPool2D
 from tensorflow import keras
 import tensorflow as tf
-from data_util.bird_util import Bird
+from data_processing.bird_util import Bird
 
 h=64
 w=64

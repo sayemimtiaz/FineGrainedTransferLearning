@@ -1,7 +1,7 @@
 import pickle
 from datetime import datetime
 
-from data_util.cifar_specific import sampleCifar10, sampleCifar100Fine
+from data_processing.cifar_specific import sampleCifar10, sampleCifar100Fine
 from models.cifar100.data_util_ import getSuperClassData, sampleForDecomposition, getCifar10BinaryData, sample, \
     getFineGrainedClass, getMnistData, getCifar10MnistMixed
 from modularization.concern.cnn_util import activeRateFilterEachObs, observe_cnn, activeRateFilterAllObs, \

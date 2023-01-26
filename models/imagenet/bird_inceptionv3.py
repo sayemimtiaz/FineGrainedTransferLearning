@@ -1,6 +1,6 @@
 from keras.applications import InceptionV3, ResNet50
 
-from data_util.bird_util import getBirdTrainingData
+from data_processing.bird_util import getBirdTrainingData
 
 import tensorflow as tf
 

@@ -1,13 +1,13 @@
 import random
 
-from data_util.base_data import loadTensorFlowDataset
-from data_util.sample_util import sampleTrainTest
+from data_processing.base_data import loadTensorFlowDataset
+from data_processing.sample_util import sampleTrainTest
 import cv2
 import numpy as np
 import tensorflow_datasets as tfds
 import tensorflow as tf
 
-from data_util.util import shuffle
+from data_processing.data_util import shuffle
 
 
 class Bird:

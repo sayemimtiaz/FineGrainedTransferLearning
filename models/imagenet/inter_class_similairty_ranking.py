@@ -1,7 +1,7 @@
 import math
 import numpy as np
 
-from data_util.imagenet_util import TinyImageNet
+from data_processing.tiny_imagenet_util import TinyImageNet
 from models.imagenet import getSourceModel, freezeModel, target_dataset, MODE, getTargetNumClass, getSourceData
 from util.hypothesis_testing import getPValue, isSameDistribution
 from util.ordinary import load_pickle_file, get_transfer_filter_name, get_transfer_model_name

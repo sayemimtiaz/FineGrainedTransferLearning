@@ -2,9 +2,9 @@ from keras import Sequential
 from keras.layers import Flatten, Dense, Activation, Dropout, Conv2D, MaxPooling2D, GlobalAveragePooling2D
 from tensorflow import keras
 
-from data_util.cifar_specific import sampleCifar100Fine
-from data_util.data_mixer import mixMnistCifar10
-from data_util.mnist_specific import getMnist
+from data_processing.cifar_specific import sampleCifar100Fine
+from data_processing.data_mixer import mixMnistCifar10
+from data_processing.mnist_specific import getMnist
 
 
 class CustomSaver(keras.callbacks.Callback):

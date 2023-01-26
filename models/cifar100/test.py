@@ -2,7 +2,7 @@ from datetime import datetime
 from keras.models import load_model
 import tensorflow as tf
 
-from data_util.cifar_specific import sampleCifar10
+from data_processing.cifar_specific import sampleCifar10
 
 from util.common import initModularLayers
 from util.layer_propagator import LayerPropagator

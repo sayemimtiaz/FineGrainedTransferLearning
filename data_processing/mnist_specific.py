@@ -1,5 +1,5 @@
-from data_util.base_data import loadFromDir, getKerasDataset
-from data_util.util import asTypeBoth, normalizeBoth, oneEncodeBoth
+from data_processing.base_data import loadFromDir, getKerasDataset
+from data_processing.data_util import asTypeBoth, normalizeBoth, oneEncodeBoth
 
 
 def getMnistM(gray=True, shape=(28, 28), one_hot=True):

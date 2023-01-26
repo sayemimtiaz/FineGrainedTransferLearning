@@ -1,8 +1,8 @@
 from keras import Model
 from keras.saving.save import load_model
 
-from data_util.cifar_specific import Cifar10, sampleCifar100Fine
-from data_util.data_mixer import mixMnistCifar10
+from data_processing.cifar_specific import Cifar10, sampleCifar100Fine
+from data_processing.data_mixer import mixMnistCifar10
 
 target_dataset = 'cifar100'
 # source_model_name = 'h5/source_model_mixed_vehicle.h5'

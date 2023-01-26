@@ -2,7 +2,7 @@ import random
 import numpy as np
 from keras.models import load_model
 
-from data_util.util import oneEncodeBoth
+from data_processing.data_util import oneEncodeBoth
 from models.cifar100 import getSourceData, getTargetData, target_dataset
 from models.cifar100.target_filter_distribution import calculateTargetDistribution
 from models.cifar100.weigted_transfer import getWeigtedTransferModel

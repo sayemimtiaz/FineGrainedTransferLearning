@@ -5,32 +5,19 @@ from keras.models import load_model
 from constants import SHAPE, target_dataset
 from core import getTargetDataForTraining, getSourceModel
 from core.target_filter_distribution import calculateTargetDistribution
-from core.weigted_transfer import getWeigtedTransferModel
 from data_processing.dog_util import Dog
 from util.ordinary import get_transfer_model_name
-from util.transfer_util import trainDog, get_filtered_bottleneck_data
+from util.transfer_util import trainDog
 
-train_generator, valid_generator, nb_train_samples, nb_valid_samples, num_classes, batch_size = \
-    getTargetDataForTraining()
-get_filtered_bottleneck_data(getSourceModel(),valid_generator,nb_train_samples,batch_size, None)
-
-HACK = True  # hack or just zero out
 epoch = 5
 REPEAT = 3
 alpha_values = [0.0, 0.0001, 0.001, 0.01]
 
-targetIndex = None
-
-traditionalEvaluated = True # make it false
 
 for alpha in alpha_values:
 
     print('>> Evaluating alpha rate: ', alpha)
 
-    train_generator, valid_generator, nb_train_samples, nb_valid_samples, num_classes, batch_size = \
-        getTargetDataForTraining()
-
-    dog = Dog(shape=SHAPE, train_data=False)
     target_sample = dog.sampleFromDir(sample_size_per_class=20, ext='jpg')
     calculateTargetDistribution(target_sample)
 

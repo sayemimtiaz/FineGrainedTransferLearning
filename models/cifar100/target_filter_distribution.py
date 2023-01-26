@@ -1,4 +1,4 @@
-from data_util.sample_util import sample
+from data_processing.sample_util import sample
 from models.cifar100 import getSourceModel, getTargetData, MODE, target_dataset, getTargetNumClass
 from modularization.concern.cnn_util import observe_resnet
 from util.ordinary import dump_as_pickle, get_transfer_filter_name

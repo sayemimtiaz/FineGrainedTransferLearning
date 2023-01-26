@@ -2,8 +2,8 @@ from keras import Sequential
 from keras.layers import Flatten, Dense, Activation, Dropout, Conv2D, MaxPooling2D, GlobalAveragePooling2D
 from tensorflow import keras
 
-from data_util.cifar_specific import getCifar10
-from data_util.imagenet_util import TinyImageNet
+from data_processing.cifar_specific import getCifar10
+from data_processing.tiny_imagenet_util import TinyImageNet
 
 
 class CustomSaver(keras.callbacks.Callback):

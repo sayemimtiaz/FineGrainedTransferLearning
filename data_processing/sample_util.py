@@ -1,6 +1,6 @@
 import math
 
-from data_util.util import makeScalar, getIndexesMatchingSubset, shuffle, oneEncodeBoth, relabel
+from data_processing.data_util import makeScalar, getIndexesMatchingSubset, shuffle, oneEncodeBoth, relabel
 import numpy as np
 
 

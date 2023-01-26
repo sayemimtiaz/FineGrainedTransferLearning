@@ -7,7 +7,7 @@ from keras.utils import to_categorical
 from keras_preprocessing.image import ImageDataGenerator
 import tensorflow_datasets as tfds
 import tensorflow as tf
-from data_util.bird_util import getBirdTrainingData
+from data_processing.bird_util import getBirdTrainingData
 
 import tensorflow as tf
 

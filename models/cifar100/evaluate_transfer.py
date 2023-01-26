@@ -1,7 +1,7 @@
 import random
 from datetime import datetime
 
-from data_util.cifar_specific import sampleCifar100Fine
+from data_processing.cifar_specific import sampleCifar100Fine
 from models.cifar100.data_util_ import getFineGrainedClass
 from keras.models import load_model
 

@@ -1,8 +1,8 @@
 import random
 
-from data_util.base_data import getKerasDataset
-from data_util.sample_util import sample, sampleTrainTest
-from data_util.util import makeScalar, oneEncodeBoth
+from data_processing.base_data import getKerasDataset
+from data_processing.sample_util import sample, sampleTrainTest
+from data_processing.data_util import makeScalar, oneEncodeBoth
 
 
 class Cifar10:

@@ -138,3 +138,8 @@ models/.DS_Store
 *.h5
 data/
 transfer_model/
+results/
+results/*
+results/transfer_model/
+results/observation/
+results/bottleneck/

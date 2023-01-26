@@ -2,7 +2,7 @@ import tensorflow as tf
 
 # assumes Relu
 import numpy as np
-from data_util.util import makeScalar
+from data_processing.data_util import makeScalar
 
 
 def activeRateFilterEachObs(hidden_val, layer):
@@ -23,7 +23,7 @@ def activeRateFilterEachObs(hidden_val, layer):
     return active_count_for_filter
 
 
-def observe_resnet(model, data):
+def observe_feature(model, data):
     all_stats = []
     active_count_for_filter = {}
     numFilter = None

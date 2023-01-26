@@ -8,7 +8,7 @@ import tensorflow as tf
 import tensorflow_datasets as tfds
 from glob import glob
 
-from data_util.util import transformToGrayAndReshapeBoth, asTypeBoth, normalizeBoth, oneEncodeBoth, reshape
+from data_processing.data_util import transformToGrayAndReshapeBoth, asTypeBoth, normalizeBoth, oneEncodeBoth, reshape
 
 
 def getKerasDataset(one_hot=True, dataset='cifar100', gray=False, additional_param=None, shape=(28, 28)):

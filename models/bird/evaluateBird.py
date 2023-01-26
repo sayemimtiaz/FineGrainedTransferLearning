@@ -2,9 +2,9 @@ import random
 import numpy as np
 from keras.models import load_model
 
-from data_util.bird_util import Bird
-from data_util.cifar_specific import getCifar100CoarseClasses
-from data_util.util import oneEncodeBoth
+from data_processing.bird_util import Bird
+from data_processing.cifar_specific import getCifar100CoarseClasses
+from data_processing.data_util import oneEncodeBoth
 from models.imagenet import target_dataset, getTargetDataForTraining, getSourceData
 from models.imagenet.target_filter_distribution import calculateTargetDistribution
 from models.imagenet.weigted_transfer import getWeigtedTransferModel
