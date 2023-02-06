@@ -33,8 +33,13 @@ def acquire(target_ds=None, parent_model=None):
                                                      valid_generator, nb_valid_samples,
                                                      batch_size, split='valid',
                                                      target_ds=target_ds)
+    sample_size_per_class = 30
+    if target_ds == 'cats_vs_dogs':
+        sample_size_per_class = 1500
+    if target_ds == 'stl10':
+        sample_size_per_class = 300
 
-    target_sample = smapleTargetData(sample_size_per_class=30, target_ds=target_ds)
+    target_sample = smapleTargetData(sample_size_per_class=sample_size_per_class, target_ds=target_ds)
 
     calculateTargetDistribution(target_sample, target_ds=target_ds, parent_model=parent_model)
 

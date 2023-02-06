@@ -46,11 +46,10 @@ def trainTafe(model, alpha, epoch=30, batch_size=128, verbose=0, target_ds=None)
     train_labels = np.load(get_bottleneck_name(target_ds, 'train', isLabel=True))
     valid_labels = np.load(get_bottleneck_name(target_ds, 'valid', isLabel=True))
 
-    if target_ds == 'dog' or target_ds == 'bird':
-        acc, elapse = trainDog(model, train_ds, valid_ds, train_labels, valid_labels,
-                               epoch=epoch, batch_size=batch_size, verbose=verbose)
+    acc, elapse = trainDog(model, train_ds, valid_ds, train_labels, valid_labels,
+                           epoch=epoch, batch_size=batch_size, verbose=verbose)
 
-        return acc, elapse
+    return acc, elapse
 
 
 def trainBaseline(model, epoch=30, batch_size=128, verbose=0, target_ds=None):
@@ -63,11 +62,10 @@ def trainBaseline(model, epoch=30, batch_size=128, verbose=0, target_ds=None):
     train_labels = np.load(get_bottleneck_name(target_ds, 'train', isLabel=True))
     valid_labels = np.load(get_bottleneck_name(target_ds, 'valid', isLabel=True))
 
-    if target_ds == 'dog' or target_ds == 'bird':
-        acc, elapse = trainDog(model, train_ds, valid_ds, train_labels, valid_labels,
-                               epoch=epoch, batch_size=batch_size, verbose=verbose)
+    acc, elapse = trainDog(model, train_ds, valid_ds, train_labels, valid_labels,
+                           epoch=epoch, batch_size=batch_size, verbose=verbose)
 
-        return acc, elapse
+    return acc, elapse
 
 
 def trainDog(model, train_ds, val_ds, train_labels, validation_labels, epoch=30, batch_size=128, verbose=0):
