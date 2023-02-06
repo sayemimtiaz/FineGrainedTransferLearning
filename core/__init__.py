@@ -1,15 +1,18 @@
-from keras.applications import ResNet50, InceptionV3, InceptionResNetV2, VGG16, MobileNet
+import math
+
+from keras.applications import ResNet50, InceptionV3, InceptionResNetV2, VGG16, MobileNet, Xception, DenseNet121, \
+    DenseNet201
 from constants import pretrained_architecures, source_model_name, SHAPE, source_dataset, target_dataset
-from data_processing.bird_util import Bird, getBirdTrainingData
-from data_processing.cifar_specific import Cifar10, sampleCifar100Fine
+from data_processing.bird_util import Bird
 from data_processing.dog_util import Dog
+from data_processing.imagenet_util import ImageNet
 from data_processing.tiny_imagenet_util import TinyImageNet
 
 
 # conv5_block3_out layer before avg_pool for resnet50
 def getSourceModel(model_name=None):
     if model_name is None:
-        model_name=source_model_name
+        model_name = source_model_name
 
     if model_name == 'resnet50':
         return ResNet50(weights='imagenet', input_shape=SHAPE, include_top=False)
@@ -29,39 +32,58 @@ def getSourceModel(model_name=None):
         return MobileNet(input_shape=SHAPE,
                          include_top=False,
                          weights='imagenet')
+    elif model_name == 'xception':
+        return Xception(input_shape=SHAPE,
+                        include_top=False,
+                        weights='imagenet')
+    elif model_name == 'densenet121':
+        return DenseNet121(input_shape=SHAPE,
+                           include_top=False,
+                           weights='imagenet')
+    elif model_name == 'densenet201':
+        return DenseNet201(input_shape=SHAPE,
+                           include_top=False,
+                           weights='imagenet')
 
 
-def sampleSourceData(num_sample_per_class=20):
-    if source_model_name in pretrained_architecures:
+def sampleSourceData(num_sample=5000, model_name=None):
+    if model_name is None:
+        model_name = source_model_name
+    if model_name in pretrained_architecures:
+        obj = None
         if source_dataset == 'tiny':
-            return TinyImageNet().sampleFromDir(sample_size_per_class=num_sample_per_class)
+            obj = TinyImageNet()
+        if source_dataset == 'imagenet':
+            obj = ImageNet()
+
+        num_sample_per_class = int(math.ceil(num_sample / obj.getClasses()))
+
+        return obj.sampleFromDir(sample_size_per_class=num_sample_per_class)
 
     # if 'cifar10' in source_model_name:
     #     return Cifar10(shape=shape, gray=gray)
 
 
-def getTargetNumClass():
-    if target_dataset == 'bird':
+def getTargetNumClass(target_ds=None):
+    if target_ds is None:
+        target_ds = target_dataset
+    if target_ds == 'bird':
         return 200
-    if target_dataset == 'dog':
+    if target_ds == 'dog':
         return 120
-    if 'cifar100' in target_dataset:
+    if 'cifar100' in target_ds:
         return 5
 
 
-def getTargetSampleSize(rate):
-    if target_dataset == 'bird':
-        return int(6000 * rate)
-    if target_dataset == 'cifar100':
-        return int(500 * getTargetNumClass() * rate)
+def getTargetDataForTraining(batch_size=128, shuffle=False, target_ds=None):
+    if target_ds is None:
+        target_ds = target_dataset
 
+    if target_ds == 'dog':
+        return Dog().getTrainingDogs(batch_size=batch_size, shuffle=shuffle)
 
-def getTargetDataForTraining():
-    if target_dataset == 'dog':
-        return Dog(train_data=True).data
-
-    if target_dataset == 'bird':
-        return getBirdTrainingData()
+    if target_ds == 'bird':
+        return Bird().getTrainingBirds(batch_size=batch_size, shuffle=shuffle)
 
     # if target_dataset == 'cifar100':
     #     numSample = getTargetSampleSize(sample_rate)
@@ -71,8 +93,16 @@ def getTargetDataForTraining():
     #                               )
 
 
-def smapleTargetData(sample_size_per_class=20):
-    if target_dataset == 'dog':
-        dog = Dog(shape=SHAPE, train_data=False)
+def smapleTargetData(sample_size_per_class=20, target_ds=None):
+    if target_ds is None:
+        target_ds = target_dataset
+
+    if target_ds == 'dog':
+        dog = Dog()
         target_sample = dog.sampleFromDir(sample_size_per_class=sample_size_per_class, ext='jpg')
+        return target_sample
+
+    if target_ds == 'bird':
+        bird = Bird()
+        target_sample = bird.sampleFromDir(sample_size_per_class=sample_size_per_class, ext='jpg')
         return target_sample

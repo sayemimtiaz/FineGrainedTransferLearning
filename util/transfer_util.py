@@ -4,11 +4,12 @@ import time
 
 import keras
 from keras.callbacks import EarlyStopping, ReduceLROnPlateau
+from keras.regularizers import l2
 
 from constants import target_dataset
 
 from keras.layers import Conv2D, MaxPooling2D, Dropout, Dense, Flatten, Lambda, GlobalAveragePooling2D, \
-    RandomFourierFeatures
+    RandomFourierFeatures, Activation
 
 from keras import initializers, Sequential, Model, optimizers
 import numpy as np
@@ -22,28 +23,40 @@ import warnings
 warnings.filterwarnings("ignore")
 
 
-def compile_svm_classifier(model):
+def compile_svm_classifier(model, lr=0.0001):
     model.compile(
-        optimizer=keras.optimizers.Adam(learning_rate=1e-3),
+        optimizer=keras.optimizers.Adam(learning_rate=lr),
         loss=keras.losses.hinge,
         metrics=[keras.metrics.CategoricalAccuracy(name="acc")],
     )
     return model
 
 
-def get_svm_classifier(shape, n_classes=5):
-    target_model = Sequential()
-    target_model.add(Flatten(input_shape=shape))
-    target_model.add(RandomFourierFeatures(output_dim=4096, scale=10.0, kernel_initializer="gaussian"))
-    target_model.add(Dense(n_classes))
+def compile_dense_classifier(model, lr=0.0001):
+    model.compile(optimizer=keras.optimizers.Adam(learning_rate=lr), loss='categorical_crossentropy',
+                  metrics=['accuracy'])
+    return model
 
-    return target_model
+
+def get_svm_classifier(shape, n_classes=5):
+    model = Sequential()
+    model.add(GlobalAveragePooling2D(input_shape=shape))
+    model.add(Dense(128, activation="relu"))
+    model.add(Dense(n_classes, kernel_regularizer=l2(0.01), activation='softmax'))
+    model.compile(optimizer='adam', loss='squared_hinge', metrics=['accuracy'])
+    return model
 
 
 def get_dense_classifier(shape, n_classes=5):
     target_model = Sequential()
     target_model.add(Flatten(input_shape=shape))
+    # target_model.add(Dense(512, activation='relu'))
+    # target_model.add(Dense(256, activation='relu'))
+    # target_model.add(Dense(128, activation='relu'))
     target_model.add(Dense(n_classes, activation='softmax'))
+
+    target_model.compile(optimizer='rmsprop',
+                  loss='categorical_crossentropy', metrics=['accuracy'])
 
     return target_model
 
@@ -51,32 +64,46 @@ def get_dense_classifier(shape, n_classes=5):
 def get_pool_classifier(shape, n_classes=5):
     target_model = Sequential()
     target_model.add(GlobalAveragePooling2D(input_shape=shape))
+    # target_model.add(Dense(512, activation='relu'))
+    # target_model.add(Dense(256, activation='relu'))
+    # target_model.add(Dense(128, activation='relu'))
     target_model.add(Dense(n_classes, activation='softmax'))
-
+    target_model.compile(optimizer='rmsprop',
+                  loss='categorical_crossentropy', metrics=['accuracy'])
     return target_model
 
 
-def save_filtered_bottleneck_data(base_model, train_generator, nb_train_samples, batch_size, p_values, split):
+def save_bottleneck_data(base_model, train_generator, nb_train_samples, batch_size, split, save=True, target_ds=None):
+    if target_ds is None:
+        target_ds = target_dataset
+
     predict_size_train = int(math.ceil(nb_train_samples / batch_size))
     bottleneck_features_train = base_model.predict_generator(
         train_generator, predict_size_train)
 
-    # print(bottleneck_features_train.shape)
+    if save:
+        np.save(get_bottleneck_name(target_ds, split, isTafe=False, isLabel=False),
+                bottleneck_features_train)
 
-    np.save(get_bottleneck_name(target_dataset, split, isTafe=False), bottleneck_features_train)
+    return bottleneck_features_train
+
+
+def save_filtered_bottleneck_data(bottleneck_features, p_values, split, alpha, target_ds=None):
+    if target_ds is None:
+        target_ds = target_dataset
 
     includeIndices = []
     for f in p_values:
         if p_values[f] > 0.0:
             includeIndices.append(f)
 
-    x = np.take(bottleneck_features_train, includeIndices, axis=3)
+    x = np.take(bottleneck_features, includeIndices, axis=3)
 
-    np.save(get_bottleneck_name(target_dataset, split, isTafe=True), x)
+    np.save(get_bottleneck_name(target_ds, split, isTafe=True, isLabel=False, alpha=alpha), x)
     print('Bottleneck feature saved')
 
     # return original_shape and bottleneck shape
-    return bottleneck_features_train.shape[1:], x.shape[1:]
+    return bottleneck_features.shape[1:], x.shape[1:]
 
 
 # def construct_reweighted_target(base_model, n_classes=5, p_values=None):
@@ -133,40 +160,40 @@ def train(model, x_train, y_train, x_test, y_test, epochs=50):
     return scores[1], end - start
 
 
-def trainDog(model, train_ds, val_ds, nb_train_samples, nb_valid_samples, epoch=30, batch_size=128, verbose=0):
-    start = time.time()
-    earlystop = EarlyStopping(
-        monitor='val_loss',
-        min_delta=0.001,
-        patience=3,
-        verbose=1,
-        mode='auto'
-    )
-    reduceLR = ReduceLROnPlateau(
-        monitor='val_loss',
-        factor=0.1,
-        patience=3,
-        verbose=1,
-        mode='auto'
-    )
-    callbacks = [earlystop, reduceLR]
-
-    model.compile(optimizer=optimizers.Adam(learning_rate=0.0001), loss='categorical_crossentropy',
-                  metrics=['accuracy'])
-
-    history = model.fit(
-        train_ds,
-        epochs=epoch,
-        steps_per_epoch=nb_train_samples // batch_size,
-        validation_data=val_ds,
-        validation_steps=nb_valid_samples // batch_size,
-        callbacks=callbacks,
-        shuffle=True,
-        verbose=verbose
-    )
-    end = time.time()
-
-    return history.history['val_accuracy'][-1], end - start
+# def trainDog(model, train_ds, val_ds, nb_train_samples, nb_valid_samples, epoch=30, batch_size=128, verbose=0):
+#     start = time.time()
+#     earlystop = EarlyStopping(
+#         monitor='val_loss',
+#         min_delta=0.001,
+#         patience=3,
+#         verbose=1,
+#         mode='auto'
+#     )
+#     reduceLR = ReduceLROnPlateau(
+#         monitor='val_loss',
+#         factor=0.1,
+#         patience=3,
+#         verbose=1,
+#         mode='auto'
+#     )
+#     callbacks = [earlystop, reduceLR]
+#
+#     model.compile(optimizer=optimizers.Adam(learning_rate=0.0001), loss='categorical_crossentropy',
+#                   metrics=['accuracy'])
+#
+#     history = model.fit(
+#         train_ds,
+#         epochs=epoch,
+#         steps_per_epoch=nb_train_samples // batch_size,
+#         validation_data=val_ds,
+#         validation_steps=nb_valid_samples // batch_size,
+#         callbacks=callbacks,
+#         shuffle=True,
+#         verbose=verbose
+#     )
+#     end = time.time()
+#
+#     return history.history['val_accuracy'][-1], end - start
 
 
 def trainBird(model, train_ds, val_ds, epoch=100, batch_size=128):

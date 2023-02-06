@@ -1,7 +1,7 @@
 import math
 import numpy as np
 
-from constants import source_model_name, target_dataset
+from constants import source_model_name, target_dataset, source_dataset, NUM_SOURCE_SAMPLE
 from core import getSourceModel, getTargetNumClass
 from util.common import freezeModel
 from util.hypothesis_testing import getPValue
@@ -65,10 +65,13 @@ from util.ordinary import load_pickle_file, get_transfer_filter_name, get_transf
 #     target_model.save(get_transfer_model_name(prefix='weighted', model_name=target_dataset))
 
 
-def getPValues(alpha=0.00):
-    sourceRate = load_pickle_file(get_transfer_filter_name(source_model_name))
-    targetRate = load_pickle_file(get_transfer_filter_name(target_dataset))
-    model = getSourceModel()
+def getPValues(alpha=0.00, target_ds=None, parent_model=None):
+    if target_ds is None:
+        target_ds = target_dataset
+    if parent_model is None:
+        parent_model = source_model_name
+    sourceRate = load_pickle_file(get_transfer_filter_name(parent_model, source_dataset, NUM_SOURCE_SAMPLE))
+    targetRate = load_pickle_file(get_transfer_filter_name(target_ds))
 
     numFilter = int(sourceRate['numFilter'])
 
@@ -105,7 +108,8 @@ def getPValues(alpha=0.00):
     for k in p_values:
         if p_values[k] == 0:
             z += 1
-    print('Deleted: ' + str(round(((z / len(p_values)) * 100.0), 2)) + '%')
+    delRate = round(((z / len(p_values)) * 100.0), 2)
+    print('Deleted: ' + str(delRate) + '%')
 
-    return p_values
+    return p_values, delRate
 

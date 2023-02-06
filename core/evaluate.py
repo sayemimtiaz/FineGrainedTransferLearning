@@ -1,58 +1,48 @@
-import random
-import numpy as np
-from keras.models import load_model
-
-from constants import SHAPE, target_dataset
-from core import getTargetDataForTraining, getSourceModel
-from core.target_filter_distribution import calculateTargetDistribution
-from data_processing.dog_util import Dog
-from util.ordinary import get_transfer_model_name
-from util.transfer_util import trainDog
-
-epoch = 5
-REPEAT = 3
-alpha_values = [0.0, 0.0001, 0.001, 0.01]
+from constants import target_dataset, source_model_name, DONE
+from core.evaluate_helper import repeater
+from util.ordinary import get_summary_out_name, load_pickle_file, get_delete_rate_name
+from util.transfer_util import get_dense_classifier, get_svm_classifier, get_pool_classifier
 
 
-for alpha in alpha_values:
+def evaluate(target_ds=None, parent_model=None):
+    if target_ds is None:
+        target_ds = target_dataset
+    if parent_model is None:
+        parent_model = source_model_name
 
-    print('>> Evaluating alpha rate: ', alpha)
+    summaryOut = open(get_summary_out_name(target_ds), "a")
+    summaryOut.write(
+        "Source,Target,Transfer Type,Classifier Type,Alpha,Epoch,Repeat,Accuracy,STD,Minimum"
+        " Accuracy,Maximum Accuracy,Elapsed,Delete Rate\n")
+    summaryOut.close()
 
-    target_sample = dog.sampleFromDir(sample_size_per_class=20, ext='jpg')
-    calculateTargetDistribution(target_sample)
+    epoch = 30
+    REPEAT = 10
+    batch_size = 32
+    alpha_values = [0.0, 1e-25, 1e-15, 1e-5, 0.01]
+    # classfiers = {'pool': get_pool_classifier, 'svm': get_svm_classifier}
+    classfiers = {'svm': get_svm_classifier}
+    # classfiers = {'pool': get_pool_classifier}
 
-    getWeigtedTransferModel(targetIndex=targetIndex, alpha=alpha)
+    delete_rates = load_pickle_file(get_delete_rate_name(target_ds))
 
-    target_names = [get_transfer_model_name(prefix='weighted', model_name=target_dataset),
-                    get_transfer_model_name(prefix='traditional', model_name=target_dataset)]
+    for cn in classfiers.keys():
+        if cn == 'svm':
+            epoch = 100
 
-    for target_name in target_names:
-
-        if traditionalEvaluated and 'traditional' in target_name:
+        if parent_model in DONE and target_ds in DONE[parent_model] and cn in DONE[parent_model][target_ds]:
             continue
 
-        print('>>>> Evaluating ' + target_name)
+        print('> Evaluating baseline: ')
+        repeater(REPEAT, get_classifier=classfiers[cn], isBaseline=True,
+                 batch_size=batch_size, epoch=epoch, classifierType=cn,
+                 target_ds=target_ds, parent_model=parent_model)
 
-        sacc = 0
-        selapse = 0
-        all_acc = []
-        all_elaps = []
-        for r in range(REPEAT):
-            model = load_model(target_name)
+        print('> Evaluating TAFE: ')
+        for alpha in alpha_values:
+            print('>> Evaluating alpha rate: ', alpha)
 
-            # print(model.summary())
-            acc, elpase = trainDog(model, train_generator, valid_generator, nb_train_samples, nb_valid_samples,
-                                   epoch=epoch, batch_size=batch_size)
-            sacc += acc
-            selapse += elpase
-            all_acc.append(acc)
-            all_elaps.append(elpase)
-
-        result = (sacc / REPEAT, selapse / REPEAT)
-        all_acc = np.asarray(all_acc)
-        all_elaps = np.asarray(all_elaps)
-        print('(accuracy, std, low, high, elapse)', round(all_acc.mean(), 2), round(all_acc.std(), 2),
-              round(all_acc.min(), 2), round(all_acc.max(), 2),
-              round(all_elaps.mean(), 2))
-
-    traditionalEvaluated = True
+            repeater(REPEAT, get_classifier=classfiers[cn], alpha=alpha, isBaseline=False,
+                     batch_size=batch_size, epoch=epoch, classifierType=cn,
+                     delRate=delete_rates[str(alpha)],
+                     target_ds=target_ds, parent_model=parent_model)

@@ -1,13 +1,9 @@
-import math
 import os
-
 import numpy as np
-import scipy
 from PIL import Image
-from keras.models import load_model
-from sklearn.preprocessing import MinMaxScaler, StandardScaler
 from pathlib import Path
 import tensorflow_datasets as tfds
+import tensorflow as tf
 
 
 def freezeModel(model):
@@ -42,10 +38,22 @@ def save_tf_dataset_as_image(datasetName, split='train',
             imgFileName = sl['file_name'].decode("utf-8")
         except:
             imgFileName = sl['image/filename'].decode("utf-8")
-        className=str(sl['label'])
+        className = str(sl['label'])
         imgFileName = os.path.join(saveDir, className, imgFileName)
 
         saveImg(sl['image'], imgFileName)
 
 
-# save_tf_dataset_as_image('imagenet2012_subset/10pct')
+def get_project_root():
+    file_path = os.path.dirname(os.path.abspath(__file__))
+    file_path = os.path.dirname(file_path)
+    return file_path
+
+
+def init_gpu():
+    config = tf.compat.v1.ConfigProto()
+    config.gpu_options.per_process_gpu_memory_fraction = 0.5
+    config.gpu_options.allow_growth = True
+    tf.compat.v1.keras.backend.set_session(tf.compat.v1.Session(config=config))
+
+# save_tf_dataset_as_image('imagenet2012_subset/1pct')

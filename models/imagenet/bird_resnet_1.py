@@ -90,7 +90,7 @@ for layer in pretrained_model.layers:
 
 model.add(pretrained_model)
 model.add(GlobalAveragePooling2D())
-model.add(Dropout(0.2))
+# model.add(Dropout(0.2))
 model.add(Dense(num_classes, activation='softmax'))
 # model.summary()
 
