@@ -10,7 +10,7 @@ from util.transfer_util import get_dense_classifier, get_svm_classifier, get_poo
 
 import tensorflow as tf
 
-init_gpu()
+# init_gpu()
 
 for ts in target_datasets:
     for pa in pretrained_architecures:

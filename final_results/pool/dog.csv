@@ -1,0 +1,19 @@
+Source,Target,Transfer Type,Classifier Type,Alpha,Epoch,Repeat,Accuracy,STD,Minimum Accuracy,Maximum Accuracy,Elapsed,Delete Rate
+xception,dog,pool,Baseline,None,30,10,78.02,0.22,77.55,78.29,52.37,0.0
+xception,dog,pool,tafe,0.0,30,10,77.94,0.21,77.63,78.32,53.97,0.83
+xception,dog,pool,tafe,1e-25,30,10,77.96,0.3,77.33,78.39,52.81,2.64
+xception,dog,pool,tafe,1e-15,30,10,78.14,0.2,77.7,78.39,53.55,6.69
+xception,dog,pool,tafe,1e-05,30,10,78.15,0.26,77.68,78.41,50.48,20.8
+xception,dog,pool,tafe,0.01,30,10,78.33,0.18,78.07,78.61,44.6,37.4
+inceptionv3,dog,pool,Baseline,None,30,10,77.77,0.24,77.31,78.09,44.54,0.0
+inceptionv3,dog,pool,tafe,0.0,30,10,77.65,0.26,77.16,78.09,44.66,0.0
+inceptionv3,dog,pool,tafe,1e-25,30,10,77.7,0.21,77.33,78.05,43.33,12.11
+inceptionv3,dog,pool,tafe,1e-15,30,10,77.72,0.23,77.36,78.09,42.19,20.9
+inceptionv3,dog,pool,tafe,1e-05,30,10,78.84,0.18,78.59,79.22,29.41,68.55
+inceptionv3,dog,pool,tafe,0.01,30,10,77.22,0.25,76.84,77.68,22.0,87.35
+densenet201,dog,pool,Baseline,None,30,10,79.7,0.33,79.27,80.26,50.19,0.0
+densenet201,dog,pool,tafe,0.0,30,10,79.71,0.29,79.17,80.21,50.16,0.0
+densenet201,dog,pool,tafe,1e-25,30,10,79.03,0.25,78.68,79.57,43.05,40.68
+densenet201,dog,pool,tafe,1e-15,30,10,77.81,0.32,76.99,78.24,39.34,53.49
+densenet201,dog,pool,tafe,1e-05,30,10,74.85,0.23,74.36,75.15,27.58,77.81
+densenet201,dog,pool,tafe,0.01,30,10,66.2,0.18,65.94,66.55,21.32,89.9

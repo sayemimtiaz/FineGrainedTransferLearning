@@ -103,12 +103,6 @@ def getTargetDataForTraining(batch_size=128, shuffle=False, target_ds=None):
     if target_ds == 'stl10':
         return STL10().getTrainingStl10(batch_size=batch_size, shuffle=shuffle)
 
-    # if target_dataset == 'cifar100':
-    #     numSample = getTargetSampleSize(sample_rate)
-    #     return sampleCifar100Fine(superclasses=[task], num_sample=numSample,
-    #                               seed=seed, gray=gray,
-    #                               one_hot=one_hot, train=True, shape=(64, 64)
-    #                               )
 
 
 def smapleTargetData(sample_size_per_class=20, target_ds=None):
