@@ -1,0 +1,25 @@
+Source,Target,Transfer Type,Classifier Type,Alpha,Epoch,Repeat,Accuracy,STD,Minimum Accuracy,Maximum Accuracy,Elapsed,Delete Rate
+resnet50,medium-sizedmammals,dense,Baseline,None,30,10,20.0,0.0,20.0,20.0,220.26,0.0
+resnet50,medium-sizedmammals,dense,tafe,0.0,30,10,22.24,4.83,20.0,35.4,95.31,64.21
+resnet50,medium-sizedmammals,dense,tafe,1e-45,30,10,26.86,1.04,24.8,28.0,24.25,93.46
+resnet50,medium-sizedmammals,dense,tafe,1e-25,30,10,25.44,0.64,24.4,26.4,21.91,94.04
+resnet50,medium-sizedmammals,dense,tafe,1e-15,30,10,23.0,1.03,20.8,23.8,20.2,94.78
+resnet50,medium-sizedmammals,dense,tafe,1e-05,30,10,19.96,0.33,19.4,20.6,17.19,96.19
+inceptionv3,medium-sizedmammals,dense,Baseline,None,30,10,75.62,8.98,50.4,82.2,57.72,0.0
+inceptionv3,medium-sizedmammals,dense,tafe,0.0,30,10,78.86,2.75,75.2,83.0,56.69,4.79
+inceptionv3,medium-sizedmammals,dense,tafe,1e-45,30,10,69.6,3.74,61.4,75.2,7.44,95.56
+inceptionv3,medium-sizedmammals,dense,tafe,1e-25,30,10,65.6,1.17,63.6,67.6,5.64,97.71
+inceptionv3,medium-sizedmammals,dense,tafe,1e-15,30,10,61.22,2.11,56.4,64.2,5.4,98.63
+inceptionv3,medium-sizedmammals,dense,tafe,1e-05,30,10,35.9,1.98,30.8,37.8,3.88,99.85
+vgg16,medium-sizedmammals,dense,Baseline,None,30,10,46.14,6.78,35.8,56.2,47.32,0.0
+vgg16,medium-sizedmammals,dense,tafe,0.0,30,10,44.46,4.84,34.4,52.6,46.15,1.17
+vgg16,medium-sizedmammals,dense,tafe,1e-45,30,10,23.38,1.8,20.6,26.6,10.5,87.5
+vgg16,medium-sizedmammals,dense,tafe,1e-25,30,10,20.38,0.6,20.0,21.6,7.43,90.82
+vgg16,medium-sizedmammals,dense,tafe,1e-15,30,10,20.06,0.2,19.6,20.4,3.17,93.55
+vgg16,medium-sizedmammals,dense,tafe,1e-05,30,10,19.96,0.08,19.8,20.0,2.19,97.07
+xception,medium-sizedmammals,dense,Baseline,None,30,10,81.18,1.78,77.4,83.2,149.8,0.0
+xception,medium-sizedmammals,dense,tafe,0.0,30,10,79.52,2.78,74.4,83.0,121.84,0.44
+xception,medium-sizedmammals,dense,tafe,1e-45,30,10,79.32,1.45,76.4,81.6,93.86,36.33
+xception,medium-sizedmammals,dense,tafe,1e-25,30,10,80.48,1.88,76.8,83.4,82.8,45.07
+xception,medium-sizedmammals,dense,tafe,1e-15,30,10,78.98,2.46,74.6,82.8,51.95,53.71
+xception,medium-sizedmammals,dense,tafe,1e-05,30,10,79.54,1.41,77.2,81.4,45.26,75.34

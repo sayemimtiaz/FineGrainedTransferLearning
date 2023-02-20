@@ -1,6 +1,6 @@
 import random
 import numpy as np
-from constants import source_model_name, pretrained_architecures
+from constants import source_model_name, pretrained_architecures, CURRENT_ACQUIRE
 from core import getSourceModel
 from core.evaluate import evaluate
 from core.target_filter_distribution import calculateTargetDistribution
@@ -10,20 +10,23 @@ from util.ordinary import get_bottleneck_name, dump_as_pickle, get_delete_rate_n
 from util.transfer_util import save_filtered_bottleneck_data
 
 
-def save_cifar100_feature(base_model, data, split):
+def save_cifar100_feature(base_model, data, split, target_ds):
     bottleneck_features_train = base_model.predict(data)
 
-    np.save(get_bottleneck_name('cifar100', split, isTafe=False, isLabel=False),
+    np.save(get_bottleneck_name(target_ds, split, isTafe=False, isLabel=False),
             bottleneck_features_train)
 
     return bottleneck_features_train
 
 
-def acquire_cifar100(parent_model=None, target_ds=None):
+def acquire_cifar100(parent_model=None, target_ds=None, task=None):
     if parent_model is None:
         parent_model = source_model_name
 
-    alpha_values = [0.0, 1e-25, 1e-15, 1e-5, 0.01, 0.05]
+    if parent_model in CURRENT_ACQUIRE and target_ds in CURRENT_ACQUIRE[parent_model]:
+        return
+
+    alpha_values = [0.0, 1e-45, 1e-25, 1e-15, 1e-5]
 
     x_train, y_train, x_test, y_test, num_classes = sampleCifar100Fine(superclasses=[task], num_sample=2500,
                                                                        gray=False,
@@ -33,9 +36,9 @@ def acquire_cifar100(parent_model=None, target_ds=None):
     np.save(get_bottleneck_name(target_ds, 'valid', isLabel=True), y_test)
 
     bottleneck_features_train = save_cifar100_feature(getSourceModel(parent_model),
-                                                      x_train, split='train')
+                                                      x_train, split='train', target_ds=target_ds)
     bottleneck_features_valid = save_cifar100_feature(getSourceModel(parent_model),
-                                                      x_test, split='valid')
+                                                      x_test, split='valid', target_ds=target_ds)
 
     target_sample, _, _, _, _ = sampleCifar100Fine(superclasses=[task], num_sample=1000,
                                                    gray=False, shape=(224, 224))
@@ -64,7 +67,14 @@ def acquire_cifar100(parent_model=None, target_ds=None):
     dump_as_pickle(delete_rates, get_delete_rate_name(target_ds))
 
 
+done = []
+# done=['aquaticmammals', 'fish', 'flowers', 'foodcontainers','fruitandvegetables', 'householdelectricaldevices',
+#  'householdfurniture','insects','largecarnivores', 'largeman-madeoutdoorthings', 'largenaturaloutdoorscenes', 'largeomnivoresandherbivores',
+#       'medium-sizedmammals', 'non-insectinvertebrates']
+# , 'people', 'reptiles', 'trees', 'vehicles1', 'smallmammals']
 for task in getCifar100CoarseClasses():
-    for pa in pretrained_architecures:
-        acquire_cifar100(parent_model=pa, target_ds=task)
-        evaluate(target_ds=task, parent_model=pa)
+    fds = task.replace(' ', '')
+    if fds not in done:
+        for pa in pretrained_architecures:
+            acquire_cifar100(parent_model=pa, target_ds=fds, task=task)
+            evaluate(target_ds=fds, parent_model=pa)

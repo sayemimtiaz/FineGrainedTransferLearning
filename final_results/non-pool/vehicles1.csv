@@ -1,0 +1,7 @@
+Source,Target,Transfer Type,Classifier Type,Alpha,Epoch,Repeat,Accuracy,STD,Minimum Accuracy,Maximum Accuracy,Elapsed,Delete Rate
+resnet50,vehicles1,dense,Baseline,None,30,10,30.42,7.99,20.2,44.2,16.47,0.0
+resnet50,vehicles1,dense,tafe,0.0,30,10,28.12,6.02,20.0,39.4,11.52,63.87
+resnet50,vehicles1,dense,tafe,1e-45,30,10,27.56,0.34,27.0,28.2,5.87,93.75
+resnet50,vehicles1,dense,tafe,1e-25,30,10,25.12,0.48,24.2,26.0,6.13,94.78
+resnet50,vehicles1,dense,tafe,1e-15,30,10,23.78,0.45,23.0,24.2,5.5,95.31
+resnet50,vehicles1,dense,tafe,1e-05,30,10,21.02,0.76,19.6,22.0,5.46,97.12

@@ -1,0 +1,25 @@
+Source,Target,Transfer Type,Classifier Type,Alpha,Epoch,Repeat,Accuracy,STD,Minimum Accuracy,Maximum Accuracy,Elapsed,Delete Rate
+resnet50,insects,dense,Baseline,None,30,10,20.0,0.0,20.0,20.0,221.45,0.0
+resnet50,insects,dense,tafe,0.0,30,10,20.0,0.0,20.0,20.0,94.51,64.5
+resnet50,insects,dense,tafe,1e-45,30,10,23.92,1.08,21.6,25.2,22.24,93.9
+resnet50,insects,dense,tafe,1e-25,30,10,21.96,1.03,20.0,23.6,20.74,94.53
+resnet50,insects,dense,tafe,1e-15,30,10,22.04,0.82,20.8,23.4,19.08,95.12
+resnet50,insects,dense,tafe,1e-05,30,10,20.3,0.38,19.8,21.0,16.34,96.44
+inceptionv3,insects,dense,Baseline,None,30,10,72.36,7.7,52.4,79.8,67.97,0.0
+inceptionv3,insects,dense,tafe,0.0,30,10,72.88,2.89,67.6,77.2,49.98,4.49
+inceptionv3,insects,dense,tafe,1e-45,30,10,64.18,1.81,61.2,66.6,6.73,96.34
+inceptionv3,insects,dense,tafe,1e-25,30,10,56.6,1.94,52.8,59.6,4.25,98.05
+inceptionv3,insects,dense,tafe,1e-15,30,10,53.26,2.21,50.6,57.2,4.24,98.73
+inceptionv3,insects,dense,tafe,1e-05,30,10,34.3,2.62,29.0,38.0,2.71,99.76
+vgg16,insects,dense,Baseline,None,30,10,49.58,13.66,23.8,66.2,48.4,0.0
+vgg16,insects,dense,tafe,0.0,30,10,52.74,10.54,38.0,66.2,53.3,0.39
+vgg16,insects,dense,tafe,1e-45,30,10,23.6,1.97,20.4,26.6,5.75,91.6
+vgg16,insects,dense,tafe,1e-25,30,10,20.44,0.33,20.0,20.8,3.46,95.51
+vgg16,insects,dense,tafe,1e-15,30,10,20.32,0.36,19.6,20.8,3.71,97.66
+vgg16,insects,dense,tafe,1e-05,30,10,19.98,0.06,19.8,20.0,4.31,99.22
+xception,insects,dense,Baseline,None,30,10,80.28,2.22,73.8,81.6,175.93,0.0
+xception,insects,dense,tafe,0.0,30,10,80.02,1.51,77.8,82.0,144.63,0.49
+xception,insects,dense,tafe,1e-45,30,10,80.68,1.22,77.4,82.0,80.0,36.43
+xception,insects,dense,tafe,1e-25,30,10,80.18,1.56,76.4,82.0,71.81,45.51
+xception,insects,dense,tafe,1e-15,30,10,79.98,1.86,75.4,82.0,69.79,53.71
+xception,insects,dense,tafe,1e-05,30,10,78.8,1.62,74.6,80.8,38.35,75.05

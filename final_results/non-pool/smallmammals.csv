@@ -1,0 +1,7 @@
+Source,Target,Transfer Type,Classifier Type,Alpha,Epoch,Repeat,Accuracy,STD,Minimum Accuracy,Maximum Accuracy,Elapsed,Delete Rate
+resnet50,smallmammals,dense,Baseline,None,30,10,23.82,4.02,20.0,33.4,16.41,0.0
+resnet50,smallmammals,dense,tafe,0.0,30,10,25.38,4.8,20.2,35.2,11.63,66.89
+resnet50,smallmammals,dense,tafe,1e-45,30,10,20.86,0.39,20.2,21.6,6.41,95.75
+resnet50,smallmammals,dense,tafe,1e-25,30,10,21.32,0.26,21.0,21.8,6.08,96.09
+resnet50,smallmammals,dense,tafe,1e-15,30,10,21.04,0.33,20.6,21.8,6.27,96.58
+resnet50,smallmammals,dense,tafe,1e-05,30,10,20.32,0.22,20.0,20.6,5.17,97.9

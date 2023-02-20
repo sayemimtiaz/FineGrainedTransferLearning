@@ -50,9 +50,11 @@ def get_svm_classifier(shape, n_classes=5):
 def get_dense_classifier(shape, n_classes=5):
     target_model = Sequential()
     target_model.add(Flatten(input_shape=shape))
-    # target_model.add(Dense(512, activation='relu'))
-    # target_model.add(Dense(256, activation='relu'))
-    # target_model.add(Dense(128, activation='relu'))
+    target_model.add(Dropout(0.5))
+    target_model.add(Dense(1024, activation='relu'))
+    target_model.add(Dropout(0.5))
+    target_model.add(Dense(512, activation='relu'))
+    target_model.add(Dropout(0.5))
     target_model.add(Dense(n_classes, activation='softmax'))
 
     target_model.compile(optimizer='rmsprop',

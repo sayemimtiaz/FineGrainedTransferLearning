@@ -1,0 +1,25 @@
+Source,Target,Transfer Type,Classifier Type,Alpha,Epoch,Repeat,Accuracy,STD,Minimum Accuracy,Maximum Accuracy,Elapsed,Delete Rate
+inceptionv3,householdfurniture,dense,Baseline,None,30,10,21.54,3.12,19.8,30.4,36.94,0.0
+inceptionv3,householdfurniture,dense,tafe,0.0,30,10,23.14,5.94,20.0,40.4,46.86,4.79
+inceptionv3,householdfurniture,dense,tafe,1e-45,30,10,44.26,8.81,23.0,53.4,4.9,96.34
+inceptionv3,householdfurniture,dense,tafe,1e-25,30,10,44.02,4.99,38.2,55.4,4.56,98.05
+inceptionv3,householdfurniture,dense,tafe,1e-15,30,10,21.46,4.38,20.0,34.6,2.41,99.07
+inceptionv3,householdfurniture,dense,tafe,1e-05,30,10,20.0,0.0,20.0,20.0,1.68,99.95
+resnet50,householdfurniture,dense,Baseline,None,30,10,20.0,0.0,20.0,20.0,56.16,0.0
+resnet50,householdfurniture,dense,tafe,0.0,30,10,19.94,0.18,19.4,20.0,24.14,61.18
+resnet50,householdfurniture,dense,tafe,1e-45,30,10,20.0,0.0,20.0,20.0,7.55,91.46
+resnet50,householdfurniture,dense,tafe,1e-25,30,10,20.0,0.0,20.0,20.0,6.25,92.53
+resnet50,householdfurniture,dense,tafe,1e-15,30,10,20.0,0.0,20.0,20.0,5.19,94.04
+resnet50,householdfurniture,dense,tafe,1e-05,30,10,20.0,0.0,20.0,20.0,3.41,96.83
+vgg16,householdfurniture,dense,Baseline,None,30,10,20.0,0.0,20.0,20.0,24.72,0.0
+vgg16,householdfurniture,dense,tafe,0.0,30,10,20.0,0.0,20.0,20.0,30.43,0.98
+vgg16,householdfurniture,dense,tafe,1e-45,30,10,20.0,0.0,20.0,20.0,4.42,90.82
+vgg16,householdfurniture,dense,tafe,1e-25,30,10,20.0,0.0,20.0,20.0,4.34,94.53
+vgg16,householdfurniture,dense,tafe,1e-15,30,10,20.0,0.0,20.0,20.0,5.35,96.88
+vgg16,householdfurniture,dense,tafe,1e-05,30,10,20.0,0.0,20.0,20.0,3.66,99.02
+xception,householdfurniture,dense,Baseline,None,30,10,23.42,6.16,20.0,38.8,155.14,0.0
+xception,householdfurniture,dense,tafe,0.0,30,10,21.9,3.68,19.0,30.2,174.3,0.54
+xception,householdfurniture,dense,tafe,1e-45,30,10,25.42,6.72,19.8,37.0,115.88,42.14
+xception,householdfurniture,dense,tafe,1e-25,30,10,30.18,7.17,20.0,42.8,83.58,50.98
+xception,householdfurniture,dense,tafe,1e-15,30,10,24.18,7.36,17.6,40.0,51.81,60.16
+xception,householdfurniture,dense,tafe,1e-05,30,10,30.42,9.98,20.0,46.6,29.13,79.69

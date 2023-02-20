@@ -1,0 +1,26 @@
+Source,Target,Transfer Type,Classifier Type,Alpha,Epoch,Repeat,Accuracy,STD,Minimum Accuracy,Maximum Accuracy,Elapsed,Delete Rate
+inceptionv3,aquaticmammals,dense,Baseline,None,30,10,20.0,0.0,20.0,20.0,32.79,0.0
+inceptionv3,aquaticmammals,dense,tafe,0.0,30,10,20.18,0.86,19.2,22.6,33.41,4.88
+inceptionv3,aquaticmammals,dense,tafe,1e-45,30,10,31.76,8.02,20.0,40.4,4.57,96.63
+inceptionv3,aquaticmammals,dense,tafe,1e-25,30,10,25.12,6.39,20.0,34.6,2.87,98.19
+inceptionv3,aquaticmammals,dense,tafe,1e-15,30,10,20.0,0.0,20.0,20.0,1.86,99.02
+inceptionv3,aquaticmammals,dense,tafe,1e-05,30,10,20.0,0.0,20.0,20.0,1.47,99.9
+resnet50,aquaticmammals,dense,Baseline,None,30,10,20.0,0.0,20.0,20.0,57.76,0.0
+resnet50,aquaticmammals,dense,tafe,0.0,30,10,20.0,0.0,20.0,20.0,22.18,64.94
+resnet50,aquaticmammals,dense,tafe,1e-45,30,10,20.0,0.0,20.0,20.0,5.25,93.8
+resnet50,aquaticmammals,dense,tafe,1e-25,30,10,20.0,0.0,20.0,20.0,4.93,94.38
+resnet50,aquaticmammals,dense,tafe,1e-15,30,10,20.0,0.0,20.0,20.0,4.66,94.73
+resnet50,aquaticmammals,dense,tafe,1e-05,30,10,20.0,0.0,20.0,20.0,3.48,96.58
+vgg16,aquaticmammals,dense,Baseline,None,30,10,19.9,0.3,19.0,20.0,30.57,0.0
+vgg16,aquaticmammals,dense,tafe,0.0,30,10,19.98,0.06,19.8,20.0,27.36,1.56
+vgg16,aquaticmammals,dense,tafe,1e-45,30,10,20.0,0.0,20.0,20.0,5.84,88.28
+vgg16,aquaticmammals,dense,tafe,1e-25,30,10,20.0,0.0,20.0,20.0,4.3,93.36
+vgg16,aquaticmammals,dense,tafe,1e-15,30,10,20.0,0.0,20.0,20.0,3.31,95.51
+vgg16,aquaticmammals,dense,tafe,1e-05,30,10,20.0,0.0,20.0,20.0,2.94,97.85
+xception,aquaticmammals,dense,Baseline,None,30,10,25.78,6.94,20.0,37.8,143.66,0.0
+xception,aquaticmammals,dense,tafe,0.0,30,10,22.64,5.46,20.0,38.2,139.02,0.39
+xception,aquaticmammals,dense,tafe,1e-45,30,10,27.9,6.62,20.0,36.6,112.78,37.79
+xception,aquaticmammals,dense,tafe,1e-25,30,10,28.78,7.27,18.4,41.6,96.05,47.22
+xception,aquaticmammals,dense,tafe,1e-15,30,10,27.66,7.8,20.0,39.4,76.65,56.59
+xception,aquaticmammals,dense,tafe,1e-05,30,10,31.38,8.49,20.0,42.0,48.75,77.29
+

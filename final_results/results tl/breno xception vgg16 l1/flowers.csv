@@ -1,0 +1,40 @@
+Source,Target,Transfer Type,Classifier Type,Alpha,Epoch,Repeat,Accuracy,STD,Minimum Accuracy,Maximum Accuracy,Elapsed,Delete Rate
+inceptionv3,flowers,dense,Baseline,None,30,10,48.48,8.26,36.0,61.8,59.6,0.0
+inceptionv3,flowers,dense,tafe,0.0,30,10,54.0,7.27,38.8,66.0,54.1,4.69
+inceptionv3,flowers,dense,tafe,1e-45,30,10,44.1,4.89,32.8,50.6,4.55,97.27
+inceptionv3,flowers,dense,tafe,1e-25,30,10,42.72,3.54,37.4,47.0,4.01,98.39
+inceptionv3,flowers,dense,tafe,1e-15,30,10,41.64,2.47,38.4,45.6,3.39,99.07
+inceptionv3,flowers,dense,tafe,1e-05,30,10,30.52,1.65,27.4,33.6,3.05,99.8
+Source,Target,Transfer Type,Classifier Type,Alpha,Epoch,Repeat,Accuracy,STD,Minimum Accuracy,Maximum Accuracy,Elapsed,Delete Rate
+resnet50,flowers,dense,Baseline,None,30,10,20.0,0.0,20.0,20.0,48.33,0.0
+resnet50,flowers,dense,tafe,0.0,30,10,20.0,0.0,20.0,20.0,18.35,66.31
+resnet50,flowers,dense,tafe,1e-45,30,10,20.0,0.0,20.0,20.0,3.91,95.36
+resnet50,flowers,dense,tafe,1e-25,30,10,20.0,0.0,20.0,20.0,3.43,96.14
+resnet50,flowers,dense,tafe,1e-15,30,10,20.0,0.0,20.0,20.0,3.06,96.83
+resnet50,flowers,dense,tafe,1e-05,30,10,20.0,0.0,20.0,20.0,2.51,98.05
+Source,Target,Transfer Type,Classifier Type,Alpha,Epoch,Repeat,Accuracy,STD,Minimum Accuracy,Maximum Accuracy,Elapsed,Delete Rate
+vgg16,flowers,dense,Baseline,None,30,10,20.0,0.0,20.0,20.0,30.42,0.0
+vgg16,flowers,dense,tafe,0.0,30,10,20.0,0.0,20.0,20.0,33.91,0.78
+vgg16,flowers,dense,tafe,1e-45,30,10,20.0,0.0,20.0,20.0,5.43,92.58
+vgg16,flowers,dense,tafe,1e-25,30,10,20.0,0.0,20.0,20.0,4.06,96.29
+vgg16,flowers,dense,tafe,1e-15,30,10,20.0,0.0,20.0,20.0,4.03,97.46
+vgg16,flowers,dense,tafe,1e-05,30,10,20.0,0.0,20.0,20.0,3.03,99.61
+Source,Target,Transfer Type,Classifier Type,Alpha,Epoch,Repeat,Accuracy,STD,Minimum Accuracy,Maximum Accuracy,Elapsed,Delete Rate
+xception,flowers,dense,Baseline,None,30,10,19.7,0.84,17.2,20.0,137.0,0.0
+xception,flowers,dense,tafe,0.0,30,10,19.68,0.66,18.0,20.0,111.16,0.44
+xception,flowers,dense,tafe,1e-45,30,10,19.84,0.42,18.6,20.0,67.16,41.36
+xception,flowers,dense,tafe,1e-25,30,10,19.98,0.06,19.8,20.0,53.48,51.37
+xception,flowers,dense,tafe,1e-15,30,10,19.64,0.95,16.8,20.0,51.37,60.3
+xception,flowers,dense,tafe,1e-05,30,10,19.84,0.37,18.8,20.0,28.66,78.66
+Source,Target,Transfer Type,Classifier Type,Alpha,Epoch,Repeat,Accuracy,STD,Minimum Accuracy,Maximum Accuracy,Elapsed,Delete Rate
+vgg16,flowers,dense,Baseline,None,30,10,20.08,0.24,20.0,20.8,38.24,0.0
+vgg16,flowers,dense,tafe,0.0,30,10,20.0,0.0,20.0,20.0,38.46,0.78
+vgg16,flowers,dense,tafe,1e-45,30,10,20.0,0.0,20.0,20.0,6.28,92.38
+vgg16,flowers,dense,tafe,1e-25,30,10,20.0,0.0,20.0,20.0,3.83,96.09
+vgg16,flowers,dense,tafe,1e-15,30,10,20.0,0.0,20.0,20.0,3.05,97.46
+vgg16,flowers,dense,tafe,1e-05,30,10,20.0,0.0,20.0,20.0,3.96,99.8
+Source,Target,Transfer Type,Classifier Type,Alpha,Epoch,Repeat,Accuracy,STD,Minimum Accuracy,Maximum Accuracy,Elapsed,Delete Rate
+xception,flowers,dense,Baseline,None,30,10,19.92,0.31,19.0,20.2,92.49,0.0
+xception,flowers,dense,tafe,0.0,30,10,19.82,0.42,18.6,20.0,118.32,0.54
+xception,flowers,dense,tafe,1e-45,30,10,19.78,0.66,17.8,20.0,96.35,41.11
+xception,flowers,dense,tafe,1e-25,30,10,19.9,0.34,19.0,20.2,68.32,51.12

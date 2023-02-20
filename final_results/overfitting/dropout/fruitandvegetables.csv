@@ -1,0 +1,25 @@
+Source,Target,Transfer Type,Classifier Type,Alpha,Epoch,Repeat,Accuracy,STD,Minimum Accuracy,Maximum Accuracy,Elapsed,Delete Rate
+resnet50,fruitandvegetables,dense,Baseline,None,30,10,20.0,0.0,20.0,20.0,350.76,0.0
+resnet50,fruitandvegetables,dense,tafe,0.0,30,10,20.0,0.0,20.0,20.0,226.63,65.14
+resnet50,fruitandvegetables,dense,tafe,1e-45,30,10,23.84,1.69,21.4,26.4,53.08,94.48
+resnet50,fruitandvegetables,dense,tafe,1e-25,30,10,23.56,0.95,21.4,24.6,45.96,95.12
+resnet50,fruitandvegetables,dense,tafe,1e-15,30,10,22.28,0.52,21.8,23.2,41.15,95.9
+resnet50,fruitandvegetables,dense,tafe,1e-05,30,10,19.92,0.47,19.2,20.6,37.19,97.36
+inceptionv3,fruitandvegetables,dense,Baseline,None,30,10,79.62,3.18,73.8,85.2,58.36,0.0
+inceptionv3,fruitandvegetables,dense,tafe,0.0,30,10,79.2,4.18,71.2,84.2,56.81,4.35
+inceptionv3,fruitandvegetables,dense,tafe,1e-45,30,10,72.86,2.26,68.6,77.6,5.57,96.34
+inceptionv3,fruitandvegetables,dense,tafe,1e-25,30,10,71.44,2.47,66.6,75.4,4.78,97.66
+inceptionv3,fruitandvegetables,dense,tafe,1e-15,30,10,66.78,2.27,63.4,71.4,3.85,98.49
+inceptionv3,fruitandvegetables,dense,tafe,1e-05,30,10,43.76,1.74,40.4,45.8,2.67,99.71
+vgg16,fruitandvegetables,dense,Baseline,None,30,10,64.28,3.02,57.8,68.0,47.26,0.0
+vgg16,fruitandvegetables,dense,tafe,0.0,30,10,60.84,8.41,38.6,69.8,50.48,0.59
+vgg16,fruitandvegetables,dense,tafe,1e-45,30,10,22.64,1.28,20.0,24.2,6.79,94.34
+vgg16,fruitandvegetables,dense,tafe,1e-25,30,10,21.16,0.54,20.2,22.0,4.45,97.66
+vgg16,fruitandvegetables,dense,tafe,1e-15,30,10,20.9,0.45,20.2,22.0,2.86,98.24
+vgg16,fruitandvegetables,dense,tafe,1e-05,30,10,20.0,0.0,20.0,20.0,1.87,99.61
+xception,fruitandvegetables,dense,Baseline,None,30,10,83.22,1.55,79.6,86.0,169.91,0.0
+xception,fruitandvegetables,dense,tafe,0.0,30,10,83.04,1.49,80.2,85.2,179.11,0.44
+xception,fruitandvegetables,dense,tafe,1e-45,30,10,84.38,1.45,82.2,86.8,115.95,40.04
+xception,fruitandvegetables,dense,tafe,1e-25,30,10,83.46,1.28,81.2,85.2,94.11,49.22
+xception,fruitandvegetables,dense,tafe,1e-15,30,10,83.98,1.59,80.4,85.6,69.07,58.64
+xception,fruitandvegetables,dense,tafe,1e-05,30,10,82.8,1.43,81.2,86.0,32.71,77.98

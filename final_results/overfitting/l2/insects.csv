@@ -1,0 +1,13 @@
+Source,Target,Transfer Type,Classifier Type,Alpha,Epoch,Repeat,Accuracy,STD,Minimum Accuracy,Maximum Accuracy,Elapsed,Delete Rate
+inceptionv3,insects,dense,Baseline,None,30,10,64.78,7.83,54.0,76.8,60.33,0.0
+inceptionv3,insects,dense,tafe,0.0,30,10,58.2,8.83,42.0,76.8,51.9,4.44
+inceptionv3,insects,dense,tafe,1e-45,30,10,61.68,4.35,49.4,65.2,5.63,96.34
+inceptionv3,insects,dense,tafe,1e-25,30,10,55.36,4.71,44.8,61.4,3.94,97.8
+inceptionv3,insects,dense,tafe,1e-15,30,10,47.32,2.36,44.0,52.2,3.53,98.88
+inceptionv3,insects,dense,tafe,1e-05,30,10,35.1,1.82,31.0,38.2,2.64,99.76
+resnet50,insects,dense,Baseline,None,30,10,20.0,0.0,20.0,20.0,47.89,0.0
+resnet50,insects,dense,tafe,0.0,30,10,20.0,0.0,20.0,20.0,19.05,65.04
+resnet50,insects,dense,tafe,1e-45,30,10,20.0,0.0,20.0,20.0,4.36,94.53
+resnet50,insects,dense,tafe,1e-25,30,10,20.0,0.0,20.0,20.0,3.97,95.12
+resnet50,insects,dense,tafe,1e-15,30,10,20.0,0.0,20.0,20.0,3.58,95.9
+resnet50,insects,dense,tafe,1e-05,30,10,20.0,0.0,20.0,20.0,2.87,97.27

@@ -1,0 +1,7 @@
+Source,Target,Transfer Type,Classifier Type,Alpha,Epoch,Repeat,Accuracy,STD,Minimum Accuracy,Maximum Accuracy,Elapsed,Delete Rate
+resnet50,householdfurniture,dense,Baseline,None,30,10,31.06,8.7,20.8,45.4,16.31,0.0
+resnet50,householdfurniture,dense,tafe,0.0,30,10,32.92,7.74,20.6,44.4,12.56,61.04
+resnet50,householdfurniture,dense,tafe,1e-45,30,10,26.76,0.31,26.4,27.4,7.87,91.5
+resnet50,householdfurniture,dense,tafe,1e-25,30,10,25.9,0.59,25.2,27.4,7.36,92.38
+resnet50,householdfurniture,dense,tafe,1e-15,30,10,24.0,0.57,22.6,24.8,6.84,93.85
+resnet50,householdfurniture,dense,tafe,1e-05,30,10,21.5,0.33,21.2,22.2,6.63,96.44

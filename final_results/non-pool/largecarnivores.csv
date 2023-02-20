@@ -1,0 +1,7 @@
+Source,Target,Transfer Type,Classifier Type,Alpha,Epoch,Repeat,Accuracy,STD,Minimum Accuracy,Maximum Accuracy,Elapsed,Delete Rate
+resnet50,largecarnivores,dense,Baseline,None,30,10,21.78,2.89,20.0,29.6,16.62,0.0
+resnet50,largecarnivores,dense,tafe,0.0,30,10,25.22,4.23,20.0,32.4,11.76,64.7
+resnet50,largecarnivores,dense,tafe,1e-45,30,10,22.52,0.27,22.2,23.0,6.54,93.99
+resnet50,largecarnivores,dense,tafe,1e-25,30,10,22.38,0.39,21.8,23.0,6.06,94.63
+resnet50,largecarnivores,dense,tafe,1e-15,30,10,20.78,0.62,19.8,21.8,5.71,95.36
+resnet50,largecarnivores,dense,tafe,1e-05,30,10,20.32,0.24,19.8,20.6,6.0,96.78

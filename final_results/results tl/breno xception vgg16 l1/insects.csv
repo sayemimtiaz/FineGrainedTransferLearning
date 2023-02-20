@@ -1,0 +1,28 @@
+Source,Target,Transfer Type,Classifier Type,Alpha,Epoch,Repeat,Accuracy,STD,Minimum Accuracy,Maximum Accuracy,Elapsed,Delete Rate
+inceptionv3,insects,dense,Baseline,None,30,10,64.78,7.83,54.0,76.8,60.33,0.0
+inceptionv3,insects,dense,tafe,0.0,30,10,58.2,8.83,42.0,76.8,51.9,4.44
+inceptionv3,insects,dense,tafe,1e-45,30,10,61.68,4.35,49.4,65.2,5.63,96.34
+inceptionv3,insects,dense,tafe,1e-25,30,10,55.36,4.71,44.8,61.4,3.94,97.8
+inceptionv3,insects,dense,tafe,1e-15,30,10,47.32,2.36,44.0,52.2,3.53,98.88
+inceptionv3,insects,dense,tafe,1e-05,30,10,35.1,1.82,31.0,38.2,2.64,99.76
+Source,Target,Transfer Type,Classifier Type,Alpha,Epoch,Repeat,Accuracy,STD,Minimum Accuracy,Maximum Accuracy,Elapsed,Delete Rate
+resnet50,insects,dense,Baseline,None,30,10,20.0,0.0,20.0,20.0,47.89,0.0
+resnet50,insects,dense,tafe,0.0,30,10,20.0,0.0,20.0,20.0,19.05,65.04
+resnet50,insects,dense,tafe,1e-45,30,10,20.0,0.0,20.0,20.0,4.36,94.53
+resnet50,insects,dense,tafe,1e-25,30,10,20.0,0.0,20.0,20.0,3.97,95.12
+resnet50,insects,dense,tafe,1e-15,30,10,20.0,0.0,20.0,20.0,3.58,95.9
+resnet50,insects,dense,tafe,1e-05,30,10,20.0,0.0,20.0,20.0,2.87,97.27
+Source,Target,Transfer Type,Classifier Type,Alpha,Epoch,Repeat,Accuracy,STD,Minimum Accuracy,Maximum Accuracy,Elapsed,Delete Rate
+vgg16,insects,dense,Baseline,None,30,10,20.0,0.0,20.0,20.0,31.96,0.0
+vgg16,insects,dense,tafe,0.0,30,10,20.08,0.24,20.0,20.8,29.89,0.59
+vgg16,insects,dense,tafe,1e-45,30,10,20.0,0.0,20.0,20.0,4.52,91.99
+vgg16,insects,dense,tafe,1e-25,30,10,20.0,0.0,20.0,20.0,3.65,95.9
+vgg16,insects,dense,tafe,1e-15,30,10,20.0,0.0,20.0,20.0,3.22,98.24
+vgg16,insects,dense,tafe,1e-05,30,10,20.0,0.0,20.0,20.0,2.83,99.41
+Source,Target,Transfer Type,Classifier Type,Alpha,Epoch,Repeat,Accuracy,STD,Minimum Accuracy,Maximum Accuracy,Elapsed,Delete Rate
+xception,insects,dense,Baseline,None,30,10,24.64,6.21,20.0,40.0,166.82,0.0
+xception,insects,dense,tafe,0.0,30,10,26.32,5.65,20.0,37.8,302.38,0.49
+xception,insects,dense,tafe,1e-45,30,10,28.44,6.61,20.0,37.2,143.43,36.13
+xception,insects,dense,tafe,1e-25,30,10,31.06,7.67,20.0,42.4,143.35,45.75
+xception,insects,dense,tafe,1e-15,30,10,31.24,6.26,21.6,39.8,120.08,53.52
+xception,insects,dense,tafe,1e-05,30,10,26.94,7.32,20.0,39.4,67.57,74.9

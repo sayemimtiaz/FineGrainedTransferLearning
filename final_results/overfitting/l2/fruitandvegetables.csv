@@ -1,0 +1,13 @@
+Source,Target,Transfer Type,Classifier Type,Alpha,Epoch,Repeat,Accuracy,STD,Minimum Accuracy,Maximum Accuracy,Elapsed,Delete Rate
+inceptionv3,fruitandvegetables,dense,Baseline,None,30,10,70.34,9.22,47.2,78.4,48.17,0.0
+inceptionv3,fruitandvegetables,dense,tafe,0.0,30,10,66.28,9.76,42.0,79.4,48.72,4.44
+inceptionv3,fruitandvegetables,dense,tafe,1e-45,30,10,66.86,4.57,59.6,73.6,5.18,96.39
+inceptionv3,fruitandvegetables,dense,tafe,1e-25,30,10,65.96,3.01,61.6,71.2,3.94,97.61
+inceptionv3,fruitandvegetables,dense,tafe,1e-15,30,10,64.22,4.16,57.4,70.4,3.86,98.49
+inceptionv3,fruitandvegetables,dense,tafe,1e-05,30,10,47.38,2.32,41.4,50.6,2.62,99.71
+resnet50,fruitandvegetables,dense,Baseline,None,30,10,20.0,0.0,20.0,20.0,49.56,0.0
+resnet50,fruitandvegetables,dense,tafe,0.0,30,10,20.0,0.0,20.0,20.0,18.81,65.53
+resnet50,fruitandvegetables,dense,tafe,1e-45,30,10,20.0,0.0,20.0,20.0,4.17,94.68
+resnet50,fruitandvegetables,dense,tafe,1e-25,30,10,20.0,0.0,20.0,20.0,3.85,95.36
+resnet50,fruitandvegetables,dense,tafe,1e-15,30,10,20.0,0.0,20.0,20.0,3.47,96.04
+resnet50,fruitandvegetables,dense,tafe,1e-05,30,10,20.0,0.0,20.0,20.0,2.63,97.75

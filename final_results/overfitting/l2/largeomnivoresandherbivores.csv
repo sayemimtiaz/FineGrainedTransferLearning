@@ -1,0 +1,13 @@
+Source,Target,Transfer Type,Classifier Type,Alpha,Epoch,Repeat,Accuracy,STD,Minimum Accuracy,Maximum Accuracy,Elapsed,Delete Rate
+inceptionv3,largeomnivoresandherbivores,dense,Baseline,None,30,10,68.36,12.33,35.2,79.4,51.58,0.0
+inceptionv3,largeomnivoresandherbivores,dense,tafe,0.0,30,10,66.58,9.47,45.0,79.6,54.69,4.2
+inceptionv3,largeomnivoresandherbivores,dense,tafe,1e-45,30,10,64.84,2.48,61.4,69.4,5.09,95.95
+inceptionv3,largeomnivoresandherbivores,dense,tafe,1e-25,30,10,58.98,5.21,49.0,64.0,4.02,97.8
+inceptionv3,largeomnivoresandherbivores,dense,tafe,1e-15,30,10,57.88,2.69,53.2,61.4,3.49,98.93
+inceptionv3,largeomnivoresandherbivores,dense,tafe,1e-05,30,10,37.82,2.68,34.0,41.2,3.01,99.85
+resnet50,largeomnivoresandherbivores,dense,Baseline,None,30,10,20.0,0.0,20.0,20.0,48.41,0.0
+resnet50,largeomnivoresandherbivores,dense,tafe,0.0,30,10,20.0,0.0,20.0,20.0,18.76,65.97
+resnet50,largeomnivoresandherbivores,dense,tafe,1e-45,30,10,20.0,0.0,20.0,20.0,3.85,95.31
+resnet50,largeomnivoresandherbivores,dense,tafe,1e-25,30,10,20.0,0.0,20.0,20.0,3.42,96.14
+resnet50,largeomnivoresandherbivores,dense,tafe,1e-15,30,10,20.0,0.0,20.0,20.0,3.13,96.63
+resnet50,largeomnivoresandherbivores,dense,tafe,1e-05,30,10,20.0,0.0,20.0,20.0,2.58,98.1

@@ -1,0 +1,13 @@
+Source,Target,Transfer Type,Classifier Type,Alpha,Epoch,Repeat,Accuracy,STD,Minimum Accuracy,Maximum Accuracy,Elapsed,Delete Rate
+inceptionv3,householdfurniture,dense,Baseline,None,30,10,62.9,6.74,46.8,70.6,67.05,0.0
+inceptionv3,householdfurniture,dense,tafe,0.0,30,10,59.0,5.96,52.8,72.4,52.03,4.64
+inceptionv3,householdfurniture,dense,tafe,1e-45,30,10,57.32,4.47,48.8,65.8,4.03,96.24
+inceptionv3,householdfurniture,dense,tafe,1e-25,30,10,55.14,5.64,44.6,64.2,3.1,98.05
+inceptionv3,householdfurniture,dense,tafe,1e-15,30,10,49.26,3.78,42.4,53.6,3.14,99.17
+inceptionv3,householdfurniture,dense,tafe,1e-05,30,10,30.22,2.29,23.8,32.6,2.06,99.95
+resnet50,householdfurniture,dense,Baseline,None,30,10,20.0,0.0,20.0,20.0,53.73,0.0
+resnet50,householdfurniture,dense,tafe,0.0,30,10,20.58,1.44,20.0,24.8,28.59,61.43
+resnet50,householdfurniture,dense,tafe,1e-45,30,10,20.0,0.0,20.0,20.0,6.52,91.85
+resnet50,householdfurniture,dense,tafe,1e-25,30,10,20.0,0.0,20.0,20.0,5.94,92.53
+resnet50,householdfurniture,dense,tafe,1e-15,30,10,20.0,0.0,20.0,20.0,5.2,93.55
+resnet50,householdfurniture,dense,tafe,1e-05,30,10,20.0,0.0,20.0,20.0,3.4,96.44

@@ -1,0 +1,19 @@
+Source,Target,Transfer Type,Classifier Type,Alpha,Epoch,Repeat,Accuracy,STD,Minimum Accuracy,Maximum Accuracy,Elapsed,Delete Rate
+inceptionv3,people,dense,Baseline,None,30,10,19.98,0.06,19.8,20.0,37.68,0.0
+inceptionv3,people,dense,tafe,0.0,30,10,19.48,1.32,15.6,20.0,36.9,4.39
+inceptionv3,people,dense,tafe,1e-45,30,10,21.6,3.62,20.0,31.8,3.15,96.68
+inceptionv3,people,dense,tafe,1e-25,30,10,21.6,3.23,20.0,29.0,2.48,98.49
+inceptionv3,people,dense,tafe,1e-15,30,10,20.84,2.52,20.0,28.4,1.94,99.07
+inceptionv3,people,dense,tafe,1e-05,30,10,20.0,0.0,20.0,20.0,1.62,99.8
+vgg16,people,dense,Baseline,None,30,10,19.86,0.42,18.6,20.0,20.4,0.0
+vgg16,people,dense,tafe,0.0,30,10,19.96,0.12,19.6,20.0,24.23,0.59
+vgg16,people,dense,tafe,1e-45,30,10,20.0,0.0,20.0,20.0,3.39,93.55
+vgg16,people,dense,tafe,1e-25,30,10,20.0,0.0,20.0,20.0,2.84,96.48
+vgg16,people,dense,tafe,1e-15,30,10,20.0,0.0,20.0,20.0,2.57,97.07
+vgg16,people,dense,tafe,1e-05,30,10,20.0,0.0,20.0,20.0,2.18,99.02
+xception,people,dense,Baseline,None,30,10,19.98,0.06,19.8,20.0,80.04,0.0
+xception,people,dense,tafe,0.0,30,10,19.78,0.91,17.2,20.6,84.86,0.44
+xception,people,dense,tafe,1e-45,30,10,19.96,0.2,19.4,20.2,55.36,41.75
+xception,people,dense,tafe,1e-25,30,10,19.96,0.12,19.6,20.0,47.26,51.32
+xception,people,dense,tafe,1e-15,30,10,19.98,0.14,19.6,20.2,35.98,60.5
+xception,people,dense,tafe,1e-05,30,10,19.62,1.17,16.2,20.6,21.37,79.88

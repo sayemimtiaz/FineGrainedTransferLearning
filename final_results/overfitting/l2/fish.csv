@@ -1,0 +1,13 @@
+Source,Target,Transfer Type,Classifier Type,Alpha,Epoch,Repeat,Accuracy,STD,Minimum Accuracy,Maximum Accuracy,Elapsed,Delete Rate
+inceptionv3,fish,dense,Baseline,None,30,10,63.24,5.96,53.4,70.6,56.45,0.0
+inceptionv3,fish,dense,tafe,0.0,30,10,61.84,8.95,43.2,75.2,55.14,4.69
+inceptionv3,fish,dense,tafe,1e-45,30,10,59.86,4.74,51.4,66.2,5.63,96.29
+inceptionv3,fish,dense,tafe,1e-25,30,10,57.24,2.85,52.0,61.6,4.48,98.05
+inceptionv3,fish,dense,tafe,1e-15,30,10,51.48,4.18,42.0,56.8,4.0,98.83
+inceptionv3,fish,dense,tafe,1e-05,30,10,32.22,1.83,28.0,34.2,2.88,99.85
+resnet50,fish,dense,Baseline,None,30,10,20.0,0.0,20.0,20.0,47.97,0.0
+resnet50,fish,dense,tafe,0.0,30,10,20.0,0.0,20.0,20.0,19.32,64.45
+resnet50,fish,dense,tafe,1e-45,30,10,20.0,0.0,20.0,20.0,5.23,93.07
+resnet50,fish,dense,tafe,1e-25,30,10,20.0,0.0,20.0,20.0,4.69,93.65
+resnet50,fish,dense,tafe,1e-15,30,10,20.0,0.0,20.0,20.0,4.37,94.24
+resnet50,fish,dense,tafe,1e-05,30,10,20.0,0.0,20.0,20.0,3.57,95.95

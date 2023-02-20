@@ -1,0 +1,19 @@
+Source,Target,Transfer Type,Classifier Type,Alpha,Epoch,Repeat,Accuracy,STD,Minimum Accuracy,Maximum Accuracy,Elapsed,Delete Rate
+inceptionv3,non-insectinvertebrates,dense,Baseline,None,30,10,20.46,1.38,20.0,24.6,37.61,0.0
+inceptionv3,non-insectinvertebrates,dense,tafe,0.0,30,10,20.96,2.12,20.0,26.8,36.65,4.35
+inceptionv3,non-insectinvertebrates,dense,tafe,1e-45,30,10,47.46,5.79,39.8,56.2,4.58,96.09
+inceptionv3,non-insectinvertebrates,dense,tafe,1e-25,30,10,41.26,3.92,32.6,45.8,3.41,98.0
+inceptionv3,non-insectinvertebrates,dense,tafe,1e-15,30,10,37.48,4.59,30.0,44.6,3.25,98.73
+inceptionv3,non-insectinvertebrates,dense,tafe,1e-05,30,10,33.6,0.5,32.4,34.2,2.91,99.66
+vgg16,non-insectinvertebrates,dense,Baseline,None,30,10,20.0,0.0,20.0,20.0,23.56,0.0
+vgg16,non-insectinvertebrates,dense,tafe,0.0,30,10,20.0,0.0,20.0,20.0,25.74,0.39
+vgg16,non-insectinvertebrates,dense,tafe,1e-45,30,10,20.0,0.0,20.0,20.0,3.5,92.19
+vgg16,non-insectinvertebrates,dense,tafe,1e-25,30,10,20.0,0.0,20.0,20.0,2.82,96.29
+vgg16,non-insectinvertebrates,dense,tafe,1e-15,30,10,20.0,0.0,20.0,20.0,2.41,98.05
+vgg16,non-insectinvertebrates,dense,tafe,1e-05,30,10,20.0,0.0,20.0,20.0,1.96,99.61
+xception,non-insectinvertebrates,dense,Baseline,None,30,10,22.02,3.72,18.4,31.0,95.12,0.0
+xception,non-insectinvertebrates,dense,tafe,0.0,30,10,22.2,5.69,16.0,36.6,102.17,0.44
+xception,non-insectinvertebrates,dense,tafe,1e-45,30,10,25.9,8.66,19.8,45.6,64.8,37.35
+xception,non-insectinvertebrates,dense,tafe,1e-25,30,10,32.74,7.58,20.0,45.8,68.51,46.34
+xception,non-insectinvertebrates,dense,tafe,1e-15,30,10,23.7,5.51,19.6,35.6,49.68,53.66
+xception,non-insectinvertebrates,dense,tafe,1e-05,30,10,28.52,8.71,15.6,38.6,31.38,75.1

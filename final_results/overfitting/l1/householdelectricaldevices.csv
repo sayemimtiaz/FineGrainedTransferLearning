@@ -1,0 +1,25 @@
+Source,Target,Transfer Type,Classifier Type,Alpha,Epoch,Repeat,Accuracy,STD,Minimum Accuracy,Maximum Accuracy,Elapsed,Delete Rate
+inceptionv3,householdelectricaldevices,dense,Baseline,None,30,10,29.24,9.6,20.0,49.8,60.61,0.0
+inceptionv3,householdelectricaldevices,dense,tafe,0.0,30,10,27.76,6.25,20.0,39.2,51.84,4.35
+inceptionv3,householdelectricaldevices,dense,tafe,1e-45,30,10,72.96,7.07,59.0,81.4,5.6,95.75
+inceptionv3,householdelectricaldevices,dense,tafe,1e-25,30,10,70.86,5.31,60.0,78.6,3.79,97.66
+inceptionv3,householdelectricaldevices,dense,tafe,1e-15,30,10,70.14,2.46,67.0,74.2,3.91,98.73
+inceptionv3,householdelectricaldevices,dense,tafe,1e-05,30,10,32.7,3.0,29.2,38.2,2.51,99.76
+resnet50,householdelectricaldevices,dense,Baseline,None,30,10,20.0,0.0,20.0,20.0,56.12,0.0
+resnet50,householdelectricaldevices,dense,tafe,0.0,30,10,20.0,0.0,20.0,20.0,25.08,59.47
+resnet50,householdelectricaldevices,dense,tafe,1e-45,30,10,20.0,0.0,20.0,20.0,8.71,89.89
+resnet50,householdelectricaldevices,dense,tafe,1e-25,30,10,20.0,0.0,20.0,20.0,7.76,91.02
+resnet50,householdelectricaldevices,dense,tafe,1e-15,30,10,20.0,0.0,20.0,20.0,6.24,92.29
+resnet50,householdelectricaldevices,dense,tafe,1e-05,30,10,20.0,0.0,20.0,20.0,4.36,95.21
+vgg16,householdelectricaldevices,dense,Baseline,None,30,10,20.0,0.0,20.0,20.0,38.36,0.0
+vgg16,householdelectricaldevices,dense,tafe,0.0,30,10,19.98,0.06,19.8,20.0,37.04,0.0
+vgg16,householdelectricaldevices,dense,tafe,1e-45,30,10,20.0,0.0,20.0,20.0,3.74,93.95
+vgg16,householdelectricaldevices,dense,tafe,1e-25,30,10,20.0,0.0,20.0,20.0,4.21,97.07
+vgg16,householdelectricaldevices,dense,tafe,1e-15,30,10,20.0,0.0,20.0,20.0,2.75,98.24
+vgg16,householdelectricaldevices,dense,tafe,1e-05,30,10,20.0,0.0,20.0,20.0,2.17,99.61
+xception,householdelectricaldevices,dense,Baseline,None,30,10,41.48,11.89,26.6,61.4,206.14,0.0
+xception,householdelectricaldevices,dense,tafe,0.0,30,10,40.98,4.45,36.2,53.4,186.09,0.44
+xception,householdelectricaldevices,dense,tafe,1e-45,30,10,49.66,8.78,36.6,65.6,146.8,37.5
+xception,householdelectricaldevices,dense,tafe,1e-25,30,10,54.04,11.23,29.8,66.8,105.66,47.02
+xception,householdelectricaldevices,dense,tafe,1e-15,30,10,54.02,9.38,41.2,68.8,89.42,56.15
+xception,householdelectricaldevices,dense,tafe,1e-05,30,10,62.3,9.47,49.2,77.8,58.81,76.56

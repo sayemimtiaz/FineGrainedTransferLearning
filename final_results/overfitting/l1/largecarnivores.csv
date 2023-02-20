@@ -1,0 +1,25 @@
+Source,Target,Transfer Type,Classifier Type,Alpha,Epoch,Repeat,Accuracy,STD,Minimum Accuracy,Maximum Accuracy,Elapsed,Delete Rate
+inceptionv3,largecarnivores,dense,Baseline,None,30,10,20.0,0.0,20.0,20.0,37.81,0.0
+inceptionv3,largecarnivores,dense,tafe,0.0,30,10,20.34,0.79,20.0,22.6,38.14,4.79
+inceptionv3,largecarnivores,dense,tafe,1e-45,30,10,38.48,8.93,20.0,52.8,5.58,95.65
+inceptionv3,largecarnivores,dense,tafe,1e-25,30,10,37.82,4.62,29.8,43.2,4.53,97.56
+inceptionv3,largecarnivores,dense,tafe,1e-15,30,10,26.02,6.45,20.0,35.6,2.77,98.78
+inceptionv3,largecarnivores,dense,tafe,1e-05,30,10,20.0,0.0,20.0,20.0,1.58,99.95
+resnet50,largecarnivores,dense,Baseline,None,30,10,20.0,0.0,20.0,20.0,55.89,0.0
+resnet50,largecarnivores,dense,tafe,0.0,30,10,20.0,0.0,20.0,20.0,22.28,64.75
+resnet50,largecarnivores,dense,tafe,1e-45,30,10,20.0,0.0,20.0,20.0,5.34,93.8
+resnet50,largecarnivores,dense,tafe,1e-25,30,10,20.0,0.0,20.0,20.0,4.71,94.63
+resnet50,largecarnivores,dense,tafe,1e-15,30,10,20.0,0.0,20.0,20.0,4.53,95.12
+resnet50,largecarnivores,dense,tafe,1e-05,30,10,20.0,0.0,20.0,20.0,3.61,96.63
+vgg16,largecarnivores,dense,Baseline,None,30,10,19.8,0.54,18.2,20.0,50.22,0.0
+vgg16,largecarnivores,dense,tafe,0.0,30,10,20.0,0.0,20.0,20.0,50.54,2.15
+vgg16,largecarnivores,dense,tafe,1e-45,30,10,20.0,0.0,20.0,20.0,16.59,86.33
+vgg16,largecarnivores,dense,tafe,1e-25,30,10,20.0,0.0,20.0,20.0,3.79,89.84
+vgg16,largecarnivores,dense,tafe,1e-15,30,10,20.0,0.0,20.0,20.0,3.26,93.16
+vgg16,largecarnivores,dense,tafe,1e-05,30,10,20.0,0.0,20.0,20.0,2.38,97.66
+xception,largecarnivores,dense,Baseline,None,30,10,21.06,4.84,12.2,32.6,212.12,0.0
+xception,largecarnivores,dense,tafe,0.0,30,10,20.4,0.7,20.0,22.2,185.1,0.44
+xception,largecarnivores,dense,tafe,1e-45,30,10,20.7,4.47,15.4,33.4,117.42,37.21
+xception,largecarnivores,dense,tafe,1e-25,30,10,20.08,0.24,20.0,20.8,78.97,46.44
+xception,largecarnivores,dense,tafe,1e-15,30,10,20.08,0.42,19.4,21.2,93.76,54.3
+xception,largecarnivores,dense,tafe,1e-05,30,10,19.44,1.02,16.6,20.0,65.63,75.29

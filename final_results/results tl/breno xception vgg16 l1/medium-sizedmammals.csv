@@ -1,0 +1,36 @@
+Source,Target,Transfer Type,Classifier Type,Alpha,Epoch,Repeat,Accuracy,STD,Minimum Accuracy,Maximum Accuracy,Elapsed,Delete Rate
+inceptionv3,medium-sizedmammals,dense,Baseline,None,30,10,69.02,10.22,45.4,80.0,50.63,0.0
+inceptionv3,medium-sizedmammals,dense,tafe,0.0,30,10,65.3,6.76,52.4,73.0,52.68,4.69
+inceptionv3,medium-sizedmammals,dense,tafe,1e-45,30,10,65.52,4.22,58.2,70.4,4.18,95.8
+inceptionv3,medium-sizedmammals,dense,tafe,1e-25,30,10,57.3,6.71,46.4,66.8,3.17,97.85
+inceptionv3,medium-sizedmammals,dense,tafe,1e-15,30,10,56.02,3.97,51.0,62.6,3.24,98.63
+inceptionv3,medium-sizedmammals,dense,tafe,1e-05,30,10,33.66,2.47,29.6,37.0,2.42,99.9
+Source,Target,Transfer Type,Classifier Type,Alpha,Epoch,Repeat,Accuracy,STD,Minimum Accuracy,Maximum Accuracy,Elapsed,Delete Rate
+resnet50,medium-sizedmammals,dense,Baseline,None,30,10,20.0,0.0,20.0,20.0,51.85,0.0
+resnet50,medium-sizedmammals,dense,tafe,0.0,30,10,20.0,0.0,20.0,20.0,21.35,64.5
+resnet50,medium-sizedmammals,dense,tafe,1e-45,30,10,20.0,0.0,20.0,20.0,5.5,93.65
+resnet50,medium-sizedmammals,dense,tafe,1e-25,30,10,20.0,0.0,20.0,20.0,5.04,94.43
+resnet50,medium-sizedmammals,dense,tafe,1e-15,30,10,20.0,0.0,20.0,20.0,4.52,95.17
+resnet50,medium-sizedmammals,dense,tafe,1e-05,30,10,20.0,0.0,20.0,20.0,3.59,96.78
+Source,Target,Transfer Type,Classifier Type,Alpha,Epoch,Repeat,Accuracy,STD,Minimum Accuracy,Maximum Accuracy,Elapsed,Delete Rate
+vgg16,medium-sizedmammals,dense,Baseline,None,30,10,19.86,0.31,19.0,20.0,27.31,0.0
+vgg16,medium-sizedmammals,dense,tafe,0.0,30,10,20.0,0.0,20.0,20.0,37.91,1.76
+vgg16,medium-sizedmammals,dense,tafe,1e-45,30,10,20.0,0.0,20.0,20.0,9.57,87.3
+vgg16,medium-sizedmammals,dense,tafe,1e-25,30,10,20.0,0.0,20.0,20.0,7.53,90.82
+vgg16,medium-sizedmammals,dense,tafe,1e-15,30,10,20.0,0.0,20.0,20.0,6.28,94.14
+vgg16,medium-sizedmammals,dense,tafe,1e-05,30,10,20.0,0.0,20.0,20.0,4.48,98.05
+Source,Target,Transfer Type,Classifier Type,Alpha,Epoch,Repeat,Accuracy,STD,Minimum Accuracy,Maximum Accuracy,Elapsed,Delete Rate
+Source,Target,Transfer Type,Classifier Type,Alpha,Epoch,Repeat,Accuracy,STD,Minimum Accuracy,Maximum Accuracy,Elapsed,Delete Rate
+vgg16,medium-sizedmammals,dense,Baseline,None,30,10,19.92,0.24,19.2,20.0,21.27,0.0
+vgg16,medium-sizedmammals,dense,tafe,0.0,30,10,20.16,0.48,20.0,21.6,23.14,1.56
+vgg16,medium-sizedmammals,dense,tafe,1e-45,30,10,20.0,0.0,20.0,20.0,4.23,86.91
+vgg16,medium-sizedmammals,dense,tafe,1e-25,30,10,20.0,0.0,20.0,20.0,3.06,91.02
+vgg16,medium-sizedmammals,dense,tafe,1e-15,30,10,20.0,0.0,20.0,20.0,3.09,93.16
+vgg16,medium-sizedmammals,dense,tafe,1e-05,30,10,20.0,0.0,20.0,20.0,2.01,98.44
+Source,Target,Transfer Type,Classifier Type,Alpha,Epoch,Repeat,Accuracy,STD,Minimum Accuracy,Maximum Accuracy,Elapsed,Delete Rate
+xception,medium-sizedmammals,dense,Baseline,None,30,10,36.0,8.33,24.4,54.4,150.51,0.0
+xception,medium-sizedmammals,dense,tafe,0.0,30,10,33.32,7.11,20.0,43.0,138.94,0.44
+xception,medium-sizedmammals,dense,tafe,1e-45,30,10,41.78,8.19,25.0,52.2,99.51,36.38
+xception,medium-sizedmammals,dense,tafe,1e-25,30,10,44.74,7.42,29.4,53.8,86.68,45.41
+xception,medium-sizedmammals,dense,tafe,1e-15,30,10,36.98,7.3,25.2,47.2,70.02,53.42
+xception,medium-sizedmammals,dense,tafe,1e-05,30,10,42.54,10.34,20.0,53.2,33.45,75.68

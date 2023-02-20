@@ -1,4 +1,4 @@
-pretrained_architecures = ['xception', 'inceptionv3', 'densenet201', 'resnet50', 'vgg16']
+pretrained_architecures = ['inceptionv3']
 
 # target_datasets=['dog', 'bird']
 target_datasets = ['pet', 'cats_vs_dogs', 'stl10']

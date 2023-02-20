@@ -7,6 +7,7 @@ from core import getTargetNumClass
 from util.common import init_gpu
 from util.ordinary import get_bottleneck_name, get_summary_out_name, load_pickle_file, get_delete_rate_name
 from keras import backend as K
+from tensorflow.keras.callbacks import EarlyStopping
 
 
 def load_classifier(input_shape, get_classifier=None, target_ds=None):
@@ -71,10 +72,13 @@ def trainBaseline(model, epoch=30, batch_size=128, verbose=0, target_ds=None):
 def trainDog(model, train_ds, val_ds, train_labels, validation_labels, epoch=30, batch_size=128, verbose=0):
     start = time.time()
 
+    es = EarlyStopping(monitor='val_accuracy', mode='max', patience=2)
+
     history = model.fit(train_ds, train_labels,
                         epochs=epoch,
                         batch_size=batch_size,
-                        validation_data=(val_ds, validation_labels))
+                        validation_data=(val_ds, validation_labels),
+                        callbacks=[es])
     end = time.time()
 
     return history.history['val_accuracy'][-1], end - start

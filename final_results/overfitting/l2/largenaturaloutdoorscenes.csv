@@ -1,0 +1,13 @@
+Source,Target,Transfer Type,Classifier Type,Alpha,Epoch,Repeat,Accuracy,STD,Minimum Accuracy,Maximum Accuracy,Elapsed,Delete Rate
+inceptionv3,largenaturaloutdoorscenes,dense,Baseline,None,30,10,69.02,8.47,51.2,80.6,45.28,0.0
+inceptionv3,largenaturaloutdoorscenes,dense,tafe,0.0,30,10,71.46,7.03,61.2,80.4,40.56,5.37
+inceptionv3,largenaturaloutdoorscenes,dense,tafe,1e-45,30,10,63.12,3.68,58.4,69.4,3.31,98.29
+inceptionv3,largenaturaloutdoorscenes,dense,tafe,1e-25,30,10,62.28,3.58,55.2,67.4,3.19,98.83
+inceptionv3,largenaturaloutdoorscenes,dense,tafe,1e-15,30,10,58.34,3.97,51.6,63.2,2.62,99.32
+inceptionv3,largenaturaloutdoorscenes,dense,tafe,1e-05,30,10,28.04,1.55,24.4,29.8,1.9,99.9
+resnet50,largenaturaloutdoorscenes,dense,Baseline,None,30,10,20.0,0.0,20.0,20.0,52.96,0.0
+resnet50,largenaturaloutdoorscenes,dense,tafe,0.0,30,10,20.0,0.0,20.0,20.0,20.39,67.14
+resnet50,largenaturaloutdoorscenes,dense,tafe,1e-45,30,10,20.0,0.0,20.0,20.0,4.84,94.78
+resnet50,largenaturaloutdoorscenes,dense,tafe,1e-25,30,10,20.0,0.0,20.0,20.0,4.49,95.36
+resnet50,largenaturaloutdoorscenes,dense,tafe,1e-15,30,10,20.0,0.0,20.0,20.0,4.13,96.0
+resnet50,largenaturaloutdoorscenes,dense,tafe,1e-05,30,10,20.0,0.0,20.0,20.0,3.43,97.31

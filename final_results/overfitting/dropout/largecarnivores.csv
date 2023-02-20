@@ -1,0 +1,25 @@
+Source,Target,Transfer Type,Classifier Type,Alpha,Epoch,Repeat,Accuracy,STD,Minimum Accuracy,Maximum Accuracy,Elapsed,Delete Rate
+resnet50,largecarnivores,dense,Baseline,None,30,10,20.0,0.0,20.0,20.0,222.04,0.0
+resnet50,largecarnivores,dense,tafe,0.0,30,10,20.0,0.0,20.0,20.0,92.02,66.36
+resnet50,largecarnivores,dense,tafe,1e-45,30,10,22.0,0.86,20.4,22.8,18.91,95.41
+resnet50,largecarnivores,dense,tafe,1e-25,30,10,21.76,0.37,21.0,22.2,17.22,96.24
+resnet50,largecarnivores,dense,tafe,1e-15,30,10,21.24,0.5,20.4,22.0,16.13,96.68
+resnet50,largecarnivores,dense,tafe,1e-05,30,10,20.38,0.23,20.0,20.6,13.3,97.95
+inceptionv3,largecarnivores,dense,Baseline,None,30,10,75.18,3.65,69.2,81.4,69.22,0.0
+inceptionv3,largecarnivores,dense,tafe,0.0,30,10,73.04,2.99,67.6,78.2,43.3,4.64
+inceptionv3,largecarnivores,dense,tafe,1e-45,30,10,63.6,3.25,58.0,68.4,5.2,95.75
+inceptionv3,largecarnivores,dense,tafe,1e-25,30,10,58.84,1.86,55.6,62.4,4.13,97.85
+inceptionv3,largecarnivores,dense,tafe,1e-15,30,10,50.42,3.03,45.6,55.2,3.79,98.88
+inceptionv3,largecarnivores,dense,tafe,1e-05,30,10,28.08,2.25,23.6,30.8,2.06,99.9
+vgg16,largecarnivores,dense,Baseline,None,30,10,27.96,9.19,18.2,47.2,43.64,0.0
+vgg16,largecarnivores,dense,tafe,0.0,30,10,26.56,5.27,19.6,35.0,36.67,2.15
+vgg16,largecarnivores,dense,tafe,1e-45,30,10,20.62,0.61,19.8,22.0,11.05,85.16
+vgg16,largecarnivores,dense,tafe,1e-25,30,10,20.38,0.41,20.0,21.2,3.67,90.04
+vgg16,largecarnivores,dense,tafe,1e-15,30,10,20.16,0.23,20.0,20.6,3.7,92.97
+vgg16,largecarnivores,dense,tafe,1e-05,30,10,20.12,0.2,19.8,20.6,3.46,97.27
+xception,largecarnivores,dense,Baseline,None,30,10,77.78,2.56,72.0,82.0,148.89,0.0
+xception,largecarnivores,dense,tafe,0.0,30,10,78.7,2.88,72.6,82.0,178.37,0.44
+xception,largecarnivores,dense,tafe,1e-45,30,10,78.28,2.7,73.2,81.2,106.12,37.26
+xception,largecarnivores,dense,tafe,1e-25,30,10,79.86,1.79,76.4,82.4,88.63,46.29
+xception,largecarnivores,dense,tafe,1e-15,30,10,78.2,2.53,74.0,81.8,87.88,53.81
+xception,largecarnivores,dense,tafe,1e-05,30,10,76.58,1.72,72.6,79.2,32.85,75.29

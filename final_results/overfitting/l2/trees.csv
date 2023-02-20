@@ -1,0 +1,13 @@
+Source,Target,Transfer Type,Classifier Type,Alpha,Epoch,Repeat,Accuracy,STD,Minimum Accuracy,Maximum Accuracy,Elapsed,Delete Rate
+inceptionv3,trees,dense,Baseline,None,30,10,49.06,4.73,42.0,56.2,54.93,0.0
+inceptionv3,trees,dense,tafe,0.0,30,10,47.68,5.28,39.8,56.0,50.05,5.42
+inceptionv3,trees,dense,tafe,1e-45,30,10,44.3,2.47,41.4,49.0,3.54,98.39
+inceptionv3,trees,dense,tafe,1e-25,30,10,41.84,4.02,32.8,47.4,3.23,99.12
+inceptionv3,trees,dense,tafe,1e-15,30,10,36.92,2.75,30.4,41.4,2.61,99.61
+inceptionv3,trees,dense,tafe,1e-05,30,10,27.5,2.89,21.0,31.2,2.38,99.9
+resnet50,trees,dense,Baseline,None,30,10,20.0,0.0,20.0,20.0,50.59,0.0
+resnet50,trees,dense,tafe,0.0,30,10,20.0,0.0,20.0,20.0,18.12,67.19
+resnet50,trees,dense,tafe,1e-45,30,10,20.0,0.0,20.0,20.0,3.67,95.7
+resnet50,trees,dense,tafe,1e-25,30,10,20.0,0.0,20.0,20.0,3.37,96.34
+resnet50,trees,dense,tafe,1e-15,30,10,20.0,0.0,20.0,20.0,3.12,96.73
+resnet50,trees,dense,tafe,1e-05,30,10,20.0,0.0,20.0,20.0,2.39,98.29

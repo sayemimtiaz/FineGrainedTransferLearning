@@ -1,0 +1,13 @@
+Source,Target,Transfer Type,Classifier Type,Alpha,Epoch,Repeat,Accuracy,STD,Minimum Accuracy,Maximum Accuracy,Elapsed,Delete Rate
+inceptionv3,vehicles2,dense,Baseline,None,30,10,76.5,9.27,62.0,87.4,83.06,0.0
+inceptionv3,vehicles2,dense,tafe,0.0,30,10,71.7,8.31,55.4,84.0,64.66,4.74
+inceptionv3,vehicles2,dense,tafe,1e-45,30,10,69.52,4.56,63.2,76.8,6.95,96.63
+inceptionv3,vehicles2,dense,tafe,1e-25,30,10,63.34,5.08,55.8,69.8,5.0,98.29
+inceptionv3,vehicles2,dense,tafe,1e-15,30,10,54.98,4.42,47.6,60.8,4.06,99.27
+inceptionv3,vehicles2,dense,tafe,1e-05,30,10,38.9,1.93,34.4,40.6,2.52,99.9
+resnet50,vehicles2,dense,Baseline,None,30,10,20.0,0.0,20.0,20.0,62.71,0.0
+resnet50,vehicles2,dense,tafe,0.0,30,10,20.0,0.0,20.0,20.0,27.28,65.38
+resnet50,vehicles2,dense,tafe,1e-45,30,10,20.0,0.0,20.0,20.0,5.11,94.82
+resnet50,vehicles2,dense,tafe,1e-25,30,10,20.0,0.0,20.0,20.0,4.59,95.46
+resnet50,vehicles2,dense,tafe,1e-15,30,10,20.0,0.0,20.0,20.0,4.47,96.24
+resnet50,vehicles2,dense,tafe,1e-05,30,10,20.0,0.0,20.0,20.0,3.42,97.71

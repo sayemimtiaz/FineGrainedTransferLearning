@@ -19,11 +19,10 @@ def evaluate(target_ds=None, parent_model=None):
     epoch = 30
     REPEAT = 10
     batch_size = 32
-    alpha_values = [0.0, 1e-25, 1e-15, 1e-5, 0.01]
-    if target_ds == 'cifar100':
-        alpha_values.append(0.05)
-    # classfiers = {'pool': get_pool_classifier, 'svm': get_svm_classifier}
-    classfiers = {'svm': get_svm_classifier}
+    alpha_values = [0.0, 1e-45, 1e-25, 1e-15, 1e-5]
+
+    # classfiers = {'pool': get_pool_classifier, 'svm': get_svm_classifier,  'dense': get_dense_classifier}
+    classfiers = {'dense': get_dense_classifier}
     # classfiers = {'pool': get_pool_classifier}
 
     delete_rates = load_pickle_file(get_delete_rate_name(target_ds))

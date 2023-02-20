@@ -1,0 +1,13 @@
+Source,Target,Transfer Type,Classifier Type,Alpha,Epoch,Repeat,Accuracy,STD,Minimum Accuracy,Maximum Accuracy,Elapsed,Delete Rate
+inceptionv3,medium-sizedmammals,dense,Baseline,None,30,10,69.02,10.22,45.4,80.0,50.63,0.0
+inceptionv3,medium-sizedmammals,dense,tafe,0.0,30,10,65.3,6.76,52.4,73.0,52.68,4.69
+inceptionv3,medium-sizedmammals,dense,tafe,1e-45,30,10,65.52,4.22,58.2,70.4,4.18,95.8
+inceptionv3,medium-sizedmammals,dense,tafe,1e-25,30,10,57.3,6.71,46.4,66.8,3.17,97.85
+inceptionv3,medium-sizedmammals,dense,tafe,1e-15,30,10,56.02,3.97,51.0,62.6,3.24,98.63
+inceptionv3,medium-sizedmammals,dense,tafe,1e-05,30,10,33.66,2.47,29.6,37.0,2.42,99.9
+resnet50,medium-sizedmammals,dense,Baseline,None,30,10,20.0,0.0,20.0,20.0,51.85,0.0
+resnet50,medium-sizedmammals,dense,tafe,0.0,30,10,20.0,0.0,20.0,20.0,21.35,64.5
+resnet50,medium-sizedmammals,dense,tafe,1e-45,30,10,20.0,0.0,20.0,20.0,5.5,93.65
+resnet50,medium-sizedmammals,dense,tafe,1e-25,30,10,20.0,0.0,20.0,20.0,5.04,94.43
+resnet50,medium-sizedmammals,dense,tafe,1e-15,30,10,20.0,0.0,20.0,20.0,4.52,95.17
+resnet50,medium-sizedmammals,dense,tafe,1e-05,30,10,20.0,0.0,20.0,20.0,3.59,96.78

@@ -1,0 +1,7 @@
+Source,Target,Transfer Type,Classifier Type,Alpha,Epoch,Repeat,Accuracy,STD,Minimum Accuracy,Maximum Accuracy,Elapsed,Delete Rate
+resnet50,largeman-madeoutdoorthings,dense,Baseline,None,30,10,31.56,9.17,20.2,47.4,16.41,0.0
+resnet50,largeman-madeoutdoorthings,dense,tafe,0.0,30,10,35.62,10.23,20.0,60.0,11.74,64.79
+resnet50,largeman-madeoutdoorthings,dense,tafe,1e-45,30,10,27.44,0.77,25.2,28.0,6.46,93.9
+resnet50,largeman-madeoutdoorthings,dense,tafe,1e-25,30,10,25.02,0.55,24.0,25.8,6.31,94.38
+resnet50,largeman-madeoutdoorthings,dense,tafe,1e-15,30,10,23.88,0.7,22.2,24.8,6.09,95.17
+resnet50,largeman-madeoutdoorthings,dense,tafe,1e-05,30,10,21.2,0.45,20.2,21.8,5.78,96.58

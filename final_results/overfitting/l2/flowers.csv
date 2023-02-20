@@ -1,0 +1,13 @@
+Source,Target,Transfer Type,Classifier Type,Alpha,Epoch,Repeat,Accuracy,STD,Minimum Accuracy,Maximum Accuracy,Elapsed,Delete Rate
+inceptionv3,flowers,dense,Baseline,None,30,10,48.48,8.26,36.0,61.8,59.6,0.0
+inceptionv3,flowers,dense,tafe,0.0,30,10,54.0,7.27,38.8,66.0,54.1,4.69
+inceptionv3,flowers,dense,tafe,1e-45,30,10,44.1,4.89,32.8,50.6,4.55,97.27
+inceptionv3,flowers,dense,tafe,1e-25,30,10,42.72,3.54,37.4,47.0,4.01,98.39
+inceptionv3,flowers,dense,tafe,1e-15,30,10,41.64,2.47,38.4,45.6,3.39,99.07
+inceptionv3,flowers,dense,tafe,1e-05,30,10,30.52,1.65,27.4,33.6,3.05,99.8
+resnet50,flowers,dense,Baseline,None,30,10,20.0,0.0,20.0,20.0,48.33,0.0
+resnet50,flowers,dense,tafe,0.0,30,10,20.0,0.0,20.0,20.0,18.35,66.31
+resnet50,flowers,dense,tafe,1e-45,30,10,20.0,0.0,20.0,20.0,3.91,95.36
+resnet50,flowers,dense,tafe,1e-25,30,10,20.0,0.0,20.0,20.0,3.43,96.14
+resnet50,flowers,dense,tafe,1e-15,30,10,20.0,0.0,20.0,20.0,3.06,96.83
+resnet50,flowers,dense,tafe,1e-05,30,10,20.0,0.0,20.0,20.0,2.51,98.05

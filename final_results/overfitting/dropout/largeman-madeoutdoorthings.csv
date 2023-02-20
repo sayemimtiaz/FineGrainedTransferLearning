@@ -1,0 +1,25 @@
+Source,Target,Transfer Type,Classifier Type,Alpha,Epoch,Repeat,Accuracy,STD,Minimum Accuracy,Maximum Accuracy,Elapsed,Delete Rate
+resnet50,largeman-madeoutdoorthings,dense,Baseline,None,30,10,20.0,0.0,20.0,20.0,220.54,0.0
+resnet50,largeman-madeoutdoorthings,dense,tafe,0.0,30,10,20.0,0.0,20.0,20.0,91.75,65.62
+resnet50,largeman-madeoutdoorthings,dense,tafe,1e-45,30,10,27.62,1.11,25.8,29.0,20.11,94.73
+resnet50,largeman-madeoutdoorthings,dense,tafe,1e-25,30,10,24.9,1.28,22.8,26.4,18.96,95.36
+resnet50,largeman-madeoutdoorthings,dense,tafe,1e-15,30,10,21.48,0.77,19.8,22.4,17.33,96.19
+resnet50,largeman-madeoutdoorthings,dense,tafe,1e-05,30,10,20.58,0.27,20.0,21.0,14.55,97.41
+inceptionv3,largeman-madeoutdoorthings,dense,Baseline,None,30,10,81.6,2.36,78.6,85.4,58.93,0.0
+inceptionv3,largeman-madeoutdoorthings,dense,tafe,0.0,30,10,81.12,3.32,72.2,84.8,60.17,5.03
+inceptionv3,largeman-madeoutdoorthings,dense,tafe,1e-45,30,10,72.96,2.19,69.6,76.6,6.32,97.22
+inceptionv3,largeman-madeoutdoorthings,dense,tafe,1e-25,30,10,64.24,3.34,57.2,68.2,5.44,98.63
+inceptionv3,largeman-madeoutdoorthings,dense,tafe,1e-15,30,10,57.78,2.03,53.4,61.2,4.23,99.22
+inceptionv3,largeman-madeoutdoorthings,dense,tafe,1e-05,30,10,38.1,1.59,35.8,40.4,3.51,99.85
+vgg16,largeman-madeoutdoorthings,dense,Baseline,None,30,10,67.26,5.4,53.6,72.2,42.71,0.0
+vgg16,largeman-madeoutdoorthings,dense,tafe,0.0,30,10,65.48,4.31,57.4,72.0,40.23,3.12
+vgg16,largeman-madeoutdoorthings,dense,tafe,1e-45,30,10,21.94,1.11,20.6,23.6,5.69,85.94
+vgg16,largeman-madeoutdoorthings,dense,tafe,1e-25,30,10,20.52,0.53,20.0,21.6,9.62,90.04
+vgg16,largeman-madeoutdoorthings,dense,tafe,1e-15,30,10,20.22,0.36,20.0,21.2,5.57,93.36
+vgg16,largeman-madeoutdoorthings,dense,tafe,1e-05,30,10,20.06,0.18,20.0,20.6,2.17,97.66
+xception,largeman-madeoutdoorthings,dense,Baseline,None,30,10,84.16,1.27,81.4,85.6,142.5,0.0
+xception,largeman-madeoutdoorthings,dense,tafe,0.0,30,10,84.38,1.05,81.8,85.2,142.92,0.59
+xception,largeman-madeoutdoorthings,dense,tafe,1e-45,30,10,84.72,1.45,81.0,86.2,92.63,41.6
+xception,largeman-madeoutdoorthings,dense,tafe,1e-25,30,10,83.6,1.85,80.0,86.0,68.07,51.51
+xception,largeman-madeoutdoorthings,dense,tafe,1e-15,30,10,83.92,1.18,81.4,85.4,61.36,60.69
+xception,largeman-madeoutdoorthings,dense,tafe,1e-05,30,10,82.74,1.05,80.0,84.0,39.05,78.22

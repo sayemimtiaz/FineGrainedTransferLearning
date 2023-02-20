@@ -1,0 +1,13 @@
+Source,Target,Transfer Type,Classifier Type,Alpha,Epoch,Repeat,Accuracy,STD,Minimum Accuracy,Maximum Accuracy,Elapsed,Delete Rate
+inceptionv3,householdelectricaldevices,dense,Baseline,None,30,10,82.32,8.25,59.2,90.0,51.57,0.0
+inceptionv3,householdelectricaldevices,dense,tafe,0.0,30,10,79.36,7.47,63.4,89.8,56.01,4.39
+inceptionv3,householdelectricaldevices,dense,tafe,1e-45,30,10,76.24,5.95,62.8,82.2,4.07,95.65
+inceptionv3,householdelectricaldevices,dense,tafe,1e-25,30,10,75.96,3.48,70.2,81.6,3.85,97.66
+inceptionv3,householdelectricaldevices,dense,tafe,1e-15,30,10,68.02,4.47,57.8,75.0,2.85,98.83
+inceptionv3,householdelectricaldevices,dense,tafe,1e-05,30,10,45.08,2.85,41.2,49.8,2.47,99.8
+resnet50,householdelectricaldevices,dense,Baseline,None,30,10,20.0,0.0,20.0,20.0,52.63,0.0
+resnet50,householdelectricaldevices,dense,tafe,0.0,30,10,20.0,0.0,20.0,20.0,21.72,59.47
+resnet50,householdelectricaldevices,dense,tafe,1e-45,30,10,20.0,0.0,20.0,20.0,7.35,89.94
+resnet50,householdelectricaldevices,dense,tafe,1e-25,30,10,20.0,0.0,20.0,20.0,6.85,91.06
+resnet50,householdelectricaldevices,dense,tafe,1e-15,30,10,20.0,0.0,20.0,20.0,5.68,92.19
+resnet50,householdelectricaldevices,dense,tafe,1e-05,30,10,20.0,0.0,20.0,20.0,3.92,95.17

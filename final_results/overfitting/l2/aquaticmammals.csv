@@ -1,0 +1,13 @@
+Source,Target,Transfer Type,Classifier Type,Alpha,Epoch,Repeat,Accuracy,STD,Minimum Accuracy,Maximum Accuracy,Elapsed,Delete Rate
+inceptionv3,aquaticmammals,dense,Baseline,None,30,10,37.24,5.22,28.0,45.8,53.71,0.0
+inceptionv3,aquaticmammals,dense,tafe,0.0,30,10,45.9,4.86,36.4,52.6,55.55,4.83
+inceptionv3,aquaticmammals,dense,tafe,1e-45,30,10,48.2,7.05,30.8,54.2,4.6,96.44
+inceptionv3,aquaticmammals,dense,tafe,1e-25,30,10,42.68,4.45,35.2,47.8,3.4,98.14
+inceptionv3,aquaticmammals,dense,tafe,1e-15,30,10,39.9,4.29,30.2,45.6,3.02,99.07
+inceptionv3,aquaticmammals,dense,tafe,1e-05,30,10,27.72,1.04,26.0,29.4,2.29,99.9
+resnet50,aquaticmammals,dense,Baseline,None,30,10,20.0,0.0,20.0,20.0,52.02,0.0
+resnet50,aquaticmammals,dense,tafe,0.0,30,10,20.0,0.0,20.0,20.0,19.36,64.45
+resnet50,aquaticmammals,dense,tafe,1e-45,30,10,20.0,0.0,20.0,20.0,4.89,93.26
+resnet50,aquaticmammals,dense,tafe,1e-25,30,10,20.0,0.0,20.0,20.0,4.49,93.99
+resnet50,aquaticmammals,dense,tafe,1e-15,30,10,20.0,0.0,20.0,20.0,4.32,94.29
+resnet50,aquaticmammals,dense,tafe,1e-05,30,10,20.0,0.0,20.0,20.0,3.3,96.29
