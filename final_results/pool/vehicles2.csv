@@ -1,0 +1,19 @@
+Source,Target,Transfer Type,Classifier Type,Alpha,Epoch,Repeat,Accuracy,STD,Minimum Accuracy,Maximum Accuracy,Elapsed,Delete Rate
+inceptionv3,vehicles2,pool,Baseline,None,30,10,83.6,2.94,78.6,87.0,1.96,0.0
+inceptionv3,vehicles2,pool,tafe,0.0,30,10,84.34,3.73,74.8,87.8,2.06,4.69
+inceptionv3,vehicles2,pool,tafe,1e-45,30,10,68.16,1.28,66.2,70.8,2.05,96.53
+inceptionv3,vehicles2,pool,tafe,1e-25,30,10,62.42,1.16,60.6,64.4,2.38,98.29
+inceptionv3,vehicles2,pool,tafe,1e-15,30,10,52.34,1.59,49.2,55.0,2.05,99.12
+inceptionv3,vehicles2,pool,tafe,1e-05,30,10,20.76,3.44,15.6,26.4,0.87,99.95
+xception,vehicles2,pool,Baseline,None,30,10,87.94,1.11,85.8,89.8,2.87,0.0
+xception,vehicles2,pool,tafe,0.0,30,10,87.6,0.75,86.2,88.8,2.73,0.63
+xception,vehicles2,pool,tafe,1e-45,30,10,87.04,0.56,86.2,87.8,2.27,39.79
+xception,vehicles2,pool,tafe,1e-25,30,10,86.32,0.61,85.2,87.2,1.93,48.49
+xception,vehicles2,pool,tafe,1e-15,30,10,86.06,0.82,84.0,87.0,2.04,57.18
+xception,vehicles2,pool,tafe,1e-05,30,10,85.54,0.48,84.6,86.4,2.09,76.86
+densenet201,vehicles2,pool,Baseline,None,30,10,90.74,1.45,87.8,92.8,2.56,0.0
+densenet201,vehicles2,pool,tafe,0.0,30,10,90.78,1.68,88.8,93.4,2.51,6.25
+densenet201,vehicles2,pool,tafe,1e-45,30,10,86.88,0.66,86.0,88.4,1.79,88.33
+densenet201,vehicles2,pool,tafe,1e-25,30,10,84.22,0.96,82.0,85.2,2.0,93.12
+densenet201,vehicles2,pool,tafe,1e-15,30,10,83.18,1.14,80.6,84.6,2.32,95.1
+densenet201,vehicles2,pool,tafe,1e-05,30,10,68.44,1.24,66.6,70.4,2.6,98.49

@@ -9,7 +9,6 @@ from util.ordinary import get_bottleneck_name, get_summary_out_name, load_pickle
 from keras import backend as K
 from tensorflow.keras.callbacks import EarlyStopping
 
-
 def load_classifier(input_shape, get_classifier=None, target_ds=None):
     # classifier = load_model(get_transfer_model_name(isBaseline=isBaseline, alpha=alpha, type=type,
     #                                                 model_name=target_dataset))
@@ -71,9 +70,9 @@ def trainBaseline(model, epoch=30, batch_size=128, verbose=0, target_ds=None):
 
 def trainDog(model, train_ds, val_ds, train_labels, validation_labels, epoch=30, batch_size=128, verbose=0):
     start = time.time()
-
+    
     es = EarlyStopping(monitor='val_accuracy', mode='max', patience=2)
-
+    
     history = model.fit(train_ds, train_labels,
                         epochs=epoch,
                         batch_size=batch_size,

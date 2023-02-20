@@ -22,8 +22,8 @@ def evaluate(target_ds=None, parent_model=None):
     alpha_values = [0.0, 1e-45, 1e-25, 1e-15, 1e-5]
 
     # classfiers = {'pool': get_pool_classifier, 'svm': get_svm_classifier,  'dense': get_dense_classifier}
-    classfiers = {'dense': get_dense_classifier}
-    # classfiers = {'pool': get_pool_classifier}
+    # classfiers = {'dense': get_dense_classifier}
+    classfiers = {'pool': get_pool_classifier}
 
     delete_rates = load_pickle_file(get_delete_rate_name(target_ds))
 
@@ -42,8 +42,11 @@ def evaluate(target_ds=None, parent_model=None):
         print('> Evaluating TAFE: ')
         for alpha in alpha_values:
             print('>> Evaluating alpha rate: ', alpha)
-
-            repeater(REPEAT, get_classifier=classfiers[cn], alpha=alpha, isBaseline=False,
-                     batch_size=batch_size, epoch=epoch, classifierType=cn,
-                     delRate=delete_rates[str(alpha)],
-                     target_ds=target_ds, parent_model=parent_model)
+            
+            delRate=delete_rates[str(alpha)]
+            
+            if delRate<100.0:
+                repeater(REPEAT, get_classifier=classfiers[cn], alpha=alpha, isBaseline=False,
+                         batch_size=batch_size, epoch=epoch, classifierType=cn,
+                         delRate=delRate,
+                         target_ds=target_ds, parent_model=parent_model)

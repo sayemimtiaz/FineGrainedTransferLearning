@@ -5,6 +5,8 @@ import time
 import keras
 from keras.callbacks import EarlyStopping, ReduceLROnPlateau
 from keras.regularizers import l2
+from keras import regularizers
+
 
 from constants import target_dataset
 
@@ -51,8 +53,10 @@ def get_dense_classifier(shape, n_classes=5):
     target_model = Sequential()
     target_model.add(Flatten(input_shape=shape))
     target_model.add(Dropout(0.5))
+    # target_model.add(Dense(1024, activation='relu', kernel_regularizer=regularizers.l1(0.01)))
     target_model.add(Dense(1024, activation='relu'))
     target_model.add(Dropout(0.5))
+    # target_model.add(Dense(512, activation='relu', kernel_regularizer=regularizers.l1(0.01)))
     target_model.add(Dense(512, activation='relu'))
     target_model.add(Dropout(0.5))
     target_model.add(Dense(n_classes, activation='softmax'))
@@ -108,6 +112,24 @@ def save_filtered_bottleneck_data(bottleneck_features, p_values, split, alpha, t
     return bottleneck_features.shape[1:], x.shape[1:]
 
 
+def save_random_bottleneck_data(bottleneck_features, p_values, split, alpha, target_ds=None):
+    if target_ds is None:
+        target_ds = target_dataset
+
+    num_sample = 0
+    for f in p_values:
+        if p_values[f] > 0.0:
+            num_sample+=1
+
+    includeIndices = np.random.choice(range(bottleneck_features.shape[3]), num_sample, replace=False)
+    includeIndices=sorted(includeIndices)
+    x = np.take(bottleneck_features, includeIndices, axis=3)
+
+    np.save(get_bottleneck_name(target_ds, split, isTafe=True, isLabel=False, alpha=alpha), x)
+    print('Random bottleneck feature saved')
+
+    # return original_shape and bottleneck shape
+    return bottleneck_features.shape[1:], x.shape[1:]
 # def construct_reweighted_target(base_model, n_classes=5, p_values=None):
 #     freezeModel(base_model)
 #     x = base_model.output

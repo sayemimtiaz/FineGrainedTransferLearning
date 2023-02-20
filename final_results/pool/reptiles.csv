@@ -1,0 +1,19 @@
+Source,Target,Transfer Type,Classifier Type,Alpha,Epoch,Repeat,Accuracy,STD,Minimum Accuracy,Maximum Accuracy,Elapsed,Delete Rate
+inceptionv3,reptiles,pool,Baseline,None,30,10,71.36,4.34,64.4,77.6,1.78,0.0
+inceptionv3,reptiles,pool,tafe,0.0,30,10,72.06,3.52,65.0,77.2,1.61,4.64
+inceptionv3,reptiles,pool,tafe,1e-45,30,10,64.5,1.66,62.8,67.6,1.85,95.95
+inceptionv3,reptiles,pool,tafe,1e-25,30,10,60.88,1.06,58.6,62.2,2.42,97.75
+inceptionv3,reptiles,pool,tafe,1e-15,30,10,52.14,1.15,50.0,54.2,2.61,98.68
+inceptionv3,reptiles,pool,tafe,1e-05,30,10,25.14,5.38,14.8,30.6,1.26,99.9
+xception,reptiles,pool,Baseline,None,30,10,77.68,1.44,74.6,79.4,2.4,0.0
+xception,reptiles,pool,tafe,0.0,30,10,78.52,0.9,76.8,79.8,2.85,0.44
+xception,reptiles,pool,tafe,1e-45,30,10,78.04,0.8,76.8,79.4,2.65,37.26
+xception,reptiles,pool,tafe,1e-25,30,10,78.58,1.51,76.0,81.0,2.59,46.24
+xception,reptiles,pool,tafe,1e-15,30,10,76.9,0.68,76.0,78.0,2.36,54.79
+xception,reptiles,pool,tafe,1e-05,30,10,74.38,0.72,72.8,75.8,2.02,75.34
+densenet201,reptiles,pool,Baseline,None,30,10,81.0,0.95,78.6,82.4,2.62,0.0
+densenet201,reptiles,pool,tafe,0.0,30,10,79.54,1.55,76.0,81.6,2.57,5.89
+densenet201,reptiles,pool,tafe,1e-45,30,10,75.9,1.4,73.6,77.8,1.79,87.76
+densenet201,reptiles,pool,tafe,1e-25,30,10,73.5,0.82,72.4,75.2,1.91,92.81
+densenet201,reptiles,pool,tafe,1e-15,30,10,72.42,1.22,70.0,74.0,2.46,94.95
+densenet201,reptiles,pool,tafe,1e-05,30,10,59.24,1.59,56.6,62.0,2.19,98.33

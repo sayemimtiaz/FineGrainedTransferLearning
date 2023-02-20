@@ -26,30 +26,22 @@ def saveImg(arr, path, format='JPEG'):
     img.save(os.path.join(path, file_name), format=format)
 
 
-def save_tf_dataset_as_image(datasetName, split=None,
+def save_tf_dataset_as_image(datasetName, split='train',
                              saveDir='/Users/sayem/Documents/Research/FineGrainedTransferLearning/data/'):
     all_exs = list(tfds.as_numpy(tfds.load(datasetName, split=split)))
 
     saveDir = os.path.join(saveDir, datasetName)
     # print(all_exs)
 
-    numId = 0
-    for spl in all_exs:
-        for sl in spl:
-            if 'file_name' in sl:
-                imgFileName = sl['file_name'].decode("utf-8")
-            elif 'image/filename' in sl:
-                imgFileName = sl['image/filename'].decode("utf-8")
-            else:
-                imgFileName = str(numId)+'.jpg'
+    for sl in all_exs:
+        try:
+            imgFileName = sl['file_name'].decode("utf-8")
+        except:
+            imgFileName = sl['image/filename'].decode("utf-8")
+        className = str(sl['label'])
+        imgFileName = os.path.join(saveDir, className, imgFileName)
 
-            className = str(sl['label'])
-            imgFileName = os.path.join(saveDir, className, imgFileName)
-
-            # displayImg(sl['image'])
-            saveImg(sl['image'], imgFileName)
-
-            numId += 1
+        saveImg(sl['image'], imgFileName)
 
 
 def get_project_root():
@@ -64,5 +56,4 @@ def init_gpu():
     config.gpu_options.allow_growth = True
     tf.compat.v1.keras.backend.set_session(tf.compat.v1.Session(config=config))
 
-
-# save_tf_dataset_as_image('cats_vs_dogs', split=['train'])
+# save_tf_dataset_as_image('imagenet2012_subset/1pct')

@@ -31,6 +31,10 @@ def getSourceModel(model_name=None):
         return VGG16(input_shape=SHAPE,
                      include_top=False,
                      weights='imagenet')
+    elif model_name == 'inceptionv3':
+        return MobileNet(input_shape=SHAPE,
+                         include_top=False,
+                         weights='imagenet')
     elif model_name == 'xception':
         return Xception(input_shape=SHAPE,
                         include_top=False,
@@ -76,8 +80,8 @@ def getTargetNumClass(target_ds=None):
         return 2
     if target_ds == 'stl10':
         return 10
-
-    return 5  # temp
+    
+    return 5 #temp
 
 
 def getTargetDataForTraining(batch_size=128, shuffle=False, target_ds=None):
@@ -98,6 +102,7 @@ def getTargetDataForTraining(batch_size=128, shuffle=False, target_ds=None):
 
     if target_ds == 'stl10':
         return STL10().getTrainingStl10(batch_size=batch_size, shuffle=shuffle)
+
 
 
 def smapleTargetData(sample_size_per_class=20, target_ds=None):

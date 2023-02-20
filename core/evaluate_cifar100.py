@@ -1,6 +1,6 @@
 import random
 import numpy as np
-from constants import source_model_name, pretrained_architecures, CURRENT_ACQUIRE
+from constants import source_model_name, pretrained_architecures,CURRENT_ACQUIRE
 from core import getSourceModel
 from core.evaluate import evaluate
 from core.target_filter_distribution import calculateTargetDistribution
@@ -22,16 +22,17 @@ def save_cifar100_feature(base_model, data, split, target_ds):
 def acquire_cifar100(parent_model=None, target_ds=None, task=None):
     if parent_model is None:
         parent_model = source_model_name
-
+    
     if parent_model in CURRENT_ACQUIRE and target_ds in CURRENT_ACQUIRE[parent_model]:
         return
+
 
     alpha_values = [0.0, 1e-45, 1e-25, 1e-15, 1e-5]
 
     x_train, y_train, x_test, y_test, num_classes = sampleCifar100Fine(superclasses=[task], num_sample=2500,
                                                                        gray=False,
                                                                        one_hot=True, train=True, shape=(224, 224))
-
+    
     np.save(get_bottleneck_name(target_ds, 'train', isLabel=True), y_train)
     np.save(get_bottleneck_name(target_ds, 'valid', isLabel=True), y_test)
 
@@ -67,13 +68,17 @@ def acquire_cifar100(parent_model=None, target_ds=None, task=None):
     dump_as_pickle(delete_rates, get_delete_rate_name(target_ds))
 
 
-done = []
-# done=['aquaticmammals', 'fish', 'flowers', 'foodcontainers','fruitandvegetables', 'householdelectricaldevices',
-#  'householdfurniture','insects','largecarnivores', 'largeman-madeoutdoorthings', 'largenaturaloutdoorscenes', 'largeomnivoresandherbivores',
-#       'medium-sizedmammals', 'non-insectinvertebrates']
-# , 'people', 'reptiles', 'trees', 'vehicles1', 'smallmammals']
+# done=[]
+done=['aquaticmammals', 'fish',
+       'flowers'
+ , 'foodcontainers','fruitandvegetables', 'householdelectricaldevices',
+ 'householdfurniture','insects','largecarnivores', 'largeman-madeoutdoorthings', 'largenaturaloutdoorscenes'
+,'largeomnivoresandherbivores',
+      'medium-sizedmammals', 'non-insectinvertebrates']
+# , 'people', 'reptiles']
+# , 'trees', 'vehicles1', 'smallmammals']
 for task in getCifar100CoarseClasses():
-    fds = task.replace(' ', '')
+    fds=task.replace(' ', '')
     if fds not in done:
         for pa in pretrained_architecures:
             acquire_cifar100(parent_model=pa, target_ds=fds, task=task)

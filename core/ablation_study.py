@@ -17,5 +17,5 @@ for ts in target_datasets:
         
         if pa in DONE and ts in DONE[pa] and len(DONE[pa][ts])==NUM_CLASSIFIER:
             continue
-        acquire(target_ds=ts, parent_model=pa)
+        acquire(target_ds=ts, parent_model=pa, ablation=True)
         evaluate(target_ds=ts, parent_model=pa)
