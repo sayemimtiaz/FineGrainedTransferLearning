@@ -1,1 +1,0 @@
-except inceptionv3, most were random deletion
