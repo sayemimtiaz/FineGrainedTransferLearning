@@ -11,3 +11,11 @@ resnet50,people,dense,tafe,1e-45,30,10,20.0,0.0,20.0,20.0,4.46,95.41
 resnet50,people,dense,tafe,1e-25,30,10,20.0,0.0,20.0,20.0,4.06,96.19
 resnet50,people,dense,tafe,1e-15,30,10,20.0,0.0,20.0,20.0,3.57,96.88
 resnet50,people,dense,tafe,1e-05,30,10,20.0,0.0,20.0,20.0,2.93,98.14
+vgg16,people,dense,Baseline,None,30,10,20.42,1.07,20.0,23.6,19.66,0.0
+vgg16,people,dense,tafe,0.0,30,10,20.36,1.15,19.8,23.8,18.02,0.78
+vgg16,people,dense,tafe,1e-45,30,10,20.0,0.0,20.0,20.0,2.49,93.55
+vgg16,people,dense,tafe,1e-25,30,10,20.0,0.0,20.0,20.0,2.23,95.7
+vgg16,people,dense,tafe,1e-15,30,10,20.0,0.0,20.0,20.0,2.01,97.46
+vgg16,people,dense,tafe,1e-05,30,10,20.0,0.0,20.0,20.0,1.74,99.22
+xception,people,dense,Baseline,None,30,10,40.28,4.45,29.4,45.4,120.29,0.0
+xception,people,dense,tafe,0.0,30,10,41.06,4.07,32.2,45.4,97.99,0.49

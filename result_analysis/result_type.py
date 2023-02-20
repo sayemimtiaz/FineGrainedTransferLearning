@@ -10,3 +10,4 @@ class Observation:
     maxAcc = None
     elapsed = None
     delRate = None
+    studyType=None

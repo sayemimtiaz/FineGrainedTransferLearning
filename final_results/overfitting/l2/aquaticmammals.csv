@@ -11,3 +11,15 @@ resnet50,aquaticmammals,dense,tafe,1e-45,30,10,20.0,0.0,20.0,20.0,4.89,93.26
 resnet50,aquaticmammals,dense,tafe,1e-25,30,10,20.0,0.0,20.0,20.0,4.49,93.99
 resnet50,aquaticmammals,dense,tafe,1e-15,30,10,20.0,0.0,20.0,20.0,4.32,94.29
 resnet50,aquaticmammals,dense,tafe,1e-05,30,10,20.0,0.0,20.0,20.0,3.3,96.29
+vgg16,aquaticmammals,dense,Baseline,None,30,10,31.18,8.76,20.0,42.8,33.04,0.0
+vgg16,aquaticmammals,dense,tafe,0.0,30,10,34.12,4.55,24.2,39.4,25.42,1.76
+vgg16,aquaticmammals,dense,tafe,1e-45,30,10,20.0,0.0,20.0,20.0,3.22,87.89
+vgg16,aquaticmammals,dense,tafe,1e-25,30,10,20.0,0.0,20.0,20.0,2.56,92.77
+vgg16,aquaticmammals,dense,tafe,1e-15,30,10,20.0,0.0,20.0,20.0,2.16,95.9
+vgg16,aquaticmammals,dense,tafe,1e-05,30,10,20.0,0.0,20.0,20.0,1.81,98.44
+xception,aquaticmammals,dense,Baseline,None,30,10,50.06,6.78,34.8,59.6,109.19,0.0
+xception,aquaticmammals,dense,tafe,0.0,30,10,51.02,8.86,30.0,62.2,97.45,0.39
+xception,aquaticmammals,dense,tafe,1e-45,30,10,56.54,4.97,46.6,64.0,81.91,38.23
+xception,aquaticmammals,dense,tafe,1e-25,30,10,54.78,6.67,42.2,65.0,58.52,47.61
+xception,aquaticmammals,dense,tafe,1e-15,30,10,54.28,8.07,35.8,64.4,55.48,56.45
+xception,aquaticmammals,dense,tafe,1e-05,30,10,56.06,6.97,42.4,67.0,31.0,77.15

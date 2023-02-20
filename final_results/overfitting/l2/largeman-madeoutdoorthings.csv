@@ -11,3 +11,15 @@ resnet50,largeman-madeoutdoorthings,dense,tafe,1e-45,30,10,20.0,0.0,20.0,20.0,4.
 resnet50,largeman-madeoutdoorthings,dense,tafe,1e-25,30,10,20.0,0.0,20.0,20.0,4.06,94.92
 resnet50,largeman-madeoutdoorthings,dense,tafe,1e-15,30,10,20.0,0.0,20.0,20.0,3.61,95.85
 resnet50,largeman-madeoutdoorthings,dense,tafe,1e-05,30,10,20.0,0.0,20.0,20.0,2.92,97.22
+vgg16,largeman-madeoutdoorthings,dense,Baseline,None,30,10,56.74,6.38,44.6,69.0,34.74,0.0
+vgg16,largeman-madeoutdoorthings,dense,tafe,0.0,30,10,51.44,5.3,43.0,60.4,28.15,2.54
+vgg16,largeman-madeoutdoorthings,dense,tafe,1e-45,30,10,20.0,0.0,20.0,20.0,3.81,85.94
+vgg16,largeman-madeoutdoorthings,dense,tafe,1e-25,30,10,20.0,0.0,20.0,20.0,3.23,89.45
+vgg16,largeman-madeoutdoorthings,dense,tafe,1e-15,30,10,20.0,0.0,20.0,20.0,2.81,92.97
+vgg16,largeman-madeoutdoorthings,dense,tafe,1e-05,30,10,20.0,0.0,20.0,20.0,2.07,97.66
+xception,largeman-madeoutdoorthings,dense,Baseline,None,30,10,75.06,3.59,68.6,79.4,102.25,0.0
+xception,largeman-madeoutdoorthings,dense,tafe,0.0,30,10,72.9,6.75,58.4,79.8,105.57,0.54
+xception,largeman-madeoutdoorthings,dense,tafe,1e-45,30,10,74.36,5.2,64.0,82.4,58.92,41.55
+xception,largeman-madeoutdoorthings,dense,tafe,1e-25,30,10,78.7,3.93,72.2,84.6,58.4,51.9
+xception,largeman-madeoutdoorthings,dense,tafe,1e-15,30,10,78.96,3.46,73.2,83.8,41.83,60.74
+xception,largeman-madeoutdoorthings,dense,tafe,1e-05,30,10,75.0,4.26,67.2,81.6,29.11,78.91

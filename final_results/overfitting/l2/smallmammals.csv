@@ -11,3 +11,15 @@ resnet50,smallmammals,dense,tafe,1e-45,30,10,20.0,0.0,20.0,20.0,4.21,95.8
 resnet50,smallmammals,dense,tafe,1e-25,30,10,20.0,0.0,20.0,20.0,3.91,96.29
 resnet50,smallmammals,dense,tafe,1e-15,30,10,20.0,0.0,20.0,20.0,3.63,96.83
 resnet50,smallmammals,dense,tafe,1e-05,30,10,20.0,0.0,20.0,20.0,3.04,98.1
+vgg16,smallmammals,dense,Baseline,None,30,10,28.58,4.26,20.0,34.0,33.16,0.0
+vgg16,smallmammals,dense,tafe,0.0,30,10,31.28,7.76,20.0,42.0,32.08,2.15
+vgg16,smallmammals,dense,tafe,1e-45,30,10,20.0,0.0,20.0,20.0,3.87,85.16
+vgg16,smallmammals,dense,tafe,1e-25,30,10,20.0,0.0,20.0,20.0,3.07,89.65
+vgg16,smallmammals,dense,tafe,1e-15,30,10,20.0,0.0,20.0,20.0,2.41,93.55
+vgg16,smallmammals,dense,tafe,1e-05,30,10,20.0,0.0,20.0,20.0,1.79,97.66
+xception,smallmammals,dense,Baseline,None,30,10,52.76,5.8,46.2,63.2,123.31,0.0
+xception,smallmammals,dense,tafe,0.0,30,10,53.28,4.16,47.6,58.6,122.61,0.49
+xception,smallmammals,dense,tafe,1e-45,30,10,58.5,5.17,50.6,65.0,98.6,37.26
+xception,smallmammals,dense,tafe,1e-25,30,10,54.34,6.28,46.8,65.6,68.27,45.75
+xception,smallmammals,dense,tafe,1e-15,30,10,56.12,9.76,32.4,65.4,58.41,54.59
+xception,smallmammals,dense,tafe,1e-05,30,10,56.72,3.79,50.4,61.2,33.51,75.49

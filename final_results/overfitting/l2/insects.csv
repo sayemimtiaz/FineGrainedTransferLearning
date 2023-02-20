@@ -11,3 +11,15 @@ resnet50,insects,dense,tafe,1e-45,30,10,20.0,0.0,20.0,20.0,4.36,94.53
 resnet50,insects,dense,tafe,1e-25,30,10,20.0,0.0,20.0,20.0,3.97,95.12
 resnet50,insects,dense,tafe,1e-15,30,10,20.0,0.0,20.0,20.0,3.58,95.9
 resnet50,insects,dense,tafe,1e-05,30,10,20.0,0.0,20.0,20.0,2.87,97.27
+vgg16,insects,dense,Baseline,None,30,10,42.6,10.37,22.6,60.6,41.36,0.0
+vgg16,insects,dense,tafe,0.0,30,10,36.62,10.74,21.0,57.2,26.81,0.2
+vgg16,insects,dense,tafe,1e-45,30,10,20.0,0.0,20.0,20.0,2.88,91.8
+vgg16,insects,dense,tafe,1e-25,30,10,20.0,0.0,20.0,20.0,2.48,95.51
+vgg16,insects,dense,tafe,1e-15,30,10,20.0,0.0,20.0,20.0,2.22,97.07
+vgg16,insects,dense,tafe,1e-05,30,10,20.0,0.0,20.0,20.0,1.83,99.02
+xception,insects,dense,Baseline,None,30,10,68.08,6.87,56.4,77.6,97.94,0.0
+xception,insects,dense,tafe,0.0,30,10,74.56,5.51,61.2,81.2,114.11,0.49
+xception,insects,dense,tafe,1e-45,30,10,72.54,5.44,63.0,78.8,68.02,36.38
+xception,insects,dense,tafe,1e-25,30,10,74.82,3.97,65.8,79.6,67.25,45.85
+xception,insects,dense,tafe,1e-15,30,10,69.7,9.53,44.0,78.0,51.84,54.0
+xception,insects,dense,tafe,1e-05,30,10,72.36,4.08,65.4,78.2,33.04,74.9

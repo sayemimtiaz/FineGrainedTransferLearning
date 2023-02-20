@@ -1,0 +1,6 @@
+Dataset,Architecture,Alpha,Deletion Rate,TAFS,Random
+bird,xception,1e-05,31.1,54.94,0.38
+bird,xception,1e-45,8.25,54.53,0.48
+bird,xception,1e-15,17.87,54.99,0.39
+bird,xception,0.0,1.56,54.49,0.36
+bird,xception,1e-25,13.13,54.59,0.69

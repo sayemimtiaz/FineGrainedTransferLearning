@@ -11,3 +11,15 @@ resnet50,fruitandvegetables,dense,tafe,1e-45,30,10,20.0,0.0,20.0,20.0,4.17,94.68
 resnet50,fruitandvegetables,dense,tafe,1e-25,30,10,20.0,0.0,20.0,20.0,3.85,95.36
 resnet50,fruitandvegetables,dense,tafe,1e-15,30,10,20.0,0.0,20.0,20.0,3.47,96.04
 resnet50,fruitandvegetables,dense,tafe,1e-05,30,10,20.0,0.0,20.0,20.0,2.63,97.75
+vgg16,fruitandvegetables,dense,Baseline,None,30,10,49.28,6.37,38.4,58.6,26.87,0.0
+vgg16,fruitandvegetables,dense,tafe,0.0,30,10,48.94,6.31,34.4,59.2,30.33,0.2
+vgg16,fruitandvegetables,dense,tafe,1e-45,30,10,20.0,0.0,20.0,20.0,2.65,94.14
+vgg16,fruitandvegetables,dense,tafe,1e-25,30,10,20.0,0.0,20.0,20.0,2.12,97.07
+vgg16,fruitandvegetables,dense,tafe,1e-15,30,10,20.0,0.0,20.0,20.0,1.97,98.83
+vgg16,fruitandvegetables,dense,tafe,1e-05,30,10,20.0,0.0,20.0,20.0,1.68,99.8
+xception,fruitandvegetables,dense,Baseline,None,30,10,75.4,4.14,68.4,81.8,104.83,0.0
+xception,fruitandvegetables,dense,tafe,0.0,30,10,72.28,10.53,43.2,82.6,98.18,0.49
+xception,fruitandvegetables,dense,tafe,1e-45,30,10,79.72,3.56,70.2,83.4,64.94,40.14
+xception,fruitandvegetables,dense,tafe,1e-25,30,10,79.38,3.43,73.6,82.8,51.31,49.56
+xception,fruitandvegetables,dense,tafe,1e-15,30,10,78.92,3.03,72.8,82.2,48.52,59.33
+xception,fruitandvegetables,dense,tafe,1e-05,30,10,75.48,4.92,68.2,83.6,21.46,78.37

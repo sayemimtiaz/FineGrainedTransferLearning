@@ -11,3 +11,15 @@ resnet50,reptiles,dense,tafe,1e-45,30,10,20.22,0.66,20.0,22.2,4.84,94.92
 resnet50,reptiles,dense,tafe,1e-25,30,10,20.0,0.0,20.0,20.0,3.78,95.46
 resnet50,reptiles,dense,tafe,1e-15,30,10,20.0,0.0,20.0,20.0,3.49,96.04
 resnet50,reptiles,dense,tafe,1e-05,30,10,20.0,0.0,20.0,20.0,2.67,97.75
+vgg16,reptiles,dense,Baseline,None,30,10,37.66,9.38,20.0,50.2,35.33,0.0
+vgg16,reptiles,dense,tafe,0.0,30,10,35.52,8.59,22.0,47.8,35.97,0.78
+vgg16,reptiles,dense,tafe,1e-45,30,10,20.0,0.0,20.0,20.0,3.05,90.43
+vgg16,reptiles,dense,tafe,1e-25,30,10,20.0,0.0,20.0,20.0,2.43,94.14
+vgg16,reptiles,dense,tafe,1e-15,30,10,20.0,0.0,20.0,20.0,2.15,96.29
+vgg16,reptiles,dense,tafe,1e-05,30,10,20.0,0.0,20.0,20.0,1.43,99.8
+xception,reptiles,dense,Baseline,None,30,10,64.96,9.16,39.2,73.8,99.78,0.0
+xception,reptiles,dense,tafe,0.0,30,10,62.88,7.45,46.4,72.6,116.33,0.44
+xception,reptiles,dense,tafe,1e-45,30,10,66.78,5.65,59.4,76.4,65.71,36.91
+xception,reptiles,dense,tafe,1e-25,30,10,67.98,6.76,55.4,76.2,72.35,46.44
+xception,reptiles,dense,tafe,1e-15,30,10,68.64,6.05,60.2,75.6,62.98,54.83
+xception,reptiles,dense,tafe,1e-05,30,10,65.92,7.95,46.0,72.6,34.33,75.54

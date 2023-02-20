@@ -1,0 +1,6 @@
+Dataset,Architecture,Alpha,Deletion Rate,TAFS,Random
+dog,inceptionv3,1e-05,68.55,79.62,1.06
+dog,inceptionv3,1e-45,4.2,78.5,0.58
+dog,inceptionv3,1e-15,20.9,78.61,0.57
+dog,inceptionv3,0.0,0.0,78.28,0.76
+dog,inceptionv3,1e-25,12.11,78.62,0.83

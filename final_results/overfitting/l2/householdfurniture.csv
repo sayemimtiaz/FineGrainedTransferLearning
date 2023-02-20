@@ -11,3 +11,15 @@ resnet50,householdfurniture,dense,tafe,1e-45,30,10,20.0,0.0,20.0,20.0,6.52,91.85
 resnet50,householdfurniture,dense,tafe,1e-25,30,10,20.0,0.0,20.0,20.0,5.94,92.53
 resnet50,householdfurniture,dense,tafe,1e-15,30,10,20.0,0.0,20.0,20.0,5.2,93.55
 resnet50,householdfurniture,dense,tafe,1e-05,30,10,20.0,0.0,20.0,20.0,3.4,96.44
+vgg16,householdfurniture,dense,Baseline,None,30,10,43.4,9.99,22.2,58.6,31.53,0.0
+vgg16,householdfurniture,dense,tafe,0.0,30,10,42.84,8.29,29.4,57.0,30.39,1.37
+vgg16,householdfurniture,dense,tafe,1e-45,30,10,20.0,0.0,20.0,20.0,2.98,90.82
+vgg16,householdfurniture,dense,tafe,1e-25,30,10,20.0,0.0,20.0,20.0,2.62,93.55
+vgg16,householdfurniture,dense,tafe,1e-15,30,10,20.0,0.0,20.0,20.0,2.1,96.29
+vgg16,householdfurniture,dense,tafe,1e-05,30,10,20.0,0.0,20.0,20.0,1.71,99.02
+xception,householdfurniture,dense,Baseline,None,30,10,64.64,6.61,55.6,75.4,113.77,0.0
+xception,householdfurniture,dense,tafe,0.0,30,10,67.96,5.59,53.0,73.2,97.74,0.49
+xception,householdfurniture,dense,tafe,1e-45,30,10,68.98,5.33,57.8,75.8,54.9,42.58
+xception,householdfurniture,dense,tafe,1e-25,30,10,69.1,6.22,58.2,76.6,50.0,51.9
+xception,householdfurniture,dense,tafe,1e-15,30,10,64.9,7.28,49.2,76.8,49.13,60.45
+xception,householdfurniture,dense,tafe,1e-05,30,10,70.94,4.94,60.2,76.0,29.92,80.08

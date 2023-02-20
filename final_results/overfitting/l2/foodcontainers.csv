@@ -11,3 +11,15 @@ resnet50,foodcontainers,dense,tafe,1e-45,30,10,20.0,0.0,20.0,20.0,7.87,90.43
 resnet50,foodcontainers,dense,tafe,1e-25,30,10,20.0,0.0,20.0,20.0,7.47,91.21
 resnet50,foodcontainers,dense,tafe,1e-15,30,10,20.0,0.0,20.0,20.0,6.37,92.24
 resnet50,foodcontainers,dense,tafe,1e-05,30,10,20.0,0.0,20.0,20.0,4.59,95.26
+vgg16,foodcontainers,dense,Baseline,None,30,10,48.76,11.79,29.4,66.2,26.81,0.0
+vgg16,foodcontainers,dense,tafe,0.0,30,10,51.62,7.36,39.0,66.0,26.5,0.0
+vgg16,foodcontainers,dense,tafe,1e-45,30,10,20.0,0.0,20.0,20.0,2.62,94.92
+vgg16,foodcontainers,dense,tafe,1e-25,30,10,20.0,0.0,20.0,20.0,2.23,97.27
+vgg16,foodcontainers,dense,tafe,1e-15,30,10,20.0,0.0,20.0,20.0,2.05,98.63
+vgg16,foodcontainers,dense,tafe,1e-05,30,10,20.0,0.0,20.0,20.0,1.85,99.61
+xception,foodcontainers,dense,Baseline,None,30,10,67.92,9.82,47.2,80.8,110.26,0.0
+xception,foodcontainers,dense,tafe,0.0,30,10,76.94,3.68,70.4,83.0,88.74,0.54
+xception,foodcontainers,dense,tafe,1e-45,30,10,76.9,6.87,61.0,83.8,80.22,38.67
+xception,foodcontainers,dense,tafe,1e-25,30,10,76.3,7.23,65.0,84.4,55.09,48.63
+xception,foodcontainers,dense,tafe,1e-15,30,10,78.5,5.49,63.8,83.2,50.05,58.01
+xception,foodcontainers,dense,tafe,1e-05,30,10,80.14,2.42,76.0,84.0,32.89,76.27

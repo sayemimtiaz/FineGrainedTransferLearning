@@ -11,3 +11,15 @@ resnet50,flowers,dense,tafe,1e-45,30,10,20.0,0.0,20.0,20.0,3.91,95.36
 resnet50,flowers,dense,tafe,1e-25,30,10,20.0,0.0,20.0,20.0,3.43,96.14
 resnet50,flowers,dense,tafe,1e-15,30,10,20.0,0.0,20.0,20.0,3.06,96.83
 resnet50,flowers,dense,tafe,1e-05,30,10,20.0,0.0,20.0,20.0,2.51,98.05
+vgg16,flowers,dense,Baseline,None,30,10,39.76,9.33,23.4,52.8,33.86,0.0
+vgg16,flowers,dense,tafe,0.0,30,10,35.82,9.6,25.2,56.8,28.27,0.39
+vgg16,flowers,dense,tafe,1e-45,30,10,20.0,0.0,20.0,20.0,2.87,91.8
+vgg16,flowers,dense,tafe,1e-25,30,10,20.0,0.0,20.0,20.0,2.26,95.9
+vgg16,flowers,dense,tafe,1e-15,30,10,20.0,0.0,20.0,20.0,2.09,97.27
+vgg16,flowers,dense,tafe,1e-05,30,10,20.0,0.0,20.0,20.0,1.8,99.22
+xception,flowers,dense,Baseline,None,30,10,54.72,10.37,32.0,64.0,111.79,0.0
+xception,flowers,dense,tafe,0.0,30,10,55.1,7.52,40.0,66.8,104.68,0.44
+xception,flowers,dense,tafe,1e-45,30,10,59.9,6.65,45.4,68.6,57.25,41.41
+xception,flowers,dense,tafe,1e-25,30,10,59.42,6.54,46.2,66.8,57.06,51.81
+xception,flowers,dense,tafe,1e-15,30,10,59.06,7.47,44.4,67.2,46.16,59.86
+xception,flowers,dense,tafe,1e-05,30,10,60.22,3.81,52.4,64.8,28.19,78.96

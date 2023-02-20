@@ -11,3 +11,15 @@ resnet50,vehicles2,dense,tafe,1e-45,30,10,20.0,0.0,20.0,20.0,5.11,94.82
 resnet50,vehicles2,dense,tafe,1e-25,30,10,20.0,0.0,20.0,20.0,4.59,95.46
 resnet50,vehicles2,dense,tafe,1e-15,30,10,20.0,0.0,20.0,20.0,4.47,96.24
 resnet50,vehicles2,dense,tafe,1e-05,30,10,20.0,0.0,20.0,20.0,3.42,97.71
+vgg16,vehicles2,dense,Baseline,None,30,10,49.7,10.65,28.4,63.6,32.44,0.0
+vgg16,vehicles2,dense,tafe,0.0,30,10,52.02,9.11,36.4,66.8,33.48,0.98
+vgg16,vehicles2,dense,tafe,1e-45,30,10,20.0,0.0,20.0,20.0,3.13,90.23
+vgg16,vehicles2,dense,tafe,1e-25,30,10,20.0,0.0,20.0,20.0,2.53,94.14
+vgg16,vehicles2,dense,tafe,1e-15,30,10,20.0,0.0,20.0,20.0,2.19,96.48
+vgg16,vehicles2,dense,tafe,1e-05,30,10,20.0,0.0,20.0,20.0,1.79,98.63
+xception,vehicles2,dense,Baseline,None,30,10,76.9,7.99,57.4,84.4,122.38,0.0
+xception,vehicles2,dense,tafe,0.0,30,10,79.94,5.01,70.6,86.4,124.0,0.68
+xception,vehicles2,dense,tafe,1e-45,30,10,78.76,6.39,66.4,87.2,75.02,39.26
+xception,vehicles2,dense,tafe,1e-25,30,10,77.24,7.02,67.4,87.4,60.32,48.83
+xception,vehicles2,dense,tafe,1e-15,30,10,80.82,3.85,72.8,86.2,56.35,57.57
+xception,vehicles2,dense,tafe,1e-05,30,10,80.68,4.33,72.0,85.6,29.43,76.86

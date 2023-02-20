@@ -1,0 +1,6 @@
+Dataset,Architecture,Alpha,Deletion Rate,TAFS,Random
+dog,densenet201,1e-05,77.81,75.43,0.78
+dog,densenet201,1e-45,26.67,79.65,0.92
+dog,densenet201,1e-15,53.49,78.78,0.83
+dog,densenet201,0.0,0.0,79.83,0.57
+dog,densenet201,1e-25,40.68,79.38,0.66
