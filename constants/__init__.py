@@ -1,7 +1,7 @@
 pretrained_architecures = ['inceptionv3']
 
-# target_datasets=['dog', 'bird']
-target_datasets = ['pet', 'cats_vs_dogs', 'stl10']
+target_datasets=['dog', 'bird']
+# target_datasets = ['pet', 'cats_vs_dogs', 'stl10']
 
 SHAPE = (224, 224, 3)
 target_dataset = None

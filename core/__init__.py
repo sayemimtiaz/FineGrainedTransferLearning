@@ -7,6 +7,7 @@ from data_processing.bird_util import Bird
 from data_processing.cat_dog_util import Cat
 from data_processing.dog_util import Dog
 from data_processing.imagenet_util import ImageNet
+from data_processing.mit67 import MIT67
 from data_processing.pet_util import Pet
 from data_processing.stl10_util import STL10
 from data_processing.tiny_imagenet_util import TinyImageNet
@@ -80,8 +81,9 @@ def getTargetNumClass(target_ds=None):
         return 2
     if target_ds == 'stl10':
         return 10
-    
-    return 5 #temp
+    if target_ds == 'mit67':
+        return 67
+    return 5  # temp
 
 
 def getTargetDataForTraining(batch_size=128, shuffle=False, target_ds=None):
@@ -103,33 +105,40 @@ def getTargetDataForTraining(batch_size=128, shuffle=False, target_ds=None):
     if target_ds == 'stl10':
         return STL10().getTrainingStl10(batch_size=batch_size, shuffle=shuffle)
 
+    if target_ds == 'mit67':
+        return MIT67().getTrainingIndoor(batch_size=batch_size, shuffle=shuffle)
 
 
-def smapleTargetData(sample_size_per_class=20, target_ds=None):
+def smapleTargetData(sample_size_per_class=20, target_ds=None, crop=False):
     if target_ds is None:
         target_ds = target_dataset
 
     if target_ds == 'dog':
         dog = Dog()
-        target_sample = dog.sampleFromDir(sample_size_per_class=sample_size_per_class, ext='jpg')
+        target_sample = dog.sampleFromDir(sample_size_per_class=sample_size_per_class, ext='jpg', crop=crop)
         return target_sample
 
     if target_ds == 'bird':
         bird = Bird()
-        target_sample = bird.sampleFromDir(sample_size_per_class=sample_size_per_class, ext='jpg')
+        target_sample = bird.sampleFromDir(sample_size_per_class=sample_size_per_class, ext='jpg', crop=crop)
         return target_sample
 
     if target_ds == 'pet':
         bird = Pet()
-        target_sample = bird.sampleFromDir(sample_size_per_class=sample_size_per_class, ext='jpg')
+        target_sample = bird.sampleFromDir(sample_size_per_class=sample_size_per_class, ext='jpg', crop=crop)
         return target_sample
 
     if target_ds == 'cats_vs_dogs':
         bird = Cat()
-        target_sample = bird.sampleFromDir(sample_size_per_class=sample_size_per_class, ext='jpg')
+        target_sample = bird.sampleFromDir(sample_size_per_class=sample_size_per_class, ext='jpg', crop=crop)
         return target_sample
 
     if target_ds == 'stl10':
         bird = STL10()
-        target_sample = bird.sampleFromDir(sample_size_per_class=sample_size_per_class, ext='jpg')
+        target_sample = bird.sampleFromDir(sample_size_per_class=sample_size_per_class, ext='jpg', crop=crop)
+        return target_sample
+
+    if target_ds == 'mit67':
+        bird = MIT67()
+        target_sample = bird.sampleFromDir(sample_size_per_class=sample_size_per_class, ext='jpg', crop=crop)
         return target_sample

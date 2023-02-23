@@ -1,6 +1,6 @@
 Dataset,Architecture,Alpha,Deletion Rate,TAFS,Random
-dog,xception,1e-05,20.8,79.63,0.55
-dog,xception,1e-45,0.88,79.5,0.85
-dog,xception,1e-15,6.69,79.51,0.89
-dog,xception,0.0,0.83,79.45,0.97
-dog,xception,1e-25,2.64,79.43,0.94
+dog,xception,0.0,0.83,79.45,31.68
+dog,xception,1e-15,6.69,79.51,0.62
+dog,xception,1e-45,0.88,79.5,57.77
+dog,xception,1e-05,20.8,79.63,4.33
+dog,xception,1e-25,2.64,79.43,17.79

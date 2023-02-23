@@ -7,7 +7,7 @@ from glob import glob
 
 from util.common import get_project_root
 
-result_path = os.path.join(get_project_root(), 'final_results', 'ablation')
+result_path = os.path.join(get_project_root(), 'final_results', 'ablation', 'random')
 
 csvFiles = [y for x in os.walk(result_path) for y in
             glob(os.path.join(x[0], '*.csv'))]

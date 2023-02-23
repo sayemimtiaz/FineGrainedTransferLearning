@@ -9,6 +9,7 @@ import tensorflow_datasets as tfds
 from glob import glob
 
 from data_processing.data_util import transformToGrayAndReshapeBoth, asTypeBoth, normalizeBoth, oneEncodeBoth, reshape
+from util.common import cropImg, displayImg
 
 
 def getKerasDataset(one_hot=True, dataset='cifar100', gray=False, additional_param=None, shape=(28, 28)):
@@ -99,14 +100,14 @@ def loadFromDir(dir, labels=None, label_index=1, shape=(28, 28),
 
 
 def sampleFromDir(dir, shape=(224, 224),
-                  mode='rgb', sample_size=32, ext='JPEG', seed=None):
+                  mode='rgb', sample_size=32, ext='JPEG', seed=None, crop=False):
     root = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
     dataPath = os.path.join(root, 'data', dir)
 
     if seed is not None:
         np.random.seed(seed)
 
-    imageFiles = [y for x in os.walk(dataPath) for y in glob(os.path.join(x[0], '*.'+ext))]
+    imageFiles = [y for x in os.walk(dataPath) for y in glob(os.path.join(x[0], '*.' + ext))]
     chosen_index = np.random.choice(len(imageFiles), sample_size, replace=False)
 
     chosenImages = []
@@ -120,24 +121,31 @@ def sampleFromDir(dir, shape=(224, 224),
             interpolation="nearest",
             keep_aspect_ratio=False,
         )
+        # displayImg(tf.keras.utils.img_to_array(image))
+        if crop:
+            image = cropImg(image)
+            # displayImg(tf.keras.utils.img_to_array(image))
         input_arr = tf.keras.utils.img_to_array(image)
         chosenImages.append(input_arr)
     chosenImages = np.asarray(chosenImages)
 
     return chosenImages
 
+
 def sampleFromClassesInDir(dir, shape=(224, 224),
-                  mode='rgb', sample_size_per_class=32, ext='JPEG', shuffle=True, seed=None):
+                           mode='rgb', sample_size_per_class=32, ext='JPEG',
+                           shuffle=True, seed=None, crop=False):
     root = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
     dataPath = os.path.join(root, 'data', dir)
 
-    images=[]
+    images = []
     for dn in os.listdir(dataPath):
-        fdn=os.path.join(dataPath, dn)
+        fdn = os.path.join(dataPath, dn)
         if os.path.isdir(fdn):
-            img=sampleFromDir(fdn, shape=shape, mode=mode, sample_size=sample_size_per_class, ext=ext, seed=seed)
+            img = sampleFromDir(fdn, shape=shape, mode=mode,
+                                sample_size=sample_size_per_class, ext=ext, seed=seed, crop=crop)
             images.extend(img)
-    images=np.asarray(images)
+    images = np.asarray(images)
     if shuffle:
         np.random.shuffle(images)
 

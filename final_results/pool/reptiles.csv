@@ -17,3 +17,9 @@ densenet201,reptiles,pool,tafe,1e-45,30,10,75.9,1.4,73.6,77.8,1.79,87.76
 densenet201,reptiles,pool,tafe,1e-25,30,10,73.5,0.82,72.4,75.2,1.91,92.81
 densenet201,reptiles,pool,tafe,1e-15,30,10,72.42,1.22,70.0,74.0,2.46,94.95
 densenet201,reptiles,pool,tafe,1e-05,30,10,59.24,1.59,56.6,62.0,2.19,98.33
+vgg16,reptiles,pool,Baseline,None,30,10,47.14,3.53,39.8,53.8,1.45,0.0
+vgg16,reptiles,pool,tafe,0.0,30,10,49.1,1.97,46.2,51.6,1.61,1.17
+vgg16,reptiles,pool,tafe,1e-45,30,10,19.88,0.98,17.8,21.2,0.85,90.43
+vgg16,reptiles,pool,tafe,1e-25,30,10,20.12,0.46,19.4,21.0,0.82,94.73
+vgg16,reptiles,pool,tafe,1e-15,30,10,19.72,0.24,19.2,20.2,0.79,97.66
+vgg16,reptiles,pool,tafe,1e-05,30,10,20.02,0.14,19.8,20.2,0.68,99.22

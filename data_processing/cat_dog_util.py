@@ -73,7 +73,7 @@ class Cat:
         return train_generator, valid_generator, nb_train_samples, nb_valid_samples, num_classes, batch_size, \
                train_labels, valid_labels
 
-    def sampleFromDir(self, sample_size_per_class=20, seed=None, ext='jpg'):
+    def sampleFromDir(self, sample_size_per_class=20, seed=None, ext='jpg', crop=False):
         return sampleFromClassesInDir(self.data_path,
                                       sample_size_per_class=sample_size_per_class, seed=seed, ext=ext,
-                                      shape=SHAPE)
+                                      shape=SHAPE, crop=crop)

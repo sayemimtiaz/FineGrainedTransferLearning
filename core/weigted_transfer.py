@@ -113,3 +113,40 @@ def getPValues(alpha=0.00, target_ds=None, parent_model=None):
 
     return p_values, delRate
 
+
+def getPValuesNoAlpha(target_ds=None, parent_model=None):
+    if target_ds is None:
+        target_ds = target_dataset
+    if parent_model is None:
+        parent_model = source_model_name
+    sourceRate = load_pickle_file(get_transfer_filter_name(parent_model, source_dataset, NUM_SOURCE_SAMPLE))
+    targetRate = load_pickle_file(get_transfer_filter_name(target_ds))
+
+    numFilter = int(sourceRate['numFilter'])
+
+    p_values = {}
+
+    for filterNo in range(numFilter):
+        p_values[filterNo] = 0.0
+
+    for source_c in sourceRate['class']:
+        for filterNo in range(numFilter):
+            sourceFilter = sourceRate['class'][source_c][filterNo]
+            targetFilter = targetRate[filterNo]
+            if type(sourceFilter) == list:
+                sourceFilter = np.asarray(sourceFilter)
+            if type(targetFilter) == list:
+                targetFilter = np.asarray(targetFilter)
+
+            sourceFilter = sourceFilter.flatten()
+            targetFilter = targetFilter.flatten()
+            sourceActiveFilter = sourceFilter[sourceFilter > 0]
+            targetActiveFilter = targetFilter[targetFilter > 0]
+
+            try:
+                pv = getPValue(sourceActiveFilter, targetActiveFilter)
+                p_values[filterNo] = max(pv, p_values[filterNo])
+            except:
+                pass
+
+    return p_values

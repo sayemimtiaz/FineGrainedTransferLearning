@@ -68,18 +68,21 @@ def acquire_cifar100(parent_model=None, target_ds=None, task=None):
     dump_as_pickle(delete_rates, get_delete_rate_name(target_ds))
 
 
-# done=[]
-done=['aquaticmammals', 'fish',
-       'flowers'
- , 'foodcontainers','fruitandvegetables', 'householdelectricaldevices',
- 'householdfurniture','insects','largecarnivores', 'largeman-madeoutdoorthings', 'largenaturaloutdoorscenes'
-,'largeomnivoresandherbivores',
-      'medium-sizedmammals', 'non-insectinvertebrates']
-# , 'people', 'reptiles']
-# , 'trees', 'vehicles1', 'smallmammals']
-for task in getCifar100CoarseClasses():
-    fds=task.replace(' ', '')
-    if fds not in done:
-        for pa in pretrained_architecures:
-            acquire_cifar100(parent_model=pa, target_ds=fds, task=task)
-            evaluate(target_ds=fds, parent_model=pa)
+
+if __name__ == "__main__":
+
+    # done=[]
+    done=['aquaticmammals', 'fish',
+           'flowers'
+     , 'foodcontainers','fruitandvegetables', 'householdelectricaldevices',
+     'householdfurniture','insects','largecarnivores', 'largeman-madeoutdoorthings', 'largenaturaloutdoorscenes'
+    ,'largeomnivoresandherbivores',
+          'medium-sizedmammals', 'non-insectinvertebrates']
+    # , 'people', 'reptiles']
+    # , 'trees', 'vehicles1', 'smallmammals']
+    for task in getCifar100CoarseClasses():
+        fds=task.replace(' ', '')
+        if fds not in done:
+            for pa in pretrained_architecures:
+                acquire_cifar100(parent_model=pa, target_ds=fds, task=task)
+                evaluate(target_ds=fds, parent_model=pa)

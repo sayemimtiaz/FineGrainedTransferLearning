@@ -82,7 +82,7 @@ class Dog:
         self.classes = list(range(num_classes))
         return x_train, y_train, x_test, y_test, num_classes
 
-    def sampleFromDir(self, sample_size_per_class=20, seed=None, ext='JPEG'):
+    def sampleFromDir(self, sample_size_per_class=20, seed=None, ext='JPEG', crop=False):
         return sampleFromClassesInDir(self.data_path,
                                       sample_size_per_class=sample_size_per_class, seed=seed, ext=ext,
-                                      shape=SHAPE)
+                                      shape=SHAPE, crop=crop)

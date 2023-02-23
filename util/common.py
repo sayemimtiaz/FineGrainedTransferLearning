@@ -26,6 +26,14 @@ def saveImg(arr, path, format='JPEG'):
     img.save(os.path.join(path, file_name), format=format)
 
 
+def cropImg(image, width=224, height=224, crop_width=64, crop_height=64):
+    left_corner = int(round(width / 2)) - int(round(crop_width / 2))
+    top_corner = int(round(height / 2)) - int(round(crop_height / 2))
+    cropped = image.crop((left_corner, top_corner, left_corner + crop_width, top_corner + crop_height))
+    cropped = cropped.resize((width, height))
+    return cropped
+
+
 def save_tf_dataset_as_image(datasetName, split='train',
                              saveDir='/Users/sayem/Documents/Research/FineGrainedTransferLearning/data/'):
     all_exs = list(tfds.as_numpy(tfds.load(datasetName, split=split)))

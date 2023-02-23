@@ -17,3 +17,9 @@ densenet201,vehicles2,pool,tafe,1e-45,30,10,86.88,0.66,86.0,88.4,1.79,88.33
 densenet201,vehicles2,pool,tafe,1e-25,30,10,84.22,0.96,82.0,85.2,2.0,93.12
 densenet201,vehicles2,pool,tafe,1e-15,30,10,83.18,1.14,80.6,84.6,2.32,95.1
 densenet201,vehicles2,pool,tafe,1e-05,30,10,68.44,1.24,66.6,70.4,2.6,98.49
+vgg16,vehicles2,pool,Baseline,None,30,10,66.98,2.49,62.4,71.4,5.09,0.0
+vgg16,vehicles2,pool,tafe,0.0,30,10,66.38,2.81,61.0,69.6,4.02,1.17
+vgg16,vehicles2,pool,tafe,1e-45,30,10,19.82,0.85,17.6,20.6,1.06,91.21
+vgg16,vehicles2,pool,tafe,1e-25,30,10,19.72,0.69,18.0,20.6,1.03,94.92
+vgg16,vehicles2,pool,tafe,1e-15,30,10,20.04,0.22,19.8,20.6,0.96,97.07
+vgg16,vehicles2,pool,tafe,1e-05,30,10,19.98,0.11,19.8,20.2,0.83,98.83

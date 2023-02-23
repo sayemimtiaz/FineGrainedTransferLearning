@@ -9,6 +9,7 @@ from util.ordinary import get_bottleneck_name, get_summary_out_name, load_pickle
 from keras import backend as K
 from tensorflow.keras.callbacks import EarlyStopping
 
+
 def load_classifier(input_shape, get_classifier=None, target_ds=None):
     # classifier = load_model(get_transfer_model_name(isBaseline=isBaseline, alpha=alpha, type=type,
     #                                                 model_name=target_dataset))
@@ -70,9 +71,9 @@ def trainBaseline(model, epoch=30, batch_size=128, verbose=0, target_ds=None):
 
 def trainDog(model, train_ds, val_ds, train_labels, validation_labels, epoch=30, batch_size=128, verbose=0):
     start = time.time()
-    
+
     es = EarlyStopping(monitor='val_accuracy', mode='max', patience=2)
-    
+
     history = model.fit(train_ds, train_labels,
                         epochs=epoch,
                         batch_size=batch_size,
@@ -84,7 +85,7 @@ def trainDog(model, train_ds, val_ds, train_labels, validation_labels, epoch=30,
 
 
 def repeater(num_repeat, get_classifier=None, alpha=None, isBaseline=False, batch_size=128, epoch=30,
-             classifierType=None, delRate=0.0, target_ds=None, parent_model=None):
+             classifierType=None, delRate=0.0, target_ds=None, parent_model=None, study_type=None):
     if target_ds is None:
         target_ds = target_dataset
 
@@ -127,7 +128,8 @@ def repeater(num_repeat, get_classifier=None, alpha=None, isBaseline=False, batc
         transferType = 'Baseline'
     else:
         transferType = 'tafe'
-
+    if study_type is not None:
+        summaryOut.write(study_type + ',')
     summaryOut.write(parent_model + ',' + target_ds + ',' + classifierType + ',' + transferType + ',' +
                      str(alpha) + ',' + str(epoch) + ',' + str(num_repeat) + ',' +
                      str(round(all_acc.mean(), 2)) + ',' + str(round(all_acc.std(), 2)) + ','
