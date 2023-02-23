@@ -143,3 +143,9 @@ results/*
 results/transfer_model/
 results/observation/
 results/bottleneck/
+
+util/.DS_Store
+.DS_Store
+core/.DS_Store
+final_results/pool/.DS_Store
+final_results/non-pool/.DS_Store
