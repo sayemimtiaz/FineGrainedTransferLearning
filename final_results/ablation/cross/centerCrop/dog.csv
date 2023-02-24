@@ -1,0 +1,14 @@
+Study Type,mit67,Source,Target,Transfer Type,Classifier Type,Alpha,Epoch,Repeat,Accuracy,STD,Minimum Accuracy,Maximum Accuracy,Elapsed,Delete Rate
+cross,densenet201,dog,pool,tafe,0.2,30,10,79.64,0.29,79.2,80.06,22.22,0.2
+cross,densenet201,dog,pool,tafe,0.5,30,10,78.71,0.2,78.39,79.03,22.42,0.5
+cross,densenet201,dog,pool,tafe,0.8,30,10,73.4,0.25,73.04,73.77,16.68,0.8
+cross,densenet201,dog,pool,tafe,0.9,30,10,62.25,0.31,61.76,62.79,15.5,0.9
+cross,densenet201,dog,pool,tafe,0.95,30,10,40.2,0.44,39.32,40.96,16.42,0.95
+cross,densenet201,dog,pool,tafe,0.99,30,10,4.0,0.15,3.61,4.17,8.15,0.99
+Study Type,dog,Source,Target,Transfer Type,Classifier Type,Alpha,Epoch,Repeat,Accuracy,STD,Minimum Accuracy,Maximum Accuracy,Elapsed,Delete Rate
+regular,densenet201,dog,pool,tafe,0.2,30,10,79.99,0.27,79.67,80.53,22.86,0.2
+regular,densenet201,dog,pool,tafe,0.5,30,10,78.76,0.29,78.22,79.1,21.35,0.5
+regular,densenet201,dog,pool,tafe,0.8,30,10,74.47,0.27,73.92,74.85,16.6,0.8
+regular,densenet201,dog,pool,tafe,0.9,30,10,66.0,0.22,65.72,66.33,14.9,0.9
+regular,densenet201,dog,pool,tafe,0.95,30,10,49.74,0.36,49.19,50.42,13.76,0.95
+regular,densenet201,dog,pool,tafe,0.99,30,10,8.65,0.42,7.98,9.36,12.92,0.99

@@ -1,4 +1,6 @@
 import os
+import random
+
 import numpy as np
 from PIL import Image
 from pathlib import Path
@@ -30,6 +32,14 @@ def cropImg(image, width=224, height=224, crop_width=64, crop_height=64):
     left_corner = int(round(width / 2)) - int(round(crop_width / 2))
     top_corner = int(round(height / 2)) - int(round(crop_height / 2))
     cropped = image.crop((left_corner, top_corner, left_corner + crop_width, top_corner + crop_height))
+    cropped = cropped.resize((width, height))
+    return cropped
+
+
+def cropImgRandom(image, width=224, height=224, crop_width=64, crop_height=64):
+    left_shift = random.randint(0, int((width - crop_width)))
+    down_shift = random.randint(0, int((height - crop_height)))
+    cropped = image.crop((left_shift, down_shift, crop_width + left_shift, crop_height + down_shift))
     cropped = cropped.resize((width, height))
     return cropped
 

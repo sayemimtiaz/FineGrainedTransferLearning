@@ -16,7 +16,7 @@ class Dog:
 
     def __init__(self):
         self.data_path = get_project_root()
-        self.data_path = os.path.join(self.data_path, 'data', 'dogs', 'images')
+        self.data_path = os.path.join(self.data_path, 'data', 'dogs', 'Images')
 
     def getClasses(self):
         return self.classes

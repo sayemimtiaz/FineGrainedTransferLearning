@@ -212,7 +212,7 @@ if __name__ == "__main__":
     #       ('large man-made outdoor things', 'fish'), ('people', 'reptiles')]
     # tds=list(tds)
     # print(tds)
-    tds=[ ('dog, bird'), ('mit67', 'dog'), ('mit67', 'bird'), ('bird', 'dog'),
+    tds=[ ('dog', 'bird'), ('mit67', 'dog'), ('mit67', 'bird'), ('bird', 'dog'),
           ('dog', 'mit67')]
     for (ts, rts) in tds:
         fds=ts.replace(' ', '')
