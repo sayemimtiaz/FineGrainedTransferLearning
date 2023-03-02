@@ -6,10 +6,11 @@ from glob import glob
 
 from util.common import get_project_root
 
+# regularizerType = 'plain'
 # regularizerType = 'dropout'
 regularizerType = 'l2'
 # regularizerType = 'l1'
-skipArchs=[]
+skipArchs=['resnet50', 'densenet201']
 
 result_path = os.path.join(get_project_root(), 'final_results', 'overfitting',
                            regularizerType)

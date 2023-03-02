@@ -1,7 +1,0 @@
-Source,Target,Transfer Type,Classifier Type,Alpha,Epoch,Repeat,Accuracy,STD,Minimum Accuracy,Maximum Accuracy,Elapsed,Delete Rate
-resnet50,trees,dense,Baseline,None,30,10,27.04,8.4,20.0,45.8,16.16,0.0
-resnet50,trees,dense,tafe,0.0,30,10,26.02,6.18,20.0,39.6,11.45,67.53
-resnet50,trees,dense,tafe,1e-45,30,10,23.86,0.54,23.2,24.8,6.07,95.9
-resnet50,trees,dense,tafe,1e-25,30,10,22.3,0.42,21.6,22.8,6.46,96.73
-resnet50,trees,dense,tafe,1e-15,30,10,21.72,0.45,20.8,22.2,5.72,96.97
-resnet50,trees,dense,tafe,1e-05,30,10,20.9,0.65,19.8,22.0,4.66,98.24

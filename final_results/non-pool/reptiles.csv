@@ -1,7 +1,0 @@
-Source,Target,Transfer Type,Classifier Type,Alpha,Epoch,Repeat,Accuracy,STD,Minimum Accuracy,Maximum Accuracy,Elapsed,Delete Rate
-resnet50,reptiles,dense,Baseline,None,30,10,26.98,3.12,20.0,31.0,16.62,0.0
-resnet50,reptiles,dense,tafe,0.0,30,10,28.9,4.69,20.4,35.2,11.73,65.72
-resnet50,reptiles,dense,tafe,1e-45,30,10,25.42,0.87,24.0,27.0,6.74,94.78
-resnet50,reptiles,dense,tafe,1e-25,30,10,24.24,0.57,22.8,25.0,6.35,95.51
-resnet50,reptiles,dense,tafe,1e-15,30,10,22.5,0.75,20.6,23.2,5.83,96.34
-resnet50,reptiles,dense,tafe,1e-05,30,10,21.92,0.42,21.4,22.6,5.73,97.56

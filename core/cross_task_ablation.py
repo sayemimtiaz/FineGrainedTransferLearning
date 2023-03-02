@@ -71,9 +71,11 @@ def cross_acquire(target_ds=None, ref_ds=None, parent_model=None):
         sample_size_per_class = 1500
     if ref_ds == "stl10":
         sample_size_per_class = 300
+    if ref_ds == "mnist":
+        sample_size_per_class = 300
 
     target_sample = smapleTargetData(
-        sample_size_per_class=sample_size_per_class, target_ds=ref_ds, crop=True
+        sample_size_per_class=sample_size_per_class, target_ds=ref_ds, crop=False
     )
 
     calculateTargetDistribution(
@@ -212,13 +214,14 @@ if __name__ == "__main__":
     #       ('large man-made outdoor things', 'fish'), ('people', 'reptiles')]
     # tds=list(tds)
     # print(tds)
-    tds=[ ('dog', 'bird'), ('mit67', 'dog'), ('mit67', 'bird'), ('bird', 'dog'),
-          ('dog', 'mit67')]
+
+    tds=[('dog', 'mnist'), ('bird', 'mnist')]
+
     for (ts, rts) in tds:
         fds=ts.replace(' ', '')
         for pa in pretrained_architecures:
             cross_acquire(target_ds=fds, parent_model=pa, ref_ds=rts)
             cross_evaluate(target_ds=fds, parent_model=pa, study_type='cross', ref_ds=rts)
 
-            cross_acquire(target_ds=fds, parent_model=pa, ref_ds=ts)
-            cross_evaluate(target_ds=fds, parent_model=pa, study_type='regular', ref_ds=ts)
+            # cross_acquire(target_ds=fds, parent_model=pa, ref_ds=ts)
+            # cross_evaluate(target_ds=fds, parent_model=pa, study_type='regular', ref_ds=ts)

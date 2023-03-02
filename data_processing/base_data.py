@@ -35,6 +35,11 @@ def getKerasDataset(one_hot=True, dataset='cifar100', gray=False, additional_par
     else:
         x_train = reshape(x_train, shape=shape)
         x_test = reshape(x_test, shape=shape)
+        # x_train = x_train.repeat(3, -1)
+        # x_test = x_test.repeat(3, -1)
+
+        # x_train = tf.image.grayscale_to_rgb(x_train,name=None)
+        # x_test = tf.image.grayscale_to_rgb(x_test,name=None)
 
     x_train, x_test = normalizeBoth(x_train, x_test)
 

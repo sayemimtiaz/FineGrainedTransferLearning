@@ -8,6 +8,7 @@ from data_processing.cat_dog_util import Cat
 from data_processing.dog_util import Dog
 from data_processing.imagenet_util import ImageNet
 from data_processing.mit67 import MIT67
+from data_processing.mnist_specific import Mnist
 from data_processing.pet_util import Pet
 from data_processing.stl10_util import STL10
 from data_processing.tiny_imagenet_util import TinyImageNet
@@ -83,6 +84,8 @@ def getTargetNumClass(target_ds=None):
         return 10
     if target_ds == 'mit67':
         return 67
+    if target_ds == 'mnist':
+        return 10
     return 5  # temp
 
 
@@ -142,3 +145,9 @@ def smapleTargetData(sample_size_per_class=20, target_ds=None, crop=False):
         bird = MIT67()
         target_sample = bird.sampleFromDir(sample_size_per_class=sample_size_per_class, ext='jpg', crop=crop)
         return target_sample
+
+    if target_ds == 'mnist':
+        mn = Mnist()
+        target_sample = mn.sampleFromDir(sample_size_per_class=sample_size_per_class, ext='jpg', crop=crop)
+        return target_sample
+

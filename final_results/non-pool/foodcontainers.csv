@@ -1,7 +1,0 @@
-Source,Target,Transfer Type,Classifier Type,Alpha,Epoch,Repeat,Accuracy,STD,Minimum Accuracy,Maximum Accuracy,Elapsed,Delete Rate
-resnet50,foodcontainers,dense,Baseline,None,30,10,25.14,5.22,20.2,35.6,14.61,0.0
-resnet50,foodcontainers,dense,tafe,0.0,30,10,34.16,9.65,23.4,53.8,10.5,61.33
-resnet50,foodcontainers,dense,tafe,1e-45,30,10,25.2,0.31,24.8,26.0,7.12,91.11
-resnet50,foodcontainers,dense,tafe,1e-25,30,10,22.7,0.29,22.2,23.0,6.53,91.8
-resnet50,foodcontainers,dense,tafe,1e-15,30,10,21.04,0.27,20.4,21.4,6.63,92.68
-resnet50,foodcontainers,dense,tafe,1e-05,30,10,20.24,0.25,19.8,20.6,5.91,95.7

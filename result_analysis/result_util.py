@@ -5,7 +5,7 @@ from result_analysis.result_type import Observation
 
 def parseLine(line):
     studyType = None
-    if len(line) == 12:
+    if len(line) == 13:
         archStart = 0
     else:
         studyType = line[0]

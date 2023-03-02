@@ -1,7 +1,0 @@
-Source,Target,Transfer Type,Classifier Type,Alpha,Epoch,Repeat,Accuracy,STD,Minimum Accuracy,Maximum Accuracy,Elapsed,Delete Rate
-resnet50,householdelectricaldevices,dense,Baseline,None,30,10,38.8,8.13,20.4,49.2,14.92,0.0
-resnet50,householdelectricaldevices,dense,tafe,0.0,30,10,31.62,5.84,22.6,44.8,12.36,60.35
-resnet50,householdelectricaldevices,dense,tafe,1e-45,30,10,27.2,0.25,26.8,27.8,8.05,90.82
-resnet50,householdelectricaldevices,dense,tafe,1e-25,30,10,27.1,0.27,26.8,27.6,7.73,92.04
-resnet50,householdelectricaldevices,dense,tafe,1e-15,30,10,23.92,1.41,21.6,25.4,6.98,92.97
-resnet50,householdelectricaldevices,dense,tafe,1e-05,30,10,21.9,0.66,20.0,22.4,6.7,95.75

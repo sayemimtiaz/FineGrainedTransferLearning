@@ -1,7 +1,0 @@
-Source,Target,Transfer Type,Classifier Type,Alpha,Epoch,Repeat,Accuracy,STD,Minimum Accuracy,Maximum Accuracy,Elapsed,Delete Rate
-resnet50,non-insectinvertebrates,dense,Baseline,None,30,10,29.52,3.88,21.2,36.2,16.51,0.0
-resnet50,non-insectinvertebrates,dense,tafe,0.0,30,10,24.78,4.69,20.2,34.4,11.79,63.72
-resnet50,non-insectinvertebrates,dense,tafe,1e-45,30,10,27.44,0.4,26.6,28.0,7.15,93.12
-resnet50,non-insectinvertebrates,dense,tafe,1e-25,30,10,26.22,0.29,25.6,26.6,6.93,93.51
-resnet50,non-insectinvertebrates,dense,tafe,1e-15,30,10,24.9,0.84,23.0,26.0,6.62,94.24
-resnet50,non-insectinvertebrates,dense,tafe,1e-05,30,10,21.36,0.22,21.0,21.6,6.29,96.04
