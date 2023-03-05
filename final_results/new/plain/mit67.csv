@@ -1,0 +1,22 @@
+Source,Target,Transfer Type,Classifier Type,Alpha,Epoch,Repeat,Accuracy,STD,Minimum Accuracy,Maximum Accuracy,Elapsed,Delete Rate
+inceptionv3,mit67,pool,Baseline,None,30,10,55.18,2.85,50.32,59.55,16.53,0.0
+inceptionv3,mit67,pool,tafe,0.0,30,10,56.79,1.82,51.81,58.46,13.63,0.0
+inceptionv3,mit67,pool,tafe,1e-45,30,10,57.96,1.61,55.23,60.59,17.09,0.2
+inceptionv3,mit67,pool,tafe,1e-25,30,10,57.22,1.77,52.97,59.39,17.99,1.86
+inceptionv3,mit67,pool,tafe,1e-15,30,10,56.35,2.66,52.1,60.52,18.07,7.62
+inceptionv3,mit67,pool,tafe,1e-05,30,10,56.93,1.84,53.45,59.62,14.63,40.38
+inceptionv3,mit67,pool,tafe,0.01,30,10,57.39,1.63,54.03,59.65,10.8,78.47
+xception,mit67,pool,Baseline,None,30,10,63.86,1.5,60.91,65.85,19.76,0.0
+xception,mit67,pool,tafe,0.0,30,10,64.58,1.55,60.56,66.24,21.22,0.83
+xception,mit67,pool,tafe,1e-45,30,10,64.27,1.65,61.17,66.14,22.78,0.88
+xception,mit67,pool,tafe,1e-25,30,10,64.55,1.11,62.62,66.4,21.6,1.86
+xception,mit67,pool,tafe,1e-15,30,10,64.95,1.02,62.69,66.82,20.59,7.23
+xception,mit67,pool,tafe,1e-05,30,10,64.71,1.29,62.36,66.3,15.45,22.46
+xception,mit67,pool,tafe,0.01,30,10,65.35,0.95,63.46,66.37,18.25,38.38
+vgg16,mit67,pool,Baseline,None,30,10,51.44,1.22,48.74,52.61,18.42,0.0
+vgg16,mit67,pool,tafe,0.0,30,10,51.11,2.03,46.77,53.62,18.14,0.0
+vgg16,mit67,pool,tafe,1e-45,30,10,49.82,0.97,48.22,51.19,17.16,29.3
+vgg16,mit67,pool,tafe,1e-25,30,10,48.39,1.32,45.16,50.16,20.45,51.17
+vgg16,mit67,pool,tafe,1e-15,30,10,45.08,1.58,41.54,47.22,17.0,68.16
+vgg16,mit67,pool,tafe,1e-05,30,10,34.35,1.02,31.57,35.51,15.48,86.52
+vgg16,mit67,pool,tafe,0.01,30,10,26.89,0.59,26.05,27.7,12.86,92.38
