@@ -6,13 +6,15 @@ from glob import glob
 
 from util.common import get_project_root
 
-# regularizerType = 'plain'
+regularizerType = 'plain'
 # regularizerType = 'dropout'
-regularizerType = 'l2'
+# regularizerType = 'l2'
 # regularizerType = 'l1'
-skipArchs=['resnet50', 'densenet201']
+# regularizerType = 'l1_l2'
 
-result_path = os.path.join(get_project_root(), 'final_results', 'overfitting',
+skipArchs=['resnet50']
+
+result_path = os.path.join(get_project_root(), 'final_results', 'new',
                            regularizerType)
 
 csvFiles = [y for x in os.walk(result_path) for y in

@@ -7,13 +7,18 @@ from glob import glob
 
 from util.common import get_project_root
 
-classifierType = 'pool'
+classifierType = 'new'
+# regularizerType = 'plain'
+# regularizerType = 'dropout'
+# regularizerType = 'l2'
+regularizerType = 'l1'
+# regularizerType = 'l1_l2'
 skipArchs = ['resnet50']
 cifar100Classes = []
 for c in getCifar100CoarseClasses():
     cifar100Classes.append(c.replace(' ', ''))
 
-result_path = os.path.join(get_project_root(), 'final_results', classifierType)
+result_path = os.path.join(get_project_root(), 'final_results', classifierType, regularizerType)
 
 csvFiles = [y for x in os.walk(result_path) for y in
             glob(os.path.join(x[0], '*.csv'))]
