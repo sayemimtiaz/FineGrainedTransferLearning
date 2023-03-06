@@ -8,6 +8,7 @@ from glob import glob
 from util.common import get_project_root
 import numpy as np
 
+target = 'std'  # std
 baselines = ['Linear', 'L1', 'L2', 'L1_L2']
 archs = ['inceptionv3', 'xception', 'densenet201', 'vgg16']
 tasks = ['dog', 'bird', 'mit67', 'pet', 'stl10']
@@ -39,26 +40,38 @@ for baselineName in baselines:
 
             task = baseline.task
 
-            data[baselineName][arch][task] = baseline.accuracy
+            if target == 'accuracy':
+                data[baselineName][arch][task] = baseline.accuracy
+
+            if target == 'std':
+                data[baselineName][arch][task] = baseline.std
 
             flag = False
             bestAcc = 0.0
+            chosenStd = 0.0
             for obs in getTafeObservation(iF, arch):
                 if not flag or bestAcc < obs.accuracy:
                     bestAcc = obs.accuracy
+                    chosenStd = obs.std
                     flag = True
 
-            data['TAS - ' + baselineName][arch][task] = bestAcc
-
+            if target == 'accuracy':
+                data['TAS - ' + baselineName][arch][task] = bestAcc
+            if target == 'std':
+                data['TAS - ' + baselineName][arch][task] = chosenStd
 
 for arch in archs:
     summaryOut = open(os.path.join(get_project_root(), "final_results", "processed",
-                                   "raw_accuracy_"+arch+".csv"), "w")
+                                   "raw_" + target + "_" + arch + ".csv"), "w")
     summaryOut.write("Type,Stanford Dogs,Caltech Birds,MIT Indoor,Oxford Pets,STL-10,Mean\n")
 
     for baselineName in baselines:
+        if baselineName == 'Linear':
+            tmp = baselineName
+        else:
+            tmp = 'Linear - ' + baselineName
 
-        summaryOut.write(baselineName)
+        summaryOut.write(tmp)
 
         ss = []
         for task in tasks:

@@ -8,12 +8,12 @@ from glob import glob
 from util.common import get_project_root
 
 classifierType = 'new'
-# regularizerType = 'plain'
+regularizerType = 'Linear'
 # regularizerType = 'dropout'
 # regularizerType = 'l2'
-regularizerType = 'l1'
+# regularizerType = 'l1'
 # regularizerType = 'l1_l2'
-skipArchs = ['resnet50']
+skipArchs = ['vgg16']
 cifar100Classes = []
 for c in getCifar100CoarseClasses():
     cifar100Classes.append(c.replace(' ', ''))
