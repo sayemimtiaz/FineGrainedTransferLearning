@@ -1,0 +1,12 @@
+Source,Target,Transfer Type,Classifier Type,Alpha,Epoch,Repeat,Accuracy,STD,Minimum Accuracy,Maximum Accuracy,Elapsed,Delete Rate
+densenet201,bird,pool,Baseline,None,30,10,61.64,0.97,59.62,62.81,24.63,0.0
+Source,Target,Transfer Type,Classifier Type,Alpha,Epoch,Repeat,Accuracy,STD,Minimum Accuracy,Maximum Accuracy,Elapsed,Delete Rate
+densenet201,bird,pool,Baseline,None,30,10,61.72,1.19,60.35,63.19,21.88,0.0
+densenet201,bird,pool,tafe,0.0,30,10,61.05,1.39,58.59,63.84,21.81,0.0
+densenet201,bird,pool,tafe,1e-45,30,10,61.69,1.35,59.45,63.19,19.87,17.81
+densenet201,bird,pool,tafe,1e-35,30,10,60.59,0.59,59.71,61.82,19.42,25.36
+densenet201,bird,pool,tafe,1e-25,30,10,60.07,1.24,57.64,61.77,18.15,34.06
+densenet201,bird,pool,tafe,1e-15,30,10,59.14,0.74,57.68,60.05,16.33,47.5
+densenet201,bird,pool,tafe,1e-05,30,10,52.72,0.57,51.44,53.55,14.33,75.47
+densenet201,bird,pool,tafe,0.01,30,10,39.43,0.42,38.57,40.08,12.48,89.53
+densenet201,bird,pool,tafe,0.05,30,10,29.19,0.57,27.81,29.79,9.65,93.65
