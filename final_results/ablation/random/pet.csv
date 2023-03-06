@@ -1,0 +1,19 @@
+Study Type,Source,Target,Transfer Type,Classifier Type,Alpha,Epoch,Repeat,Accuracy,STD,Minimum Accuracy,Maximum Accuracy,Elapsed,Delete Rate
+Ablation,inceptionv3,pet,pool,Baseline,None,30,10,87.03,0.98,85.04,88.11,9.42,0.0
+Ablation,inceptionv3,pet,pool,tafe,0.0,30,10,86.48,0.95,84.84,87.77,7.46,0.0
+Ablation,inceptionv3,pet,pool,tafe,1e-45,30,10,75.57,2.71,71.11,79.78,8.4,0.44
+Ablation,inceptionv3,pet,pool,tafe,1e-35,30,10,14.03,3.58,8.33,20.97,7.06,1.66
+Ablation,inceptionv3,pet,pool,tafe,1e-25,30,10,7.75,1.69,4.99,10.25,7.43,4.88
+Ablation,inceptionv3,pet,pool,tafe,1e-15,30,10,6.02,1.32,4.51,9.15,5.15,12.4
+Ablation,inceptionv3,pet,pool,tafe,1e-05,30,10,1.89,0.56,0.75,2.8,5.66,29.35
+Ablation,inceptionv3,pet,pool,tafe,0.01,30,10,3.51,0.94,2.12,5.05,4.69,55.27
+Ablation,inceptionv3,pet,pool,tafe,0.05,30,10,2.96,0.61,2.05,4.1,4.04,75.54
+Non-ablation,inceptionv3,pet,pool,Baseline,None,30,10,85.68,1.37,82.24,87.09,9.72,0.0
+Non-ablation,inceptionv3,pet,pool,tafe,0.0,30,10,85.93,2.09,80.05,87.84,9.82,0.0
+Non-ablation,inceptionv3,pet,pool,tafe,1e-45,30,10,86.86,0.88,85.45,88.32,11.2,0.44
+Non-ablation,inceptionv3,pet,pool,tafe,1e-35,30,10,85.91,1.83,81.63,88.11,9.86,1.66
+Non-ablation,inceptionv3,pet,pool,tafe,1e-25,30,10,85.73,1.26,83.4,87.91,7.02,4.88
+Non-ablation,inceptionv3,pet,pool,tafe,1e-15,30,10,86.27,1.07,84.15,87.77,8.75,12.4
+Non-ablation,inceptionv3,pet,pool,tafe,1e-05,30,10,85.63,1.06,84.77,87.98,6.95,29.35
+Non-ablation,inceptionv3,pet,pool,tafe,0.01,30,10,86.56,1.13,83.54,87.84,5.96,55.27
+Non-ablation,inceptionv3,pet,pool,tafe,0.05,30,10,86.43,0.51,85.79,87.3,4.58,75.54

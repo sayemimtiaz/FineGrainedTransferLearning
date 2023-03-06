@@ -1,6 +1,0 @@
-Dataset,Architecture,Alpha,Deletion Rate,TAFS,Random
-bird,inceptionv3,0.0,0.0,52.81,52.6
-bird,inceptionv3,1e-15,66.31,53.33,0.94
-bird,inceptionv3,1e-45,25.63,54.18,0.94
-bird,inceptionv3,1e-05,86.18,50.46,0.78
-bird,inceptionv3,1e-25,53.47,54.07,0.78

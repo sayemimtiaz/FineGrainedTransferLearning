@@ -1,6 +1,0 @@
-Dataset,Architecture,Alpha,Deletion Rate,TAFS,Random
-bird,densenet201,0.0,0.0,65.73,65.36
-bird,densenet201,1e-15,47.5,63.29,0.41
-bird,densenet201,1e-45,17.81,65.47,0.62
-bird,densenet201,1e-05,75.47,56.43,0.5
-bird,densenet201,1e-25,34.06,63.96,0.86
