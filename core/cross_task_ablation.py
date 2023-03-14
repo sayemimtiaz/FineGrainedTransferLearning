@@ -18,8 +18,10 @@ from util.ordinary import (
     get_summary_out_name, load_pickle_file)
 from util.transfer_util import (
     get_pool_classifier,
+    get_dense_classifier,
     save_bottleneck_data,
-    delete_bottleneck_data)
+    delete_bottleneck_data,
+save_filtered_bottleneck_data)
 
 
 def cross_acquire(target_ds=None, ref_ds=None, parent_model=None):
@@ -31,7 +33,9 @@ def cross_acquire(target_ds=None, ref_ds=None, parent_model=None):
     if parent_model in CURRENT_ACQUIRE and target_ds in CURRENT_ACQUIRE[parent_model]:
         return
 
-    delete_rate = [0.2, 0.5, 0.8, 0.9, 0.95, 0.99]
+    # delete_rate = [0.2, 0.5, 0.8, 0.9, 0.95, 0.99]
+    delete_rate = [ 0.0, 1e-45, 1e-25, 1e-15, 1e-5, 0.01]
+
 
     (
         train_generator,
@@ -72,7 +76,7 @@ def cross_acquire(target_ds=None, ref_ds=None, parent_model=None):
     if ref_ds == "stl10":
         sample_size_per_class = 300
     if ref_ds == "mnist":
-        sample_size_per_class = 300
+        sample_size_per_class = 200
 
     target_sample = smapleTargetData(
         sample_size_per_class=sample_size_per_class, target_ds=ref_ds, crop=False
@@ -83,29 +87,53 @@ def cross_acquire(target_ds=None, ref_ds=None, parent_model=None):
     )
 
     delete_rates = {}
+    
+    # p_values = getPValuesNoAlpha(target_ds=target_ds, parent_model=parent_model)
+    # print(p_values)
 
     for alpha in delete_rate:
         print(">> delete rate: ", alpha)
 
-        p_values = getPValuesNoAlpha(target_ds=target_ds, parent_model=parent_model)
+#         delete_rates[str(alpha)] = alpha
 
-        delete_rates[str(alpha)] = alpha
+#         o, d = delete_bottleneck_data(
+#             bottleneck_features_train,
+#             p_values,
+#             split="train",
+#             deleteRate=alpha,
+#             target_ds=target_ds,
+#         )
 
-        _, _ = delete_bottleneck_data(
+#         _, _ = delete_bottleneck_data(
+#             bottleneck_features_valid,
+#             p_values,
+#             split="valid",
+#             deleteRate=alpha,
+#             target_ds=target_ds,
+#         )
+        
+        p_values, delRate = getPValues(
+            alpha=alpha, target_ds=target_ds, parent_model=parent_model
+        )
+        delete_rates[str(alpha)] = delRate
+
+
+        _, _ = save_filtered_bottleneck_data(
             bottleneck_features_train,
             p_values,
             split="train",
-            deleteRate=alpha,
+            alpha=alpha,
             target_ds=target_ds,
         )
 
-        _, _ = delete_bottleneck_data(
+        _, _ = save_filtered_bottleneck_data(
             bottleneck_features_valid,
             p_values,
             split="valid",
-            deleteRate=alpha,
+            alpha=alpha,
             target_ds=target_ds,
         )
+        # print(o, d)
 
     dump_as_pickle(delete_rates, get_delete_rate_name(target_ds))
 
@@ -119,6 +147,7 @@ def cross_acquire_cifar100(parent_model=None, target_ds=None, task=None, ref_tas
         return
 
     delete_rate = [0.2, 0.5, 0.8, 0.90, 0.95, 0.99]
+    # delete_rate = [ 0.95]
 
     x_train, y_train, x_test, y_test, num_classes = sampleCifar100Fine(superclasses=[task], num_sample=2500,
                                                                        gray=False,
@@ -174,7 +203,8 @@ def cross_evaluate(target_ds=None, parent_model=None, study_type=None, ref_ds=No
     epoch = 30
     REPEAT = 10
     batch_size = 32
-    delete_rate = [0.2, 0.5, 0.8, 0.9, 0.95, 0.99]
+    delete_rate = [ 0.0, 1e-45, 1e-25, 1e-15, 1e-5, 0.01]
+    # delete_rate = [0.2, 0.5, 0.8, 0.9, 0.95, 0.99]
 
     classfiers = {'pool': get_pool_classifier}
 
@@ -223,5 +253,5 @@ if __name__ == "__main__":
             cross_acquire(target_ds=fds, parent_model=pa, ref_ds=rts)
             cross_evaluate(target_ds=fds, parent_model=pa, study_type='cross', ref_ds=rts)
 
-            # cross_acquire(target_ds=fds, parent_model=pa, ref_ds=ts)
-            # cross_evaluate(target_ds=fds, parent_model=pa, study_type='regular', ref_ds=ts)
+            cross_acquire(target_ds=fds, parent_model=pa, ref_ds=ts)
+            cross_evaluate(target_ds=fds, parent_model=pa, study_type='regular', ref_ds=ts)

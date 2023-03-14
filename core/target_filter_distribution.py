@@ -15,8 +15,8 @@ def calculateTargetDistribution(pos_x, target_ds=None, parent_model=None):
 
     print('Num target samples: ', len(pos_x))
 
-    obs, _ = observe_feature(model, pos_x)
+    obs, numFilter = observe_feature(model, pos_x)
 
     dump_as_pickle(obs, get_transfer_filter_name(target_ds))
 
-    return obs
+    return obs,numFilter

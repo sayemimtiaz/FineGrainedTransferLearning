@@ -1,11 +1,10 @@
 import os
-import random
-
 import numpy as np
 from PIL import Image
 from pathlib import Path
 import tensorflow_datasets as tfds
 import tensorflow as tf
+import random
 
 
 def freezeModel(model):
@@ -42,7 +41,6 @@ def cropImgRandom(image, width=224, height=224, crop_width=64, crop_height=64):
     cropped = image.crop((left_shift, down_shift, crop_width + left_shift, crop_height + down_shift))
     cropped = cropped.resize((width, height))
     return cropped
-
 
 def save_tf_dataset_as_image(datasetName, split='train',
                              saveDir='/Users/sayem/Documents/Research/FineGrainedTransferLearning/data/'):

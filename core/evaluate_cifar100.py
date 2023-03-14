@@ -68,9 +68,7 @@ def acquire_cifar100(parent_model=None, target_ds=None, task=None):
     dump_as_pickle(delete_rates, get_delete_rate_name(target_ds))
 
 
-
 if __name__ == "__main__":
-
     # done=[]
     done=['aquaticmammals', 'fish',
            'flowers'

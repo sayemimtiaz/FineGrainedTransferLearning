@@ -1,6 +1,4 @@
 Source,Target,Transfer Type,Classifier Type,Alpha,Epoch,Repeat,Accuracy,STD,Minimum Accuracy,Maximum Accuracy,Elapsed,Delete Rate
-densenet201,bird,pool,Baseline,None,30,10,61.64,0.97,59.62,62.81,24.63,0.0
-Source,Target,Transfer Type,Classifier Type,Alpha,Epoch,Repeat,Accuracy,STD,Minimum Accuracy,Maximum Accuracy,Elapsed,Delete Rate
 densenet201,bird,pool,Baseline,None,30,10,61.72,1.19,60.35,63.19,21.88,0.0
 densenet201,bird,pool,tafe,0.0,30,10,61.05,1.39,58.59,63.84,21.81,0.0
 densenet201,bird,pool,tafe,1e-45,30,10,61.69,1.35,59.45,63.19,19.87,17.81

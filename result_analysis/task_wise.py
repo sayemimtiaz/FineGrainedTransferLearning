@@ -1,6 +1,6 @@
 import csv
 import os
-
+import numpy as np
 from data_processing.cifar_specific import getCifar100CoarseClasses
 from result_analysis.result_util import parseLine, getAllArchitectures, getBaseline, getTafeObservation
 from glob import glob
@@ -10,9 +10,9 @@ from util.common import get_project_root
 classifierType = 'new'
 regularizerType = 'Linear'
 # regularizerType = 'dropout'
-# regularizerType = 'l2'
-# regularizerType = 'l1'
-# regularizerType = 'l1_l2'
+# regularizerType = 'L2'
+# regularizerType = 'L1'
+# regularizerType = 'L1_L2'
 skipArchs = ['vgg16']
 cifar100Classes = []
 for c in getCifar100CoarseClasses():
@@ -23,6 +23,8 @@ result_path = os.path.join(get_project_root(), 'final_results', classifierType, 
 csvFiles = [y for x in os.walk(result_path) for y in
             glob(os.path.join(x[0], '*.csv'))]
 
+baseStds = []
+tasStds = []
 overallDelta = {}
 overallDelRate = {}
 overallElapsed = {}
@@ -46,12 +48,14 @@ for idx, iF in enumerate(csvFiles):
         bestDelta = 0.0
         delRate = 0.0
         elapsed = 0.0
+        tasStd=0.0
         for obs in getTafeObservation(iF, arch):
             accDelta = obs.accuracy - baseline.accuracy
             if not flag or bestDelta < accDelta:
                 bestDelta = accDelta
                 delRate = obs.delRate
                 elapsed = obs.elapsed
+                tasStd=obs.std
                 flag = True
 
         if task not in overallDelta:
@@ -62,9 +66,14 @@ for idx, iF in enumerate(csvFiles):
             improve_stat[task] = 0.0
             same_or_better[task] = 0.0
 
+        baseStds.append(baseline.std)
+        tasStds.append(tasStd)
         overallDelta[task] += bestDelta
         overallDelRate[task] += delRate
         overallElapsed[task] += ((baseline.elapsed - elapsed) / baseline.elapsed)
+
+
+
         numObs[task] += 1
         if bestDelta > 0:
             improve_stat[task] += 1
@@ -112,3 +121,5 @@ print('Overall Same or better in ' + str(oSb) + '% cases')
 print('Overall Average accuracy delta: ' + str(oAd) + '%')
 print('Overall Average delete rate: ' + str(oAdr) + '%')
 print('Overall Convergance accelration: ' + str(oAe) + '%')
+print('Overall baseline std: ' + str(np.asarray(baseStds).mean()))
+print('Overall TAS std: ' + str(np.asarray(tasStds).mean()))

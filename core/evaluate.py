@@ -19,8 +19,8 @@ def evaluate(target_ds=None, parent_model=None):
     epoch = 30
     REPEAT = 10
     batch_size = 32
-    alpha_values = [0.0, 1e-45, 1e-25, 1e-15, 1e-5]
-
+    alpha_values = [0.0, 1e-45, 1e-35, 1e-25, 1e-15, 1e-5, 0.01, 0.05]
+    
     # classfiers = {'pool': get_pool_classifier, 'svm': get_svm_classifier,  'dense': get_dense_classifier}
     # classfiers = {'dense': get_dense_classifier}
     classfiers = {'pool': get_pool_classifier}

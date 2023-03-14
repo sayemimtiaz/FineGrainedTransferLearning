@@ -4,7 +4,7 @@ import numpy as np
 from constants import source_model_name, target_dataset, source_dataset, NUM_SOURCE_SAMPLE
 from core import getSourceModel, getTargetNumClass
 from util.common import freezeModel
-from util.hypothesis_testing import getPValue
+from util.hypothesis_testing import getPValue,isSameDistribution
 from util.model_hacker import hack_model
 from util.ordinary import load_pickle_file, get_transfer_filter_name, get_transfer_model_name
 
@@ -144,9 +144,38 @@ def getPValuesNoAlpha(target_ds=None, parent_model=None):
             targetActiveFilter = targetFilter[targetFilter > 0]
 
             try:
-                pv = getPValue(sourceActiveFilter, targetActiveFilter)
+                pv = getPValue(sourceFilter, targetFilter)
                 p_values[filterNo] = max(pv, p_values[filterNo])
             except:
                 pass
 
     return p_values
+
+
+def similarFeatureRate(alpha=0.00, sourceRate=None, targetRate=None, numFilter=None):
+    compat = 0
+    nonCompat = 0
+
+    for filterNo in range(numFilter):
+        sourceFilter = sourceRate[filterNo]
+        targetFilter = targetRate[filterNo]
+        if type(sourceFilter) == list:
+            sourceFilter = np.asarray(sourceFilter)
+        if type(targetFilter) == list:
+            targetFilter = np.asarray(targetFilter)
+
+        sourceFilter = sourceFilter.flatten()
+        targetFilter = targetFilter.flatten()
+        sourceActiveFilter = sourceFilter[sourceFilter > 0]
+        targetActiveFilter = targetFilter[targetFilter > 0]
+
+        if sourceFilter.mean() > 0 and targetFilter.mean() > 0 and isSameDistribution(sourceActiveFilter,
+                                                                                  targetActiveFilter,
+                                                                                  alpha=alpha):
+            compat += 1
+        else:
+            nonCompat += 1
+
+    rnk = round(((compat / (compat + nonCompat))*100.0),2)
+
+    return rnk

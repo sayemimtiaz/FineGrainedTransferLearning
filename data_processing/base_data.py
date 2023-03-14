@@ -9,7 +9,7 @@ import tensorflow_datasets as tfds
 from glob import glob
 
 from data_processing.data_util import transformToGrayAndReshapeBoth, asTypeBoth, normalizeBoth, oneEncodeBoth, reshape
-from util.common import cropImg, displayImg
+from util.common import cropImg, displayImg,cropImgRandom
 
 
 def getKerasDataset(one_hot=True, dataset='cifar100', gray=False, additional_param=None, shape=(28, 28)):
@@ -35,11 +35,6 @@ def getKerasDataset(one_hot=True, dataset='cifar100', gray=False, additional_par
     else:
         x_train = reshape(x_train, shape=shape)
         x_test = reshape(x_test, shape=shape)
-        # x_train = x_train.repeat(3, -1)
-        # x_test = x_test.repeat(3, -1)
-
-        # x_train = tf.image.grayscale_to_rgb(x_train,name=None)
-        # x_test = tf.image.grayscale_to_rgb(x_test,name=None)
 
     x_train, x_test = normalizeBoth(x_train, x_test)
 
@@ -128,7 +123,7 @@ def sampleFromDir(dir, shape=(224, 224),
         )
         # displayImg(tf.keras.utils.img_to_array(image))
         if crop:
-            image = cropImg(image)
+            image = cropImgRandom(image)
             # displayImg(tf.keras.utils.img_to_array(image))
         input_arr = tf.keras.utils.img_to_array(image)
         chosenImages.append(input_arr)

@@ -51,13 +51,13 @@ def get_svm_classifier(shape, n_classes=5):
 def get_dense_classifier(shape, n_classes=5):
     target_model = Sequential()
     target_model.add(Flatten(input_shape=shape))
-    target_model.add(Dropout(0.5))
+    # target_model.add(Dropout(0.5))
     # target_model.add(Dense(1024, activation='relu', kernel_regularizer=regularizers.l1(0.01)))
-    target_model.add(Dense(1024, activation='relu'))
-    target_model.add(Dropout(0.5))
+    # target_model.add(Dense(1024, activation='relu'))
+    # target_model.add(Dropout(0.5))
     # target_model.add(Dense(512, activation='relu', kernel_regularizer=regularizers.l1(0.01)))
-    target_model.add(Dense(512, activation='relu'))
-    target_model.add(Dropout(0.5))
+    # target_model.add(Dense(512, activation='relu'))
+    # target_model.add(Dropout(0.5))
     target_model.add(Dense(n_classes, activation='softmax'))
 
     target_model.compile(optimizer='rmsprop',
@@ -69,7 +69,7 @@ def get_dense_classifier(shape, n_classes=5):
 def get_pool_classifier(shape, n_classes=5):
     target_model = Sequential()
     target_model.add(GlobalAveragePooling2D(input_shape=shape))
-    # target_model.add(Dense(512, activation='relu'))
+    target_model.add(Dense(512, activation='relu'))
     # target_model.add(Dense(256, activation='relu'))
     # target_model.add(Dense(128, activation='relu'))
     target_model.add(Dense(n_classes, activation='softmax'))
@@ -124,6 +124,7 @@ def delete_bottleneck_data(bottleneck_features, p_values, split, deleteRate, tar
             includeIndices.append(f)
         i += 1
 
+    includeIndices = sorted(includeIndices)
     x = np.take(bottleneck_features, includeIndices, axis=3)
 
     np.save(get_bottleneck_name(target_ds, split, isTafe=True, isLabel=False, alpha=deleteRate), x)
