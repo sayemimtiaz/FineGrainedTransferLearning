@@ -23,7 +23,7 @@ def evaluate(target_ds=None, parent_model=None, alpha=None, data_sample_rate=Non
     classfiers = {'pool': get_pool_classifier}
 
     delete_rates = load_pickle_file(get_delete_rate_name(target_ds))
-
+    print('Data sample rate: ', data_sample_rate)
     for cn in classfiers.keys():
 
         if parent_model in DONE and target_ds in DONE[parent_model] and cn in DONE[parent_model][target_ds]:

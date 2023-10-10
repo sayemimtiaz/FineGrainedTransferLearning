@@ -13,7 +13,7 @@ import tensorflow as tf
 # init_gpu()
 
 data_sample_rate = 0.25
-alpha_values = [0.0, 1e-5, 0.01]
+alpha_value = 0.0
 
 for ts in target_datasets:
     for pa in pretrained_architecures:
@@ -21,4 +21,4 @@ for ts in target_datasets:
         if pa in DONE and ts in DONE[pa] and len(DONE[pa][ts]) == NUM_CLASSIFIER:
             continue
         acquire(target_ds=ts, parent_model=pa)
-        evaluate(target_ds=ts, parent_model=pa, alpha=alpha_values, data_sample_rate=data_sample_rate)
+        evaluate(target_ds=ts, parent_model=pa, alpha=alpha_value, data_sample_rate=data_sample_rate)

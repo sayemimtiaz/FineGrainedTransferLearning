@@ -67,10 +67,13 @@ def dump_as_pickle(data, file_name):
         pickle.dump(data, handle, protocol=pickle.HIGHEST_PROTOCOL)
 
 
-def get_bottleneck_name(dataset, split, isTafe=True, isLabel=False, alpha=None):
+def get_bottleneck_name(dataset, split, isTafe=True, isLabel=False, alpha=None, modelName=None):
     root = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
 
     name = root + '/results/bottleneck/' + get_model_name(dataset) + '/'
+
+    if modelName is not None:
+        name+=get_model_name(modelName)+'/'
 
     Path(name).mkdir(parents=True, exist_ok=True)
 

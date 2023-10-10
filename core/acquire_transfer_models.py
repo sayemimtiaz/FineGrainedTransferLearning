@@ -56,6 +56,7 @@ def acquire(target_ds=None, parent_model=None, ablation=False):
         batch_size,
         split="train",
         target_ds=target_ds,
+        model_name=parent_model
     )
     bottleneck_features_valid = save_bottleneck_data(
         getSourceModel(parent_model),
@@ -64,6 +65,7 @@ def acquire(target_ds=None, parent_model=None, ablation=False):
         batch_size,
         split="valid",
         target_ds=target_ds,
+        model_name=parent_model
     )
     sample_size_per_class = 30
     if target_ds == "cats_vs_dogs":

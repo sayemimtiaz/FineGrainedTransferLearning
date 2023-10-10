@@ -11,7 +11,9 @@ def gen_source_dist(pos_x, model_name=None):
 
     model = getSourceModel(model_name)
 
-    obs = {'class': {}, 'numFilter': observe_feature(model, pos_x)[1]}
+    obs = {'class': {}, 'numFilter': None}
+
+    obs['class'][0], obs['numFilter'] = observe_feature(model, pos_x)
 
     dump_as_pickle(obs, get_transfer_filter_name(model_name, source_dataset, NUM_SOURCE_SAMPLE))
 

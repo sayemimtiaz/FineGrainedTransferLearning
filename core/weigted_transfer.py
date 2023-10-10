@@ -83,7 +83,7 @@ def getPValues(alpha=0.00, target_ds=None, parent_model=None):
     for source_c in sourceRate['class']:
         for filterNo in range(numFilter):
             sourceFilter = sourceRate['class'][source_c][filterNo]
-            targetFilter = targetRate[filterNo]
+            targetFilter = targetRate['class'][source_c][filterNo]
             if type(sourceFilter) == list:
                 sourceFilter = np.asarray(sourceFilter)
             if type(targetFilter) == list:

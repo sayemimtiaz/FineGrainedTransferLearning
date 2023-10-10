@@ -1,4 +1,5 @@
 import math
+import os
 import random
 import time
 
@@ -17,7 +18,7 @@ import numpy as np
 from keras import backend as K
 import tensorflow as tf
 from util.common import freezeModel
-from util.ordinary import dump_as_pickle, get_bottleneck_name, get_transfer_model_name
+from util.ordinary import dump_as_pickle, get_bottleneck_name, get_transfer_model_name, load_pickle_file
 
 import warnings
 
@@ -78,22 +79,26 @@ def get_pool_classifier(shape, n_classes=5):
     return target_model
 
 
-def save_bottleneck_data(base_model, train_generator, nb_train_samples, batch_size, split, save=True, target_ds=None):
+def save_bottleneck_data(base_model, train_generator, nb_train_samples, batch_size, split, save=True, target_ds=None,
+                         model_name=None):
     if target_ds is None:
         target_ds = target_dataset
+    fileName = get_bottleneck_name(target_ds, split, isTafe=False, isLabel=False, model_name=model_name)
+    if os.path.exists(fileName):
+        bottleneck_features_train = load_pickle_file(fileName)
+        return bottleneck_features_train
 
     predict_size_train = int(math.ceil(nb_train_samples / batch_size))
     bottleneck_features_train = base_model.predict_generator(
         train_generator, predict_size_train)
 
     if save:
-        np.save(get_bottleneck_name(target_ds, split, isTafe=False, isLabel=False),
-                bottleneck_features_train)
+        np.save(fileName, bottleneck_features_train)
 
     return bottleneck_features_train
 
 
-def save_filtered_bottleneck_data(bottleneck_features, p_values, split, alpha, target_ds=None):
+def save_filtered_bottleneck_data(bottleneck_features, p_values, split, alpha, target_ds=None, model_name=None):
     if target_ds is None:
         target_ds = target_dataset
 
@@ -104,7 +109,7 @@ def save_filtered_bottleneck_data(bottleneck_features, p_values, split, alpha, t
 
     x = np.take(bottleneck_features, includeIndices, axis=3)
 
-    np.save(get_bottleneck_name(target_ds, split, isTafe=True, isLabel=False, alpha=alpha), x)
+    np.save(get_bottleneck_name(target_ds, model_name, split, isTafe=True, isLabel=False, alpha=alpha), x)
     print('Bottleneck feature saved')
 
     # return original_shape and bottleneck shape

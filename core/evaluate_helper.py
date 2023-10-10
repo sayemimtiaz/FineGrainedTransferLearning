@@ -46,7 +46,7 @@ def trainTafe(model, alpha, epoch=30, batch_size=128, verbose=0, target_ds=None,
     train_labels = np.load(get_bottleneck_name(target_ds, 'train', isLabel=True))
     valid_labels = np.load(get_bottleneck_name(target_ds, 'valid', isLabel=True))
 
-    train_ds, valid_ds=sample_for_training(train_ds, valid_ds, data_sample_rate)
+    train_ds, train_labels=sample_for_training(train_ds, train_labels, data_sample_rate)
 
     acc, elapse = trainDog(model, train_ds, valid_ds, train_labels, valid_labels,
                            epoch=epoch, batch_size=batch_size, verbose=verbose)
@@ -54,17 +54,18 @@ def trainTafe(model, alpha, epoch=30, batch_size=128, verbose=0, target_ds=None,
     return acc, elapse
 
 
-def trainBaseline(model, epoch=30, batch_size=128, verbose=0, target_ds=None, data_sample_rate=None):
+def trainBaseline(model, epoch=30, batch_size=128, verbose=0, target_ds=None, data_sample_rate=None, model_name=None):
     if target_ds is None:
         target_ds = target_dataset
 
-    train_ds = np.load(get_bottleneck_name(target_ds, 'train', isTafe=False, isLabel=False))
-    valid_ds = np.load(get_bottleneck_name(target_ds, 'valid', isTafe=False, isLabel=False))
+    train_ds = np.load(get_bottleneck_name(target_ds, 'train', isTafe=False, isLabel=False, modelName=model_name))
+    valid_ds = np.load(get_bottleneck_name(target_ds, 'valid', isTafe=False, isLabel=False, modelName=model_name))
 
     train_labels = np.load(get_bottleneck_name(target_ds, 'train', isLabel=True))
     valid_labels = np.load(get_bottleneck_name(target_ds, 'valid', isLabel=True))
 
-    train_ds, valid_ds = sample_for_training(train_ds, valid_ds, data_sample_rate)
+    print(data_sample_rate)
+    train_ds, train_labels = sample_for_training(train_ds, train_labels, data_sample_rate)
 
     acc, elapse = trainDog(model, train_ds, valid_ds, train_labels, valid_labels,
                            epoch=epoch, batch_size=batch_size, verbose=verbose)
@@ -108,7 +109,7 @@ def repeater(num_repeat, get_classifier=None, alpha=None, isBaseline=False, batc
                                     epoch=epoch, batch_size=batch_size, target_ds=target_ds, data_sample_rate=data_sample_rate)
         else:
             acc, elpase = trainBaseline(classifier,
-                                        epoch=epoch, batch_size=batch_size, target_ds=target_ds, data_sample_rate=data_sample_rate)
+                                        epoch=epoch, batch_size=batch_size, target_ds=target_ds, data_sample_rate=data_sample_rate, model_name=parent_model)
         acc = acc * 100.0
         all_acc.append(acc)
         all_elaps.append(elpase)
