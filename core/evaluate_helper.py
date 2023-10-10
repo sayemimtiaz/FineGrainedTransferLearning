@@ -4,6 +4,7 @@ import numpy as np
 
 from constants import target_dataset, source_model_name
 from core import getTargetNumClass
+from data_processing.sample_util import sample_for_training
 from util.common import init_gpu
 from util.ordinary import get_bottleneck_name, get_summary_out_name, load_pickle_file, get_delete_rate_name
 from keras import backend as K
@@ -34,7 +35,7 @@ def getInputShape(alpha, isBaseline, target_ds=None):
     return train_ds_baseline.shape[1:]
 
 
-def trainTafe(model, alpha, epoch=30, batch_size=128, verbose=0, target_ds=None):
+def trainTafe(model, alpha, epoch=30, batch_size=128, verbose=0, target_ds=None, data_sample_rate=None):
     if target_ds is None:
         target_ds = target_dataset
 
@@ -45,13 +46,15 @@ def trainTafe(model, alpha, epoch=30, batch_size=128, verbose=0, target_ds=None)
     train_labels = np.load(get_bottleneck_name(target_ds, 'train', isLabel=True))
     valid_labels = np.load(get_bottleneck_name(target_ds, 'valid', isLabel=True))
 
+    train_ds, valid_ds=sample_for_training(train_ds, valid_ds, data_sample_rate)
+
     acc, elapse = trainDog(model, train_ds, valid_ds, train_labels, valid_labels,
                            epoch=epoch, batch_size=batch_size, verbose=verbose)
 
     return acc, elapse
 
 
-def trainBaseline(model, epoch=30, batch_size=128, verbose=0, target_ds=None):
+def trainBaseline(model, epoch=30, batch_size=128, verbose=0, target_ds=None, data_sample_rate=None):
     if target_ds is None:
         target_ds = target_dataset
 
@@ -60,6 +63,8 @@ def trainBaseline(model, epoch=30, batch_size=128, verbose=0, target_ds=None):
 
     train_labels = np.load(get_bottleneck_name(target_ds, 'train', isLabel=True))
     valid_labels = np.load(get_bottleneck_name(target_ds, 'valid', isLabel=True))
+
+    train_ds, valid_ds = sample_for_training(train_ds, valid_ds, data_sample_rate)
 
     acc, elapse = trainDog(model, train_ds, valid_ds, train_labels, valid_labels,
                            epoch=epoch, batch_size=batch_size, verbose=verbose)
@@ -83,7 +88,7 @@ def trainDog(model, train_ds, val_ds, train_labels, validation_labels, epoch=30,
 
 
 def repeater(num_repeat, get_classifier=None, alpha=None, isBaseline=False, batch_size=128, epoch=30,
-             classifierType=None, delRate=0.0, target_ds=None, parent_model=None, study_type=None):
+             classifierType=None, delRate=0.0, target_ds=None, parent_model=None, study_type=None, data_sample_rate=None):
     if target_ds is None:
         target_ds = target_dataset
 
@@ -100,21 +105,21 @@ def repeater(num_repeat, get_classifier=None, alpha=None, isBaseline=False, batc
 
         if not isBaseline:
             acc, elpase = trainTafe(classifier, alpha,
-                                    epoch=epoch, batch_size=batch_size, target_ds=target_ds)
+                                    epoch=epoch, batch_size=batch_size, target_ds=target_ds, data_sample_rate=data_sample_rate)
         else:
             acc, elpase = trainBaseline(classifier,
-                                        epoch=epoch, batch_size=batch_size, target_ds=target_ds)
+                                        epoch=epoch, batch_size=batch_size, target_ds=target_ds, data_sample_rate=data_sample_rate)
         acc = acc * 100.0
         all_acc.append(acc)
         all_elaps.append(elpase)
 
-        K.clear_session()
-        try:
-            del classifier
-        except:
-            pass
-        gc.collect()
-        init_gpu()
+        # K.clear_session()
+        # try:
+        #     del classifier
+        # except:
+        #     pass
+        # gc.collect()
+        # init_gpu()
 
     all_acc = np.asarray(all_acc)
     all_elaps = np.asarray(all_elaps)
@@ -133,7 +138,7 @@ def repeater(num_repeat, get_classifier=None, alpha=None, isBaseline=False, batc
                      str(round(all_acc.mean(), 2)) + ',' + str(round(all_acc.std(), 2)) + ','
                      + str(round(all_acc.min(), 2)) + ',' + str(round(all_acc.max(), 2)) +
                      ',' + str(round(all_elaps.mean(), 2)) + ',' +
-                     str(delRate) +
+                     str(delRate) +','+str(data_sample_rate)+
                      '\n')
 
     summaryOut.close()

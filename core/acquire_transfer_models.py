@@ -33,7 +33,7 @@ def acquire(target_ds=None, parent_model=None, ablation=False):
     if parent_model in CURRENT_ACQUIRE and target_ds in CURRENT_ACQUIRE[parent_model]:
         return
 
-    alpha_values = [0.0, 1e-45, 1e-35, 1e-25, 1e-15, 1e-5, 0.01, 0.05]
+    alpha_values = [0.0, 1e-5, 0.01]
 
     (
         train_generator,

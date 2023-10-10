@@ -77,3 +77,10 @@ def sampleTrainTest(data, train=True, num_sample=-1, sample_only_classes=None, s
         y_train, y_test = oneEncodeBoth(y_train, y_test)
 
     return x_train, y_train, x_test, y_test, num_classes
+
+
+def sample_for_training(x, y, rate):
+    n = int(len(y) * rate)
+    random_indices = np.random.permutation(len(y))[:n]
+
+    return x[random_indices], y[random_indices]

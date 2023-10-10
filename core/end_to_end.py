@@ -1,6 +1,6 @@
 from multiprocessing import Process
 
-from constants import target_dataset, source_model_name, pretrained_architecures, target_datasets,DONE,NUM_CLASSIFIER
+from constants import target_dataset, source_model_name, pretrained_architecures, target_datasets, DONE, NUM_CLASSIFIER
 from core.acquire_transfer_models import acquire
 from core.evaluate import evaluate
 from core.evaluate_helper import repeater
@@ -12,10 +12,13 @@ import tensorflow as tf
 
 # init_gpu()
 
+data_sample_rate = 0.25
+alpha_values = [0.0, 1e-5, 0.01]
+
 for ts in target_datasets:
     for pa in pretrained_architecures:
-        
-        if pa in DONE and ts in DONE[pa] and len(DONE[pa][ts])==NUM_CLASSIFIER:
+
+        if pa in DONE and ts in DONE[pa] and len(DONE[pa][ts]) == NUM_CLASSIFIER:
             continue
         acquire(target_ds=ts, parent_model=pa)
-        evaluate(target_ds=ts, parent_model=pa)
+        evaluate(target_ds=ts, parent_model=pa, alpha=alpha_values, data_sample_rate=data_sample_rate)
